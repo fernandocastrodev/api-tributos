@@ -1,0 +1,42 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { LoggerService } from './common/services/logger.service';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  const logger = app.get(LoggerService);
+
+  app.setGlobalPrefix('api/v1');
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+  try {
+    const port = process.env.PORT || 3000;
+
+    // Escuchar en el puerto configurado
+    await app.listen(port);
+    logger.logInfo(`API iniciada y escuchando en el puerto: ${port}`);
+    logger.logDatabaseConnection();
+
+    // Manejar cierre de la aplicación
+    process.on('SIGTERM', async () => {
+      await app.close();
+      logger.logInfo('Aplicación cerrada');
+    });
+
+    process.on('SIGINT', async () => {
+      await app.close();
+      logger.logInfo('Aplicación cerrada');
+    });
+  } catch (error) {
+    logger.logError('Error al iniciar la aplicación: ' + error);
+    console.error('Error details:', error);
+  }
+}
+bootstrap();
