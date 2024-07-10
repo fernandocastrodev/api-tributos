@@ -16,13 +16,17 @@ import { PermisosService } from './permisos.service';
 import { CreatePermisoDto } from './dto/create-permiso.dto';
 import { UpdatePermisoDto } from './dto/update-permiso.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { SwaggerDocumentation } from '../../common/decorators/swagger-permiso.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('permisos')
+@ApiTags('Permisos')
 export class PermisosController {
   constructor(private readonly permisosService: PermisosService) {}
 
   @Post()
+  @SwaggerDocumentation('create', 'Crear un nuevo permiso')
   async create(@Body() createPermisoDto: CreatePermisoDto) {
     try {
       return await this.permisosService.create(createPermisoDto);
@@ -56,6 +60,7 @@ export class PermisosController {
   }
 
   @Get()
+  @SwaggerDocumentation('findAll', 'Obtener todos los permisos')
   async findAll() {
     try {
       return await this.permisosService.findAll();
@@ -81,6 +86,7 @@ export class PermisosController {
   }
 
   @Get(':id')
+  @SwaggerDocumentation('findOne', 'Obtener permiso por ID')
   async findOne(@Param('id') id: string) {
     try {
       return await this.permisosService.findOne(+id);
@@ -106,6 +112,7 @@ export class PermisosController {
   }
 
   @Patch(':id')
+  @SwaggerDocumentation('update', 'Actualizar un permiso por su ID')
   async update(
     @Param('id') id: string,
     @Body() updatePermisoDto: UpdatePermisoDto,
@@ -144,6 +151,7 @@ export class PermisosController {
   }
 
   @Delete(':id')
+  @SwaggerDocumentation('remove', 'Eliminar un permiso por su ID')
   async remove(@Param('id') id: string) {
     try {
       return await this.permisosService.remove(+id);

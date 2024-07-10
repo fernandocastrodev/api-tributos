@@ -16,13 +16,17 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { SwaggerDocumentation } from '../../common/decorators/swagger-usuario.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('usuarios')
+@ApiTags('Usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   @Post()
+  @SwaggerDocumentation('create', 'Crear un nuevo usuario')
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     try {
       return await this.usuariosService.create(createUsuarioDto);
@@ -56,6 +60,7 @@ export class UsuariosController {
   }
 
   @Get()
+  @SwaggerDocumentation('findAll', 'Obtener todos los usuarios')
   async findAll() {
     try {
       return await this.usuariosService.findAll();
@@ -81,6 +86,7 @@ export class UsuariosController {
   }
 
   @Get('id/:id')
+  @SwaggerDocumentation('findOne', 'Obtener un usuario por ID')
   async findOne(@Param('id') id: string) {
     try {
       return await this.usuariosService.findOne(+id);
@@ -106,6 +112,7 @@ export class UsuariosController {
   }
 
   @Get('rut/:rut')
+  @SwaggerDocumentation('findOneByRut', 'Obtener un usuario por RUT')
   async findOneRut(@Param('rut') rut: string) {
     try {
       return await this.usuariosService.findOneByRut(rut);
@@ -131,6 +138,7 @@ export class UsuariosController {
   }
 
   @Patch(':id')
+  @SwaggerDocumentation('update', 'Actualizar un usuario existente')
   async update(
     @Param('id') id: string,
     @Body() updateUsuarioDto: UpdateUsuarioDto,
@@ -159,6 +167,7 @@ export class UsuariosController {
   }
 
   @Delete(':id')
+  @SwaggerDocumentation('remove', 'Eliminar un usuario')
   async remove(@Param('id') id: string) {
     try {
       return await this.usuariosService.remove(+id);

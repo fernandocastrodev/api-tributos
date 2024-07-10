@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggerService } from './common/services/logger.service';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,25 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('api-base-nestJS')
+    .setDescription('Api creada para base de futuras apis')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+
+  const swaggerOptions = {
+    swaggerOptions: {
+      tagsSorter: (a, b) => {
+        const order = ['Login', 'Perfiles', 'Usuarios', 'Paginas', 'Permisos']; // Orden deseado
+        return order.indexOf(a) - order.indexOf(b);
+      },
+    },
+  };
+
+  SwaggerModule.setup('api', app, document, swaggerOptions);
+
   try {
     const port = process.env.PORT || 3000;
 

@@ -16,13 +16,17 @@ import { PaginasService } from './paginas.service';
 import { CreatePaginaDto } from './dto/create-pagina.dto';
 import { UpdatePaginaDto } from './dto/update-pagina.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { SwaggerDocumentation } from '../../common/decorators/swagger-pagina.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('paginas')
+@ApiTags('Paginas')
 export class PaginasController {
   constructor(private readonly paginasService: PaginasService) {}
 
   @Post()
+  @SwaggerDocumentation('create', 'Crear una nueva pagina')
   async create(@Body() createPaginaDto: CreatePaginaDto) {
     try {
       return await this.paginasService.create(createPaginaDto);
@@ -48,6 +52,7 @@ export class PaginasController {
   }
 
   @Get()
+  @SwaggerDocumentation('findAll', 'Obtener todas las paginas')
   async findAll() {
     try {
       return await this.paginasService.findAll();
@@ -73,6 +78,7 @@ export class PaginasController {
   }
 
   @Get('id/:id')
+  @SwaggerDocumentation('findOne', 'Obtener un pagina por ID')
   async findOne(@Param('id') id: string) {
     try {
       return await this.paginasService.findOne(+id);
@@ -98,6 +104,7 @@ export class PaginasController {
   }
 
   @Get('name/:name')
+  @SwaggerDocumentation('findOneByName', 'Obtener una pagina por nombre')
   async findOneName(@Param('name') name: string) {
     try {
       return await this.paginasService.findOneName(name);
@@ -123,6 +130,7 @@ export class PaginasController {
   }
 
   @Patch(':id')
+  @SwaggerDocumentation('update', 'Actualizar una pagina existente')
   async update(
     @Param('id') id: string,
     @Body() updatePaginaDto: UpdatePaginaDto,
@@ -161,6 +169,7 @@ export class PaginasController {
   }
 
   @Delete(':id')
+  @SwaggerDocumentation('remove', 'Eliminar una pagina')
   async remove(@Param('id') id: string) {
     try {
       return await this.paginasService.remove(+id);

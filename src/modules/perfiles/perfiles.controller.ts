@@ -16,13 +16,17 @@ import { PerfilesService } from './perfiles.service';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { SwaggerDocumentation } from '../../common/decorators/swagger-perfil.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('perfiles')
+@ApiTags('Perfiles')
 export class PerfilesController {
   constructor(private readonly perfilesService: PerfilesService) {}
 
   @Post()
+  @SwaggerDocumentation('create', 'Crear un nuevo perfil')
   async create(@Body() createPerfilDto: CreatePerfilDto) {
     try {
       return await this.perfilesService.create(createPerfilDto);
@@ -47,6 +51,7 @@ export class PerfilesController {
     }
   }
   @Get()
+  @SwaggerDocumentation('findAll', 'Obtener todos los perfiles')
   async findAll() {
     try {
       return await this.perfilesService.findAll();
@@ -72,6 +77,7 @@ export class PerfilesController {
   }
 
   @Get('id/:id')
+  @SwaggerDocumentation('findOne', 'Obtener un perfil por ID')
   async findOne(@Param('id') id: string) {
     try {
       return await this.perfilesService.findOne(+id);
@@ -97,6 +103,7 @@ export class PerfilesController {
   }
 
   @Get('name/:name')
+  @SwaggerDocumentation('findOneByName', 'Obtener un perfil por nombre')
   async findOneName(@Param('name') name: string) {
     try {
       return await this.perfilesService.findOneName(name);
@@ -122,6 +129,7 @@ export class PerfilesController {
   }
 
   @Patch(':id')
+  @SwaggerDocumentation('update', 'Actualizar un perfil existente')
   async update(
     @Param('id') id: string,
     @Body() updatePerfilDto: UpdatePerfilDto,
@@ -158,6 +166,7 @@ export class PerfilesController {
   }
 
   @Delete(':id')
+  @SwaggerDocumentation('remove', 'Eliminar un perfil')
   async remove(@Param('id') id: string) {
     try {
       return await this.perfilesService.remove(+id);
