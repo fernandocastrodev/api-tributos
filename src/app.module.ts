@@ -19,6 +19,7 @@ import { PaginasModule } from './modules/paginas/paginas.module';
 import { PermisosModule } from './modules/permisos/permisos.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { ContactosModule } from './tribute-spaces/contactos/contactos.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
     AuthModule,
     PaginasModule,
     PermisosModule,
+    ContactosModule,
   ],
 
   controllers: [],
