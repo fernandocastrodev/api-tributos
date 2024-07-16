@@ -5,6 +5,7 @@ import { Usuario } from '../modules/usuarios/usuario.entity';
 import { Pagina } from '../modules/paginas/pagina.entity';
 import { Permiso } from '../modules/permisos/permiso.entity';
 import { LoggerService } from '../common/services/logger.service';
+import { Contacto } from 'src/tribute-spaces/contactos/contacto.entity';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -14,8 +15,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
-  entities: [Perfil, Usuario, Pagina, Permiso],
+  entities: [Perfil, Usuario, Pagina, Permiso, Contacto],
   synchronize: true,
-  logging: true, // Habilita el logging
-  logger: new LoggerService(), // Usa tu servicio de logger
+  logging: true,
+  logger: new LoggerService(),
 };

@@ -11,7 +11,7 @@ export class Contacto {
   @Column({ primary: true, generated: true })
   idContacto: number;
 
-  @Column()
+  @Column({ nullable: false })
   nombre: string;
 
   @Column({ nullable: false })
@@ -20,7 +20,7 @@ export class Contacto {
   @Column()
   fono: string;
 
-  @Column()
+  @Column({ nullable: false, length: 500 })
   descripcion: string;
 
   @CreateDateColumn({ nullable: true })

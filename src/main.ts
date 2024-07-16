@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { LoggerService } from './common/services/logger.service';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { setupSwagger } from './config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,23 +22,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  const config = new DocumentBuilder()
-    .setTitle('api-base-nestJS')
-    .setDescription('Api creada para base de futuras apis')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-
-  const swaggerOptions = {
-    swaggerOptions: {
-      tagsSorter: (a, b) => {
-        const order = ['Login', 'Perfiles', 'Usuarios', 'Paginas', 'Permisos']; // Orden deseado
-        return order.indexOf(a) - order.indexOf(b);
-      },
-    },
-  };
-
-  SwaggerModule.setup('api', app, document, swaggerOptions);
+  setupSwagger(app);
 
   try {
     const port = process.env.PORT || 3000;
