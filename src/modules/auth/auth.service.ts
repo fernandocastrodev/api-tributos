@@ -15,7 +15,7 @@ export class AuthService {
     const usuario = await this.usuariosService.findOneByEmail(correo);
 
     if (!usuario) {
-      throw new UnauthorizedException('Invalid email');
+      throw new UnauthorizedException('UNAUTHORIZED, Invalid email');
     }
 
     const isPasswordValid = await bcryptjs.compare(
@@ -24,7 +24,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid password');
+      throw new UnauthorizedException('UNAUTHORIZED, Invalid password');
     }
 
     const payload = { correo: usuario.correo };

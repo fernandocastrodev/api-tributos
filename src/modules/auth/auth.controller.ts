@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   HttpCode,
+  HttpException,
   HttpStatus,
   Post,
   Req,
@@ -26,7 +27,22 @@ export class AuthController {
   })
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto) {
+    try {
+      const { token, email } = await this.authService.login(loginDto);
+      return {
+        message: 'Token creado con éxito',
+        Data: { token, email },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Error de autenticación',
+          error: error.message,
+          statusCode: HttpStatus.UNAUTHORIZED,
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
   }
 }

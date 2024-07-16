@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,12 +10,18 @@ import { UpdatePerfilDto } from './dto/update-perfil.dto';
 import { Perfil } from './perfil.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
+import { Usuario } from '../usuarios/usuario.entity';
+import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Injectable()
 export class PerfilesService {
   constructor(
     @InjectRepository(Perfil)
     private readonly PerfilRepository: Repository<Perfil>,
+    @InjectRepository(Usuario)
+    private readonly UsuarioRepository: Repository<Usuario>,
+    @Inject(forwardRef(() => UsuariosService))
+    private readonly usuariosService: UsuariosService,
   ) {}
 
   async create(createPerfilDto: CreatePerfilDto) {
@@ -24,7 +32,11 @@ export class PerfilesService {
     if (perfil) {
       throw new BadRequestException('nombre de perfil ya existe');
     }
-    return await this.PerfilRepository.save(createPerfilDto);
+    const perfilCreado = await this.PerfilRepository.save(createPerfilDto);
+    return {
+      id: perfilCreado.idPerfil,
+      nombrePerfil: perfilCreado.nombre,
+    };
   }
 
   async findAll() {
@@ -71,7 +83,10 @@ export class PerfilesService {
       idPerfil,
     });
 
-    return perfilActualizado;
+    return {
+      id: perfilActualizado.idPerfil,
+      nombrePerfil: perfilActualizado.nombre,
+    };
   }
 
   async remove(idPerfil: number) {
@@ -79,9 +94,23 @@ export class PerfilesService {
     if (!perfil) {
       throw new NotFoundException('perfil no encontrado');
     }
+
+    const usuarioAsociado = await this.UsuarioRepository.find({
+      where: {
+        perfil: { idPerfil: idPerfil },
+      },
+    });
+
+    if (usuarioAsociado.length > 0) {
+      throw new NotFoundException(
+        'No se puede eliminar el perfil, tiene usuarios asociados',
+      );
+    }
+
     await this.PerfilRepository.softDelete({ idPerfil });
     return {
-      message: `Perfil ${perfil.nombre} de id: ${idPerfil} fue Eliminado con exito`,
+      id: perfil.idPerfil,
+      nombrePerfil: perfil.nombre,
     };
   }
 }

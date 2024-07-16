@@ -2,6 +2,8 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 describe('Crud Permiso', () => {
   let app: INestApplication;
@@ -36,16 +38,25 @@ describe('Crud Permiso', () => {
       .post('/auth/login')
       .send({ correo: process.env.TEST_USER_EMAIL, claveAcceso: process.env.TEST_USER_PASSWORD })
       .expect(200);
+    token = loginResponse.body.Data.token;
 
-    token = loginResponse.body.token;
+    const searchResponse = await request(app.getHttpServer())
+      .get(`/paginas/name/${paginaDto.nombrePagina}`)
+      .set('Authorization', `Bearer ${token}`);
 
-    const createPaginaTest = await request(app.getHttpServer())
-      .post('/paginas/')
-      .set('Authorization', `Bearer ${token}`)
-      .send(paginaDto)
-      .expect(201);
+    if (searchResponse.status === 200) {
+      idPagina = searchResponse.body.Data.idPagina;
+    } else if (searchResponse.status === 404) {
+      const createPaginaTest = await request(app.getHttpServer())
+        .post('/paginas/')
+        .set('Authorization', `Bearer ${token}`)
+        .send(paginaDto)
+        .expect(201);
 
-    idPagina = createPaginaTest.body.idPagina;
+      idPagina = createPaginaTest.body.Data.id;
+    } else {
+      throw new Error('Unexpected status code');
+    }
   });
 
   afterAll(async () => {
@@ -57,13 +68,16 @@ describe('Crud Permiso', () => {
       ...permisoDto,
       idPagina: idPagina,
     };
-    const createUsuarioResponse = await request(app.getHttpServer())
+    const crearPermiso = await request(app.getHttpServer())
       .post('/permisos/')
       .set('Authorization', `Bearer ${token}`)
       .send(crearPermisoDto)
       .expect(201);
+    const crearPermisoresponse = crearPermiso.body;
+    expect(crearPermisoresponse.statusCode).toBe(201);
+    expect(crearPermisoresponse.message).toBe('Permiso creado con éxito');
 
-    idPermiso = createUsuarioResponse.body.idPermiso;
+    idPermiso = crearPermisoresponse.Data.id;
   });
 
   it('Buscar permiso', async () => {
@@ -72,26 +86,40 @@ describe('Crud Permiso', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
     const buscarPermisoresponse = buscarPermiso.body;
-    expect(buscarPermisoresponse.ver).toBe(permisoDto.ver);
+    expect(buscarPermisoresponse.message).toBe(
+      'Permiso encontrado correctamente',
+    );
+    expect(buscarPermisoresponse.Data.ver).toBe(permisoDto.ver);
   });
 
   it('Actualizar permiso', async () => {
     const actualizarPermisoDto = {
       ...permisoDto,
+      idPagina: idPagina,
       actualizar: true,
     };
-    await request(app.getHttpServer())
+    const actualizarPermiso = await request(app.getHttpServer())
       .patch(`/permisos/${idPermiso}`)
       .set('Authorization', `Bearer ${token}`)
       .send(actualizarPermisoDto)
       .expect(200);
+
+    const actualizarPermisoresponse = actualizarPermiso.body;
+    expect(actualizarPermisoresponse.message).toBe(
+      'Permiso actualizado correctamente',
+    );
+    expect(actualizarPermisoresponse.Data.id).toBe(idPermiso);
   });
 
   it('Listar permisos', async () => {
-    await request(app.getHttpServer())
+    const listarPermisos = await request(app.getHttpServer())
       .get('/permisos/')
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
+    const listarPaginasresponse = listarPermisos.body;
+    expect(listarPaginasresponse.message).toBe(
+      'Permisos encontrados correctamente',
+    );
   });
 
   it('Eliminar permiso', async () => {
@@ -99,10 +127,9 @@ describe('Crud Permiso', () => {
       .delete(`/permisos/${idPermiso}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
-
-    expect(deleteResponse.body).toEqual({
-      message: `Permiso id: ${idPermiso}, fue Eliminado con exito`,
-    });
+    expect(deleteResponse.body.statusCode).toBe(200);
+    expect(deleteResponse.body.message).toBe('Permiso eliminado correctamente');
+    expect(deleteResponse.body.Data.id).toBe(idPermiso);
   });
 
   it('Eliminar pagina test permiso', async () => {
@@ -110,9 +137,8 @@ describe('Crud Permiso', () => {
       .delete(`/paginas/${idPagina}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
-
-    expect(deleteResponse.body).toEqual({
-      message: `Pagina ${paginaDto.nombrePagina} de id: ${idPagina} fue Eliminada con exito`,
-    });
+    expect(deleteResponse.body.statusCode).toBe(200);
+    expect(deleteResponse.body.message).toBe('Pagina eliminada correctamente');
+    expect(deleteResponse.body.Data.id).toBe(idPagina);
   });
 });

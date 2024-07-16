@@ -18,7 +18,7 @@ import { CompressionMiddleware } from './common/middlewares/compression.middlewa
 import { PaginasModule } from './modules/paginas/paginas.module';
 import { PermisosModule } from './modules/permisos/permisos.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ErrorInterceptor } from './common/interceptors/error.interceptor';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 @Module({
   imports: [
@@ -36,7 +36,7 @@ import { ErrorInterceptor } from './common/interceptors/error.interceptor';
     LoggerService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: ErrorInterceptor,
+      useClass: ResponseInterceptor,
     },
   ],
   exports: [LoggerService],

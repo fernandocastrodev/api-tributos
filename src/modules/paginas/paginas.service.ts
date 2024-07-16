@@ -32,15 +32,18 @@ export class PaginasService {
     if (ordenPagina) {
       throw new BadRequestException('el orden de la pagina ya existe');
     }
-    return await this.PaginaRepository.save(createPaginaDto);
+
+    const paginaCreada = await this.PaginaRepository.save(createPaginaDto);
+    return {
+      id: paginaCreada.idPagina,
+      nombrePagina: paginaCreada.nombrePagina,
+    };
   }
 
   async findAll() {
     const pagina = await this.PaginaRepository.find();
     if (pagina.length === 0)
-      throw new NotFoundException(
-        'No se encontraron paginas en la base de datos',
-      );
+      throw new NotFoundException('paginas no encontradas');
     return pagina;
   }
 
@@ -86,10 +89,19 @@ export class PaginasService {
       throw new BadRequestException('orden de la pagina ya existe');
     }
 
-    return await this.PaginaRepository.save({
+    await this.PaginaRepository.save({
       ...pagina,
       ...updatePaginaDto,
     });
+
+    const paginaActualizado = await this.PaginaRepository.findOneBy({
+      idPagina,
+    });
+
+    return {
+      id: paginaActualizado.idPagina,
+      nombrePgina: paginaActualizado.nombrePagina,
+    };
   }
 
   async remove(idPagina: number) {
@@ -99,7 +111,8 @@ export class PaginasService {
     }
     await this.PaginaRepository.softDelete({ idPagina });
     return {
-      message: `Pagina ${pagina.nombrePagina} de id: ${idPagina} fue Eliminada con exito`,
+      id: pagina.idPagina,
+      nombrePagina: pagina.nombrePagina,
     };
   }
 }

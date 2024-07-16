@@ -7,7 +7,7 @@ import { CreatePermisoDto } from './dto/create-permiso.dto';
 import { UpdatePermisoDto } from './dto/update-permiso.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Perfil } from '../perfiles/perfil.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { Pagina } from '../paginas/pagina.entity';
 import { Permiso } from './permiso.entity';
 
@@ -39,7 +39,7 @@ export class PermisosService {
       throw new BadRequestException('idPagina no encontrada');
     }
 
-    const existePermiso = await this.findByPaginaAndPerfil(
+    const existePermiso = await this.findByPaginaAndPerfilCreate(
       createPermisoDto.idPerfil,
       createPermisoDto.idPagina,
     );
@@ -54,15 +54,18 @@ export class PermisosService {
       perfil,
       pagina,
     };
-    return await this.PermisoRepository.save(permiso);
+
+    const permisoCreado = await this.PermisoRepository.save(permiso);
+    return {
+      id: permisoCreado.idPermiso,
+      idPagina: permisoCreado.idPagina,
+    };
   }
 
   async findAll() {
     const permiso = await this.PermisoRepository.find();
     if (permiso.length === 0)
-      throw new NotFoundException(
-        'No se encontraron permisos en la base de datos',
-      );
+      throw new NotFoundException('permisos no encontrados');
     return permiso;
   }
 
@@ -76,12 +79,27 @@ export class PermisosService {
     return permiso;
   }
 
-  async findByPaginaAndPerfil(
+  async findByPaginaAndPerfilCreate(
     perfilId: number,
     paginaId: number,
   ): Promise<Permiso[]> {
     const permisos = await this.PermisoRepository.find({
       where: {
+        pagina: { idPagina: paginaId },
+        perfil: { idPerfil: perfilId },
+      },
+    });
+    return permisos;
+  }
+
+  async findByPaginaAndPerfilUpdate(
+    permisoId: number,
+    perfilId: number,
+    paginaId: number,
+  ): Promise<Permiso[]> {
+    const permisos = await this.PermisoRepository.find({
+      where: {
+        idPermiso: Not(permisoId),
         pagina: { idPagina: paginaId },
         perfil: { idPerfil: perfilId },
       },
@@ -113,12 +131,32 @@ export class PermisosService {
       throw new BadRequestException('idPagina no encontrada');
     }
 
-    return await this.PermisoRepository.save({
+    const existePermiso = await this.findByPaginaAndPerfilUpdate(
+      idPermiso,
+      updatePermisoDto.idPerfil,
+      updatePermisoDto.idPagina,
+    );
+    if (existePermiso.length > 0) {
+      throw new NotFoundException(
+        'La página ya existe para el perfil otorgado',
+      );
+    }
+
+    await this.PermisoRepository.save({
       ...permiso,
       ...updatePermisoDto,
       perfil,
       pagina,
     });
+
+    const permisoActualizado = await this.PermisoRepository.findOneBy({
+      idPermiso,
+    });
+
+    return {
+      id: permisoActualizado.idPermiso,
+      idPagina: permisoActualizado.pagina.idPagina,
+    };
   }
 
   async remove(idPermiso: number) {
@@ -130,7 +168,8 @@ export class PermisosService {
     }
     await this.PermisoRepository.softDelete({ idPermiso });
     return {
-      message: `Permiso id: ${permiso.idPermiso}, fue Eliminado con exito`,
+      id: permiso.idPermiso,
+      idPagina: permiso.pagina.idPagina,
     };
   }
 }

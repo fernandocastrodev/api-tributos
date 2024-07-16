@@ -2,6 +2,8 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 describe('Crud Perfil', () => {
   let app: INestApplication;
@@ -25,25 +27,25 @@ describe('Crud Perfil', () => {
       .send({ correo: process.env.TEST_USER_EMAIL, claveAcceso: process.env.TEST_USER_PASSWORD })
       .expect(200);
 
-    token = loginResponse.body.token;
+    token = loginResponse.body.Data.token;
 
     const searchResponse = await request(app.getHttpServer())
       .get(`/perfiles/name/${perfilDto.nombre}`)
       .set('Authorization', `Bearer ${token}`);
 
     if (searchResponse.status === 200) {
-      const perifId = searchResponse.body.idPerfil;
+      const perifId = searchResponse.body.Data.idPerfil;
 
       const deleteResponse = await request(app.getHttpServer())
         .delete(`/perfiles/${perifId}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
-      expect(deleteResponse.body).toEqual({
-        message: `Perfil ${perfilDto.nombre} de id: ${idPerfil} fue Eliminado con exito`,
-      });
+      expect(deleteResponse.body.message).toEqual(
+        'Perfil eliminado correctamente',
+      );
     } else if (searchResponse.status === 404) {
-      expect(searchResponse.body.error).toEqual('nombre perfil no encontrado');
+      expect(searchResponse.body.message).toEqual('Not Found');
     } else {
       throw new Error('Unexpected status code');
     }
@@ -54,13 +56,16 @@ describe('Crud Perfil', () => {
   });
 
   it('Crear perfil', async () => {
-    const createPerfilResponse = await request(app.getHttpServer())
+    const createPerfil = await request(app.getHttpServer())
       .post('/perfiles/')
       .set('Authorization', `Bearer ${token}`)
       .send(perfilDto)
       .expect(201);
-
-    idPerfil = createPerfilResponse.body.idPerfil;
+    const createPerfilResponse = createPerfil.body;
+    expect(createPerfilResponse.statusCode).toBe(201);
+    expect(createPerfilResponse.message).toBe('Perfil creado con éxito');
+    expect(createPerfilResponse.Data.nombrePerfil).toBe(perfilDto.nombre);
+    idPerfil = createPerfilResponse.Data.id;
   });
 
   it('Buscar perfil', async () => {
@@ -69,7 +74,10 @@ describe('Crud Perfil', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
     const buscarPaginaresponse = buscarPerfil.body;
-    expect(buscarPaginaresponse.nombre).toBe(perfilDto.nombre);
+    expect(buscarPaginaresponse.message).toBe(
+      'Perfil encontrado correctamente',
+    );
+    expect(buscarPaginaresponse.Data.nombre).toBe(perfilDto.nombre);
   });
 
   it('Actualizar perfil', async () => {
@@ -77,18 +85,27 @@ describe('Crud Perfil', () => {
       ...perfilDto,
       descripcion: 'Test perfil actualizado',
     };
-    await request(app.getHttpServer())
+    const actualizarPerfil = await request(app.getHttpServer())
       .patch(`/perfiles/${idPerfil}`)
       .set('Authorization', `Bearer ${token}`)
       .send(actualizarPerfilDto)
       .expect(200);
+    const actualizarPerfilresponse = actualizarPerfil.body;
+    expect(actualizarPerfilresponse.message).toBe(
+      'Perfil actualizado correctamente',
+    );
+    expect(actualizarPerfilresponse.Data.nombrePerfil).toBe(perfilDto.nombre);
   });
 
   it('Listar perfiles', async () => {
-    await request(app.getHttpServer())
+    const listarPerfiles = await request(app.getHttpServer())
       .get('/perfiles/')
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
+    const listarUsuariosresponse = listarPerfiles.body;
+    expect(listarUsuariosresponse.message).toBe(
+      'Perfiles encontrados correctamente',
+    );
   });
 
   it('Eliminar perfil', async () => {
@@ -96,9 +113,8 @@ describe('Crud Perfil', () => {
       .delete(`/perfiles/${idPerfil}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
-
-    expect(deleteResponse.body).toEqual({
-      message: `Perfil ${perfilDto.nombre} de id: ${idPerfil} fue Eliminado con exito`,
-    });
+    expect(deleteResponse.body.statusCode).toBe(200);
+    expect(deleteResponse.body.message).toBe('Perfil eliminado correctamente');
+    expect(deleteResponse.body.Data.id).toBe(idPerfil);
   });
 });

@@ -4,12 +4,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './usuario.entity';
 import { Perfil } from '../perfiles/perfil.entity';
 import * as bcryptjs from 'bcryptjs';
+import { FindAllUsuarioDto } from './dto/findAll-usuario.dto';
+import { FindOneUsuarioDto } from './dto/findOne-usuario.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UsuariosService {
@@ -29,6 +32,13 @@ export class UsuariosService {
       throw new BadRequestException('correo ya existe');
     }
 
+    const dni = await this.UsuarioRepository.findOneBy({
+      rut: createUsuarioDto.rut,
+    });
+
+    if (dni) {
+      throw new BadRequestException('el rut ya existe');
+    }
     const perfil = await this.PerfilRepository.findOneBy({
       idPerfil: createUsuarioDto.idPerfil,
     });
@@ -47,7 +57,12 @@ export class UsuariosService {
       claveAcceso: hashedPassword,
       perfil, // Asigna el perfil al usuario
     };
-    return await this.UsuarioRepository.save(usuario);
+
+    const usuarioCreado = await this.UsuarioRepository.save(usuario);
+    return {
+      id: usuarioCreado.idUsuario,
+      nombreCompleto: `${usuarioCreado.nombre} ${usuarioCreado.apellido}`,
+    };
   }
 
   async findOneByEmail(correo: string) {
@@ -55,14 +70,18 @@ export class UsuariosService {
   }
 
   async findAll() {
-    const usuario = await this.UsuarioRepository.find();
-    if (usuario.length === 0) {
+    const usuarios = await this.UsuarioRepository.find({
+      relations: ['perfil'],
+    });
+    if (usuarios.length === 0) {
       throw new NotFoundException(
         'No se encontraron usuarios en la base de datos',
       );
     }
 
-    return usuario;
+    return plainToInstance(FindAllUsuarioDto, usuarios, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async findOne(idUsuario: number) {
@@ -71,7 +90,9 @@ export class UsuariosService {
       throw new NotFoundException('usuario no encontrado');
     }
 
-    return usuario;
+    return plainToInstance(FindOneUsuarioDto, usuario, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async findOneByRut(rut: string) {
@@ -80,7 +101,9 @@ export class UsuariosService {
       throw new NotFoundException('rut de usuario no encontrado');
     }
 
-    return usuario;
+    return plainToInstance(FindOneUsuarioDto, usuario, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async update(idUsuario: number, updateUsuarioDto: UpdateUsuarioDto) {
@@ -89,6 +112,14 @@ export class UsuariosService {
     if (!usuario) {
       throw new BadRequestException('usuario no encontrado');
     }
+    const dni = await this.UsuarioRepository.findOneBy({
+      rut: updateUsuarioDto.rut,
+      idUsuario: Not(idUsuario),
+    });
+    if (dni) {
+      throw new BadRequestException('rut del usuario ya existe');
+    }
+
     let perfil;
     if (updateUsuarioDto.idPerfil) {
       perfil = await this.PerfilRepository.findOneBy({
@@ -103,12 +134,17 @@ export class UsuariosService {
       updateUsuarioDto.claveAcceso,
       10,
     );
-    return await this.UsuarioRepository.save({
+
+    const usuarioActualizado = await this.UsuarioRepository.save({
       ...usuario,
       ...updateUsuarioDto,
       claveAcceso: hashedPassword,
       perfil,
     });
+    return {
+      id: usuarioActualizado.idUsuario,
+      nombreCompleto: `${usuarioActualizado.nombre} ${usuarioActualizado.apellido}`,
+    };
   }
 
   async remove(idUsuario: number) {
@@ -118,7 +154,8 @@ export class UsuariosService {
     }
     await this.UsuarioRepository.softDelete({ idUsuario });
     return {
-      message: `Usuario ${usuario.nombre} de id: ${idUsuario} fue Eliminado con exito`,
+      id: usuario.idUsuario,
+      nombreCompleto: `${usuario.nombre} ${usuario.apellido}`,
     };
   }
 }

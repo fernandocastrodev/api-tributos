@@ -6,11 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  BadRequestException,
-  HttpException,
   HttpStatus,
   UseGuards,
-  NotFoundException,
+  HttpCode,
 } from '@nestjs/common';
 import { PaginasService } from './paginas.service';
 import { CreatePaginaDto } from './dto/create-pagina.dto';
@@ -26,171 +24,113 @@ export class PaginasController {
   constructor(private readonly paginasService: PaginasService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @SwaggerDocumentation('create', 'Crear una nueva pagina')
   async create(@Body() createPaginaDto: CreatePaginaDto) {
     try {
-      return await this.paginasService.create(createPaginaDto);
+      const pagina = await this.paginasService.create(createPaginaDto);
+      return {
+        message: 'Pagina creada con éxito',
+        error: null,
+        statusCode: HttpStatus.CREATED,
+        Data: pagina,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error interno del servidor, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findAll', 'Obtener todas las paginas')
   async findAll() {
     try {
-      return await this.paginasService.findAll();
+      const pagina = await this.paginasService.findAll();
+      return {
+        message: 'Paginas encontradas correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: null,
+        DataList: pagina,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al obtener las paginas, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Get('id/:id')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findOne', 'Obtener un pagina por ID')
   async findOne(@Param('id') id: string) {
     try {
-      return await this.paginasService.findOne(+id);
+      const pagina = await this.paginasService.findOne(+id);
+      return {
+        message: 'Pagina encontrada correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: pagina,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al obtener la pagina con id ${id}, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Get('name/:name')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findOneByName', 'Obtener una pagina por nombre')
   async findOneName(@Param('name') name: string) {
     try {
-      return await this.paginasService.findOneName(name);
+      const pagina = await this.paginasService.findOneName(name);
+      return {
+        message: 'Pagina encontrada correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: pagina,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al obtener la pagina con nombre ${name}, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Patch(':id')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('update', 'Actualizar una pagina existente')
   async update(
     @Param('id') id: string,
     @Body() updatePaginaDto: UpdatePaginaDto,
   ) {
     try {
-      return await this.paginasService.update(+id, updatePaginaDto);
+      const pagina = await this.paginasService.update(+id, updatePaginaDto);
+      return {
+        message: 'Pagina actualizada correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: pagina,
+        DataList: null,
+      };
     } catch (error) {
-      {
-        if (error instanceof NotFoundException) {
-          throw new HttpException(
-            {
-              status: HttpStatus.BAD_REQUEST,
-              error: error.message,
-            },
-            HttpStatus.BAD_REQUEST,
-          );
-        } else if (error instanceof BadRequestException) {
-          throw new HttpException(
-            {
-              status: HttpStatus.BAD_REQUEST,
-              error: error.message,
-            },
-            HttpStatus.BAD_REQUEST,
-          );
-        } else {
-          throw new HttpException(
-            {
-              status: HttpStatus.INTERNAL_SERVER_ERROR,
-              error: `Hubo un error al actualizar la pagina con id ${id}, ${error.message}`,
-            },
-            HttpStatus.INTERNAL_SERVER_ERROR,
-          );
-        }
-      }
+      throw error;
     }
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('remove', 'Eliminar una pagina')
   async remove(@Param('id') id: string) {
     try {
-      return await this.paginasService.remove(+id);
+      const pagina = await this.paginasService.remove(+id);
+      return {
+        message: 'Pagina eliminada correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: pagina,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al eliminar la página con ID ${id}, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 }

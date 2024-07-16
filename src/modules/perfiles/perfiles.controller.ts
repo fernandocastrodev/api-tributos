@@ -6,11 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  HttpException,
   HttpStatus,
   UseGuards,
-  BadRequestException,
-  NotFoundException,
+  HttpCode,
 } from '@nestjs/common';
 import { PerfilesService } from './perfiles.service';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
@@ -26,168 +24,112 @@ export class PerfilesController {
   constructor(private readonly perfilesService: PerfilesService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @SwaggerDocumentation('create', 'Crear un nuevo perfil')
   async create(@Body() createPerfilDto: CreatePerfilDto) {
     try {
-      return await this.perfilesService.create(createPerfilDto);
+      const perfil = await this.perfilesService.create(createPerfilDto);
+      return {
+        message: 'Perfil creado con éxito',
+        error: null,
+        statusCode: HttpStatus.CREATED,
+        Data: perfil,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al crear el perfil, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
   @Get()
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findAll', 'Obtener todos los perfiles')
   async findAll() {
     try {
-      return await this.perfilesService.findAll();
+      const perfil = await this.perfilesService.findAll();
+      return {
+        message: 'Perfiles encontrados correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: null,
+        DataList: perfil,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al obtener los perfiles, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Get('id/:id')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findOne', 'Obtener un perfil por ID')
   async findOne(@Param('id') id: string) {
     try {
-      return await this.perfilesService.findOne(+id);
+      const perfil = await this.perfilesService.findOne(+id);
+      return {
+        message: 'Perfil encontrado correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: perfil,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al obtener el perfil con id ${id}, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Get('name/:name')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findOneByName', 'Obtener un perfil por nombre')
   async findOneName(@Param('name') name: string) {
     try {
-      return await this.perfilesService.findOneName(name);
+      const perfil = await this.perfilesService.findOneName(name);
+      return {
+        message: 'Perfil encontrado correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: perfil,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al obtener el perfil con id ${name}, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Patch(':id')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('update', 'Actualizar un perfil existente')
   async update(
     @Param('id') id: string,
     @Body() updatePerfilDto: UpdatePerfilDto,
   ) {
     try {
-      return await this.perfilesService.update(+id, updatePerfilDto);
+      const perfil = await this.perfilesService.update(+id, updatePerfilDto);
+      return {
+        message: 'Perfil actualizado correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: perfil,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      } else if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al actualizar el perfil con id ${id}, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('remove', 'Eliminar un perfil')
   async remove(@Param('id') id: string) {
     try {
-      return await this.perfilesService.remove(+id);
+      const perfil = await this.perfilesService.remove(+id);
+      return {
+        message: 'Perfil eliminado correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: perfil,
+        DataList: null,
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: error.message,
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.INTERNAL_SERVER_ERROR,
-            error: `Hubo un error al eliminar el perfil con id ${id}, ${error.message}`,
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      throw error;
     }
   }
 }

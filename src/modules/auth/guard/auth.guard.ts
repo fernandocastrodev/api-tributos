@@ -1,8 +1,9 @@
 import {
   CanActivate,
   ExecutionContext,
+  HttpException,
+  HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
@@ -20,8 +21,19 @@ export class AuthGuard implements CanActivate {
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
-      this.logger.logWarn('Token no proporcionado');
-      throw new UnauthorizedException('Token no proporcionado');
+      const errorResponse = {
+        message: 'UNAUTHORIZED',
+        error: 'Token no proporcionado',
+        statusCode: HttpStatus.UNAUTHORIZED,
+        Data: null,
+        DataList: [],
+      };
+
+      this.logger.logError(
+        `Error en respuesta (POST ${request.url}): ${JSON.stringify(errorResponse)}`,
+      );
+
+      throw new HttpException(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     try {
@@ -29,8 +41,17 @@ export class AuthGuard implements CanActivate {
       request.user = payload;
       return true;
     } catch (error) {
-      this.logger.logError('Token inválido o expirado');
-      throw new UnauthorizedException('Token inválido o expirado');
+      const errorResponse = {
+        message: 'UNAUTHORIZED',
+        error: 'Token inválido o expirado',
+        statusCode: HttpStatus.UNAUTHORIZED,
+        Data: null,
+        DataList: [],
+      };
+      this.logger.logError(
+        `Error en respuesta (POST ${request.url}): ${JSON.stringify(errorResponse)}`,
+      );
+      throw new HttpException(errorResponse, HttpStatus.UNAUTHORIZED);
     }
   }
 
