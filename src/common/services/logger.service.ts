@@ -1,37 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { format, createLogger, Logger, transports } from 'winston';
+import { Logger } from 'winston';
 import 'winston-daily-rotate-file';
 import { Logger as TypeOrmLogger } from 'typeorm';
+import { LoggerInstance } from '../../config/logger.config';
 
 @Injectable()
 export class LoggerService implements TypeOrmLogger {
   private loggerAll: Logger;
 
   constructor() {
-    this.createLoggers();
+    this.loggerAll = LoggerInstance();
     this.replaceConsole();
-  }
-
-  createLoggers() {
-    const textFormat = format.printf((log) => {
-      return `${log.timestamp} - [${log.level.toUpperCase().charAt(0)}] ${log.message}`;
-    });
-
-    const dateFormat = format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss',
-    });
-
-    this.loggerAll = createLogger({
-      format: format.combine(dateFormat, textFormat),
-      transports: [
-        new transports.DailyRotateFile({
-          filename: 'log/all/all-%DATE%.log',
-          datePattern: 'YYYY-MM-DD',
-          maxFiles: '7d',
-        }),
-        new transports.Console(),
-      ],
-    });
   }
 
   replaceConsole() {
