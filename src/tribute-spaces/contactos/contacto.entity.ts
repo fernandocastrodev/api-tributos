@@ -17,7 +17,7 @@ export class Contacto {
   @Column({ nullable: false })
   correo: string;
 
-  @Column()
+  @Column({ nullable: true })
   fono: string;
 
   @Column({ nullable: false, length: 500 })

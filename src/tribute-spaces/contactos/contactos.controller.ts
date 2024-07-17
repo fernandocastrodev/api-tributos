@@ -25,7 +25,7 @@ export class ContactosController {
   @SwaggerDocumentation('create', 'Crear un nuevo contacto')
   async create(@Body() createContactoDto: CreateContactoDto) {
     try {
-      const contacto = this.contactosService.create(createContactoDto);
+      const contacto = await this.contactosService.create(createContactoDto);
       return {
         message: 'Contacto creado con éxito',
         error: null,

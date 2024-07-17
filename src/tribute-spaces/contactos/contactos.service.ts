@@ -1,13 +1,11 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateContactoDto } from './dto/create-contacto.dto';
 import { UpdateContactoDto } from './dto/update-contacto.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contacto } from './contacto.entity';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
+import { findOneContactoDto } from './dto/findOne-contacto.dto';
 
 @Injectable()
 export class ContactosService {
@@ -17,12 +15,6 @@ export class ContactosService {
   ) {}
 
   async create(createContactoDto: CreateContactoDto) {
-    const correo = await this.ContactoRepository.findOneBy({
-      correo: createContactoDto.correo,
-    });
-    if (correo) {
-      throw new BadRequestException('correo ya existe');
-    }
     const contactoCreado =
       await this.ContactoRepository.save(createContactoDto);
 
@@ -47,7 +39,10 @@ export class ContactosService {
     if (!contacto) {
       throw new NotFoundException('contacto no encontrado');
     }
-    return contacto;
+
+    return plainToInstance(findOneContactoDto, contacto, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async update(idContacto: number, updateContactoDto: UpdateContactoDto) {
@@ -56,15 +51,6 @@ export class ContactosService {
     });
     if (!contacto) {
       throw new NotFoundException('contacto no encontrado');
-    }
-
-    const correo = await this.ContactoRepository.findOneBy({
-      correo: updateContactoDto.correo,
-      idContacto: Not(idContacto),
-    });
-
-    if (correo) {
-      throw new BadRequestException('correo ya existe');
     }
 
     await this.ContactoRepository.save({

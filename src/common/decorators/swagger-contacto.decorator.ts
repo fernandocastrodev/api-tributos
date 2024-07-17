@@ -18,8 +18,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
-          description:
-            'Datos de entrada como correo ya existentes o no son válidos',
+          description: 'Datos de entrada no son válidos',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -76,8 +75,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
-          description:
-            'Datos de entrada como correo ya existentes o no son válidos',
+          description: 'Datos de entrada no son válidos',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,

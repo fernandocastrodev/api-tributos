@@ -5,7 +5,7 @@ import { Usuario } from '../modules/usuarios/usuario.entity';
 import { Pagina } from '../modules/paginas/pagina.entity';
 import { Permiso } from '../modules/permisos/permiso.entity';
 import { LoggerService } from '../common/services/logger.service';
-import { Contacto } from 'src/tribute-spaces/contactos/contacto.entity';
+import { Contacto } from '../tribute-spaces/contactos/contacto.entity';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
