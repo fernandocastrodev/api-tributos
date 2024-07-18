@@ -53,10 +53,7 @@ export class ContactosService {
       throw new NotFoundException('contacto no encontrado');
     }
 
-    await this.ContactoRepository.save({
-      ...contacto,
-      ...updateContactoDto,
-    });
+    await this.ContactoRepository.update(idContacto, updateContactoDto);
 
     const contactoActualizado = await this.ContactoRepository.findOneBy({
       idContacto,

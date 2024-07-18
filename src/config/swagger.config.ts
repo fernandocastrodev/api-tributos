@@ -20,6 +20,7 @@ export const setupSwagger = (app: INestApplication) => {
           'Paginas',
           'Permisos',
           'Contactos',
+          'Plantillas',
         ]; // Orden deseado
         return order.indexOf(a) - order.indexOf(b);
       },

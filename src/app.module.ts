@@ -20,6 +20,7 @@ import { PermisosModule } from './modules/permisos/permisos.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { ContactosModule } from './tribute-spaces/contactos/contactos.module';
+import { PlantillasModule } from './tribute-spaces/plantillas/plantillas.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ContactosModule } from './tribute-spaces/contactos/contactos.module';
     PaginasModule,
     PermisosModule,
     ContactosModule,
+    PlantillasModule,
   ],
 
   controllers: [],

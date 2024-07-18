@@ -1,20 +1,20 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
-import { CreateContactoDto } from '../../tribute-spaces/contactos/dto/create-contacto.dto';
+import { CreatePlantillaDto } from '../../tribute-spaces/plantillas/dto/create-plantilla.dto';
 
 export function SwaggerDocumentation(method: string, description: string) {
   switch (method) {
     case 'create':
       return applyDecorators(
-        ApiOperation({ summary: 'Crear un nuevo contacto' }),
+        ApiOperation({ summary: 'Crear una nueva plantilla' }),
         ApiBody({
-          description: 'Datos necesarios para crear un contacto',
-          type: CreateContactoDto,
+          description: 'Datos necesarios para crear una plantilla',
+          type: CreatePlantillaDto,
         }),
         ApiResponse({
           status: HttpStatus.CREATED,
-          description: 'Contacto creado con éxito',
+          description: 'Plantilla creada con éxito',
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
@@ -28,14 +28,14 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'findAll':
       return applyDecorators(
-        ApiOperation({ summary: 'Obtener todos los contactos' }),
+        ApiOperation({ summary: 'Obtener todas las plantillas' }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Contactos encontrados correctamente',
+          description: 'Plantillas encontradas correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'contactos no encontrados',
+          description: 'plantillas no encontradas',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -45,15 +45,15 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'findOne':
       return applyDecorators(
-        ApiOperation({ summary: 'Obtener contacto por ID' }),
-        ApiParam({ name: 'id', description: 'ID del contacto a buscar' }),
+        ApiOperation({ summary: 'Obtener plantilla por ID' }),
+        ApiParam({ name: 'id', description: 'ID de la plantilla a buscar' }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Contacto encontrado correctamente',
+          description: 'Plantilla encontrada correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'contacto no encontrado',
+          description: 'plantilla no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -63,15 +63,18 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'update':
       return applyDecorators(
-        ApiOperation({ summary: 'Actualizar un contacto por su ID' }),
-        ApiParam({ name: 'id', description: 'ID del contacto a actualizar' }),
+        ApiOperation({ summary: 'Actualizar una plantilla por su ID' }),
+        ApiParam({
+          name: 'id',
+          description: 'ID de la plantilla a actualizar',
+        }),
         ApiBody({
-          description: 'Datos necesarios para actualizar un contacto',
-          type: CreateContactoDto,
+          description: 'Datos necesarios para actualizar una plantilla',
+          type: CreatePlantillaDto,
         }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Contacto actualizado correctamente',
+          description: 'Plantilla actualizada correctamente',
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
@@ -79,7 +82,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'contacto no encontrado',
+          description: 'plantilla no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -89,15 +92,15 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'remove':
       return applyDecorators(
-        ApiOperation({ summary: 'Eliminar un contacto por su ID' }),
-        ApiParam({ name: 'id', description: 'ID del contacto a eliminar' }),
+        ApiOperation({ summary: 'Eliminar una plantilla por su ID' }),
+        ApiParam({ name: 'id', description: 'ID de la plantilla a eliminar' }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Contacto eliminado correctamente',
+          description: 'Plantilla eliminada correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'contacto no encontrado',
+          description: 'plantilla no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,

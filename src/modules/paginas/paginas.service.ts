@@ -89,10 +89,7 @@ export class PaginasService {
       throw new BadRequestException('orden de la pagina ya existe');
     }
 
-    await this.PaginaRepository.save({
-      ...pagina,
-      ...updatePaginaDto,
-    });
+    await this.PaginaRepository.update(idPagina, updatePaginaDto);
 
     const paginaActualizado = await this.PaginaRepository.findOneBy({
       idPagina,
