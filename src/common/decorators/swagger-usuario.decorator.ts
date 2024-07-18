@@ -34,7 +34,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'update':
       return applyDecorators(
         ApiOperation({ summary: 'Actualizar un usuario existente' }),
-        ApiParam({ name: 'id', description: 'ID del usuario a actualizar' }),
+        ApiParam({ name: 'id', description: 'ID del usuario por actualizar' }),
         ApiBody({
           description: 'Datos necesarios para actualizar un usuario',
           type: CreateUsuarioDto,
@@ -78,7 +78,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'findOne':
       return applyDecorators(
         ApiOperation({ summary: 'Obtener un usuario por ID' }),
-        ApiParam({ name: 'id', description: 'ID del usuario a buscar' }),
+        ApiParam({ name: 'id', description: 'ID del usuario por buscar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'El usuario ha sido encontrado.',
@@ -96,7 +96,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'findOneByRut':
       return applyDecorators(
         ApiOperation({ summary: 'Obtener un usuario por RUT' }),
-        ApiParam({ name: 'rut', description: 'RUT del usuario a buscar' }),
+        ApiParam({ name: 'rut', description: 'RUT del usuario por buscar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'El usuario ha sido encontrado.',
@@ -114,7 +114,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'remove':
       return applyDecorators(
         ApiOperation({ summary: 'Eliminar un usuario' }),
-        ApiParam({ name: 'id', description: 'ID del usuario a eliminar' }),
+        ApiParam({ name: 'id', description: 'ID del usuario por eliminar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'El usuario ha sido eliminado correctamente.',

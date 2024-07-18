@@ -21,6 +21,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { ContactosModule } from './tribute-spaces/contactos/contactos.module';
 import { PlantillasModule } from './tribute-spaces/plantillas/plantillas.module';
+import { PlanesModule } from './tribute-spaces/planes/planes.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { PlantillasModule } from './tribute-spaces/plantillas/plantillas.module'
     PermisosModule,
     ContactosModule,
     PlantillasModule,
+    PlanesModule,
   ],
 
   controllers: [],

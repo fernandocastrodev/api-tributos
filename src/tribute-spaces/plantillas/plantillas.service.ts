@@ -73,7 +73,7 @@ export class PlantillasService {
     await this.PlantillaRepository.softDelete(idPlantilla);
     return {
       id: plantilla.idPlantilla,
-      nombre: plantilla.nombre,
+      nombrePlantilla: plantilla.nombre,
     };
   }
 }

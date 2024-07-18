@@ -1,14 +1,14 @@
 import { Exclude, Expose } from 'class-transformer';
 
-export class findOnePlantillaDto {
+export class FindOnePlanDto {
   @Expose()
-  idPlantilla: number;
+  id: number;
 
   @Expose()
   nombre: string;
 
   @Expose()
-  correo: string;
+  precio: number;
 
   @Expose()
   descripcion: string;

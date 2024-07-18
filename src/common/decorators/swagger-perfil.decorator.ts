@@ -49,7 +49,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'findOne':
       return applyDecorators(
         ApiOperation({ summary: 'Obtener perfil por ID' }),
-        ApiParam({ name: 'id', description: 'ID del perfil a buscar' }),
+        ApiParam({ name: 'id', description: 'ID del perfil por buscar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Perfil encontrado por ID',
@@ -85,7 +85,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'update':
       return applyDecorators(
         ApiOperation({ summary: 'Actualizar un perfil por su ID' }),
-        ApiParam({ name: 'id', description: 'ID del perfil a actualizar' }),
+        ApiParam({ name: 'id', description: 'ID del perfil por actualizar' }),
         ApiBody({
           description: 'Datos necesarios para actualizar un perfil',
           type: CreatePerfilDto,
@@ -112,7 +112,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'remove':
       return applyDecorators(
         ApiOperation({ summary: 'Eliminar perfil por ID' }),
-        ApiParam({ name: 'id', description: 'ID del perfil a eliminar' }),
+        ApiParam({ name: 'id', description: 'ID del perfil por eliminar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Perfil eliminado correctamente',

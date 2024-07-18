@@ -14,12 +14,13 @@ import { PerfilesService } from './perfiles.service';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SwaggerDocumentation } from '../../common/decorators/swagger-perfil.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('perfiles')
 @ApiTags('Perfiles')
+@ApiBearerAuth()
 export class PerfilesController {
   constructor(private readonly perfilesService: PerfilesService) {}
 

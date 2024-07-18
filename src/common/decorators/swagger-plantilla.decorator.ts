@@ -46,7 +46,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'findOne':
       return applyDecorators(
         ApiOperation({ summary: 'Obtener plantilla por ID' }),
-        ApiParam({ name: 'id', description: 'ID de la plantilla a buscar' }),
+        ApiParam({ name: 'id', description: 'ID de la plantilla por buscar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Plantilla encontrada correctamente',
@@ -66,7 +66,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         ApiOperation({ summary: 'Actualizar una plantilla por su ID' }),
         ApiParam({
           name: 'id',
-          description: 'ID de la plantilla a actualizar',
+          description: 'ID de la plantilla por actualizar',
         }),
         ApiBody({
           description: 'Datos necesarios para actualizar una plantilla',
@@ -93,7 +93,10 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'remove':
       return applyDecorators(
         ApiOperation({ summary: 'Eliminar una plantilla por su ID' }),
-        ApiParam({ name: 'id', description: 'ID de la plantilla a eliminar' }),
+        ApiParam({
+          name: 'id',
+          description: 'ID de la plantilla por eliminar',
+        }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Plantilla eliminada correctamente',

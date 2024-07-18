@@ -12,11 +12,12 @@ import {
 import { ContactosService } from './contactos.service';
 import { CreateContactoDto } from './dto/create-contacto.dto';
 import { UpdateContactoDto } from './dto/update-contacto.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SwaggerDocumentation } from '../../common/decorators/swagger-contacto.decorator';
 
 @Controller('contactos')
 @ApiTags('Contactos')
+@ApiBearerAuth()
 export class ContactosController {
   constructor(private readonly contactosService: ContactosService) {}
 

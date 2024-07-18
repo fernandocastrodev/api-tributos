@@ -47,7 +47,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'findOne':
       return applyDecorators(
         ApiOperation({ summary: 'Obtener página por ID' }),
-        ApiParam({ name: 'id', description: 'ID de la página a buscar' }),
+        ApiParam({ name: 'id', description: 'ID de la página por buscar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Página encontrada por ID',
@@ -65,7 +65,10 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'findOneByName':
       return applyDecorators(
         ApiOperation({ summary: 'Obtener página por nombre' }),
-        ApiParam({ name: 'name', description: 'Nombre de la página a buscar' }),
+        ApiParam({
+          name: 'name',
+          description: 'Nombre de la página por buscar',
+        }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Página encontrada por nombre',
@@ -83,7 +86,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'update':
       return applyDecorators(
         ApiOperation({ summary: 'Actualizar una página por su ID' }),
-        ApiParam({ name: 'id', description: 'ID de la página a actualizar' }),
+        ApiParam({ name: 'id', description: 'ID de la página por actualizar' }),
         ApiBody({
           description: 'Datos necesarios para actualizar una página',
           type: CreatePaginaDto,
@@ -110,7 +113,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'remove':
       return applyDecorators(
         ApiOperation({ summary: 'Eliminar una página por su ID' }),
-        ApiParam({ name: 'id', description: 'ID de la página a eliminar' }),
+        ApiParam({ name: 'id', description: 'ID de la página por eliminar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Página eliminada correctamente',

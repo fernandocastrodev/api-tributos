@@ -6,23 +6,21 @@ import {
   Patch,
   Param,
   Delete,
-  BadRequestException,
-  HttpException,
   HttpStatus,
   UseGuards,
-  NotFoundException,
   HttpCode,
 } from '@nestjs/common';
 import { PermisosService } from './permisos.service';
 import { CreatePermisoDto } from './dto/create-permiso.dto';
 import { UpdatePermisoDto } from './dto/update-permiso.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SwaggerDocumentation } from '../../common/decorators/swagger-permiso.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('permisos')
 @ApiTags('Permisos')
+@ApiBearerAuth()
 export class PermisosController {
   constructor(private readonly permisosService: PermisosService) {}
 

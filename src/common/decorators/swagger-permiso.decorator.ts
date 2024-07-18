@@ -51,7 +51,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'findOne':
       return applyDecorators(
         ApiOperation({ summary: 'Obtener permiso por ID' }),
-        ApiParam({ name: 'id', description: 'ID del permiso a buscar' }),
+        ApiParam({ name: 'id', description: 'ID del permiso por buscar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Permiso encontrado por ID',
@@ -69,7 +69,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'update':
       return applyDecorators(
         ApiOperation({ summary: 'Actualizar un permiso por su ID' }),
-        ApiParam({ name: 'id', description: 'ID del permiso a actualizar' }),
+        ApiParam({ name: 'id', description: 'ID del permiso por actualizar' }),
         ApiBody({
           description: 'Datos necesarios para actualizar un permiso',
           type: CreatePermisoDto,
@@ -95,7 +95,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'remove':
       return applyDecorators(
         ApiOperation({ summary: 'Eliminar un permiso por su ID' }),
-        ApiParam({ name: 'id', description: 'ID del permiso a eliminar' }),
+        ApiParam({ name: 'id', description: 'ID del permiso por eliminar' }),
         ApiResponse({
           status: HttpStatus.OK,
           description: 'Permiso eliminado correctamente',

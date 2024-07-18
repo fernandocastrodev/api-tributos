@@ -6,6 +6,7 @@ export const setupSwagger = (app: INestApplication) => {
     .setTitle('api-base-nestJS')
     .setDescription('Api creada para sistemas de tributos')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -21,6 +22,7 @@ export const setupSwagger = (app: INestApplication) => {
           'Permisos',
           'Contactos',
           'Plantillas',
+          'Planes',
         ]; // Orden deseado
         return order.indexOf(a) - order.indexOf(b);
       },

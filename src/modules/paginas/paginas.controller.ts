@@ -14,12 +14,13 @@ import { PaginasService } from './paginas.service';
 import { CreatePaginaDto } from './dto/create-pagina.dto';
 import { UpdatePaginaDto } from './dto/update-pagina.dto';
 import { AuthGuard } from '../auth/guard/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SwaggerDocumentation } from '../../common/decorators/swagger-pagina.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('paginas')
 @ApiTags('Paginas')
+@ApiBearerAuth()
 export class PaginasController {
   constructor(private readonly paginasService: PaginasService) {}
 

@@ -14,12 +14,13 @@ import { PlantillasService } from './plantillas.service';
 import { CreatePlantillaDto } from './dto/create-plantilla.dto';
 import { UpdatePlantillaDto } from './dto/update-plantilla.dto';
 import { AuthGuard } from '../../modules/auth/guard/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SwaggerDocumentation } from '../../common/decorators/swagger-plantilla.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('plantillas')
 @ApiTags('Plantillas')
+@ApiBearerAuth()
 export class PlantillasController {
   constructor(private readonly plantillasService: PlantillasService) {}
 
