@@ -15,6 +15,7 @@ export class CreatePerfilDto {
   @ApiProperty({
     example: 'El supervisor se encarga de...',
     description: 'ingrese una descripcion del perfil',
+    required: false,
   })
   descripcion: string;
 }

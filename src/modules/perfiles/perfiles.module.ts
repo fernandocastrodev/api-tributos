@@ -15,6 +15,6 @@ import { Usuario } from '../usuarios/usuario.entity';
   ],
   controllers: [PerfilesController],
   providers: [PerfilesService, LoggerService, UsuariosService],
-  exports: [TypeOrmModule],
+  exports: [PerfilesService, TypeOrmModule],
 })
 export class PerfilesModule {}

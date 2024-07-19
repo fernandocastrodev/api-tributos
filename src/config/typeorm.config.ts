@@ -8,6 +8,7 @@ import { LoggerService } from '../common/services/logger.service';
 import { Contacto } from '../tribute-spaces/contactos/contacto.entity';
 import { Plantilla } from '../tribute-spaces/plantillas/plantilla.entity';
 import { Plan } from '../tribute-spaces/planes/plan.entity';
+import { Suscripcion } from '../tribute-spaces/suscripciones/suscripcion.entity';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -17,7 +18,16 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
-  entities: [Perfil, Usuario, Pagina, Permiso, Contacto, Plantilla, Plan],
+  entities: [
+    Perfil,
+    Usuario,
+    Pagina,
+    Permiso,
+    Contacto,
+    Plantilla,
+    Plan,
+    Suscripcion,
+  ],
   synchronize: true,
   logging: true,
   logger: new LoggerService(),

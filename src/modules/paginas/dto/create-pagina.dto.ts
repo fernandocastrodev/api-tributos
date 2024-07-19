@@ -15,6 +15,7 @@ export class CreatePaginaDto {
   @ApiProperty({
     example: 'mantenedor de ventas',
     description: 'ingrese un descripcion de pagina',
+    required: false,
   })
   descripcionPagina: string;
 
@@ -31,6 +32,7 @@ export class CreatePaginaDto {
   @ApiProperty({
     example: 'image/ventas.svg',
     description: 'ingrese una ruta para el icono',
+    required: false,
   })
   iconoPagina: string;
 

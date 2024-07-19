@@ -2,7 +2,6 @@ import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
 import { CreatePerfilDto } from '../../modules/perfiles/dto/create-perfil.dto';
-import { UpdatePerfilDto } from '../../modules/perfiles/dto/update-perfil.dto';
 
 export function SwaggerDocumentation(method: string, description: string) {
   switch (method) {

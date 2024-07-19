@@ -1,4 +1,4 @@
-import { Transform } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -17,6 +17,7 @@ export class CreateUsuarioDto {
   @ApiProperty({
     example: 'Juan',
     description: 'ingrese un nombre',
+    required: true,
   })
   nombre: string;
 
@@ -25,6 +26,7 @@ export class CreateUsuarioDto {
   @ApiProperty({
     example: 'Perez',
     description: 'ingrese un apellido',
+    required: true,
   })
   apellido: string;
 
@@ -34,9 +36,11 @@ export class CreateUsuarioDto {
   @ApiProperty({
     example: '111111111-1',
     description: 'ingrese un rut',
+    required: false,
   })
   rut: string;
 
+  @Exclude()
   @IsOptional()
   @IsNotEmpty()
   @IsString()
@@ -49,6 +53,7 @@ export class CreateUsuarioDto {
   @ApiProperty({
     example: '123456',
     description: 'ingrese una clave',
+    required: true,
   })
   claveAcceso: string;
 
@@ -65,6 +70,7 @@ export class CreateUsuarioDto {
   @ApiProperty({
     example: 'm',
     description: 'ingrese su genero',
+    required: false,
   })
   genero: string;
 
@@ -73,6 +79,7 @@ export class CreateUsuarioDto {
   @ApiProperty({
     example: 'true',
     description: 'ingrese el estado del usuario',
+    required: false,
   })
   estado: boolean;
 

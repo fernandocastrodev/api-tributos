@@ -1,7 +1,6 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { CreateUsuarioDto } from '../../modules/usuarios/dto/create-usuario.dto';
-import { UpdateUsuarioDto } from '../../modules/usuarios/dto/update-usuario.dto';
 
 export function SwaggerDocumentation(method: string, description: string) {
   switch (method) {

@@ -39,8 +39,8 @@ export class FindAllUsuarioDto {
 
   @Expose()
   @Transform(({ obj }) => ({
-    nombre: obj.perfil.idPerfil,
-    descripcion: obj.perfil.nombre,
+    idPerfil: obj.perfil.idPerfil,
+    nombre: obj.perfil.nombre,
   }))
-  perfil: { nombre: string; descripcion: string };
+  perfil: { idPerfil: string; nombre: string };
 }

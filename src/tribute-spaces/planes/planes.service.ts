@@ -37,7 +37,7 @@ export class PlanesService {
   async findAll() {
     const plan = await this.PlanRepository.find();
     if (plan.length === 0) {
-      throw new NotFoundException('Planes no encontrados');
+      throw new NotFoundException('planes no encontrados');
     }
     return plan;
   }
@@ -47,7 +47,7 @@ export class PlanesService {
       idPlan,
     });
     if (!plan) {
-      throw new NotFoundException('Plan no encontrado');
+      throw new NotFoundException('plan no encontrado');
     }
     return plainToInstance(FindOnePlanDto, plan, {
       excludeExtraneousValues: true,
@@ -59,7 +59,7 @@ export class PlanesService {
       idPlan,
     });
     if (!plan) {
-      throw new NotFoundException('Plan no encontrado');
+      throw new NotFoundException('plan no encontrado');
     }
     const nombrePLan = await this.PlanRepository.findOneBy({
       nombre: updatePlanDto.nombre,

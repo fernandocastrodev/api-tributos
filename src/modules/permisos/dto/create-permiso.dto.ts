@@ -17,6 +17,7 @@ export class CreatePermisoDto {
   @ApiProperty({
     example: 'true',
     description: 'permiso para crear modulo',
+    required: false,
   })
   crear: boolean;
 
@@ -25,6 +26,7 @@ export class CreatePermisoDto {
   @ApiProperty({
     example: 'true',
     description: 'permiso para eliminar modulo',
+    required: false,
   })
   eliminar: boolean;
 
@@ -33,6 +35,7 @@ export class CreatePermisoDto {
   @ApiProperty({
     example: 'true',
     description: 'permiso para acualizar modulo',
+    required: false,
   })
   actualizar: boolean;
 

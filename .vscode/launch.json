@@ -40,7 +40,7 @@
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       },
       "env": {
-        "TEST_FILE": "./test/plantilla.e2e-spec.ts",
+        "TEST_FILE": "./test/suscripcion.e2e-spec.ts",
         "PATH": "/Users/moo/.nvm/versions/node/v11.0.0/bin:${env:PATH}"
       }
     }

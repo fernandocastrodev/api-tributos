@@ -11,6 +11,6 @@ import { LoggerService } from '../../common/services/logger.service';
   imports: [TypeOrmModule.forFeature([Usuario]), PerfilesModule],
   controllers: [UsuariosController],
   providers: [UsuariosService, PerfilesService, LoggerService],
-  exports: [UsuariosService],
+  exports: [UsuariosService, TypeOrmModule],
 })
 export class UsuariosModule {}

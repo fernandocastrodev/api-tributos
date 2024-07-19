@@ -55,7 +55,7 @@ export class UsuariosService {
     const usuario = {
       ...createUsuarioDto,
       claveAcceso: hashedPassword,
-      perfil, // Asigna el perfil al usuario
+      perfil,
     };
 
     const usuarioCreado = await this.UsuarioRepository.save(usuario);

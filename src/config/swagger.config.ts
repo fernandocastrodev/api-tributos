@@ -23,6 +23,7 @@ export const setupSwagger = (app: INestApplication) => {
           'Contactos',
           'Plantillas',
           'Planes',
+          'Suscripciones',
         ]; // Orden deseado
         return order.indexOf(a) - order.indexOf(b);
       },

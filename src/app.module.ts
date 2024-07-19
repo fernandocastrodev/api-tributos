@@ -22,6 +22,7 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { ContactosModule } from './tribute-spaces/contactos/contactos.module';
 import { PlantillasModule } from './tribute-spaces/plantillas/plantillas.module';
 import { PlanesModule } from './tribute-spaces/planes/planes.module';
+import { SuscripcionesModule } from './tribute-spaces/suscripciones/suscripciones.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { PlanesModule } from './tribute-spaces/planes/planes.module';
     ContactosModule,
     PlantillasModule,
     PlanesModule,
+    SuscripcionesModule,
   ],
 
   controllers: [],

@@ -9,5 +9,6 @@ import { LoggerService } from '../../common/services/logger.service';
   imports: [TypeOrmModule.forFeature([Plan])],
   controllers: [PlanesController],
   providers: [PlanesService, LoggerService],
+  exports: [PlanesService, TypeOrmModule],
 })
 export class PlanesModule {}
