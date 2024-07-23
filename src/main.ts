@@ -11,6 +11,13 @@ async function bootstrap() {
 
   const logger = app.get(LoggerService);
 
+  // Habilitar CORS
+  app.enableCors({
+    origin: '*', // Permitir todas las solicitudes de origen
+    methods: 'GET,PATCH,POST,DELETE', // Métodos HTTP permitidos
+    credentials: true, // Permitir el envío de cookies con las solicitudes
+  });
+
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(
     new ValidationPipe({
