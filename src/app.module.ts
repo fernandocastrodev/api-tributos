@@ -23,6 +23,7 @@ import { ContactosModule } from './tribute-spaces/contactos/contactos.module';
 import { PlantillasModule } from './tribute-spaces/plantillas/plantillas.module';
 import { PlanesModule } from './tribute-spaces/planes/planes.module';
 import { SuscripcionesModule } from './tribute-spaces/suscripciones/suscripciones.module';
+import { PagosModule } from './tribute-spaces/pagos/pagos.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { SuscripcionesModule } from './tribute-spaces/suscripciones/suscripcione
     PlantillasModule,
     PlanesModule,
     SuscripcionesModule,
+    PagosModule,
   ],
 
   controllers: [],
