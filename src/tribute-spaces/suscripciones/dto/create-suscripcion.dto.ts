@@ -23,7 +23,7 @@ export class CreateSuscripcionDto {
   @IsBoolean()
   @ApiProperty({
     example: 'true',
-    description: 'ingrese el estado del usuario',
+    description: 'ingrese el estado de la suscripcion',
     required: false,
   })
   estadoSuscripcion: boolean;

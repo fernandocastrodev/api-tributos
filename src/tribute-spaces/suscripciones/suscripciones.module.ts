@@ -15,6 +15,6 @@ import { UsuariosModule } from '../../modules/usuarios/usuarios.module';
   ],
   controllers: [SuscripcionesController],
   providers: [SuscripcionesService, LoggerService],
-  exports: [SuscripcionesService],
+  exports: [SuscripcionesService, TypeOrmModule],
 })
 export class SuscripcionesModule {}
