@@ -1,8 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { LoginDto } from './dto/login.dto';
 import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,6 +39,16 @@ export class AuthService {
     return {
       token: token,
       email: usuario.correo,
+    };
+  }
+  async register(registerDto: RegisterDto) {
+    const usuario = await this.usuariosService.create(registerDto);
+    if (!usuario) {
+      throw new NotFoundException('Error al registrar');
+    }
+    return {
+      id: usuario.id,
+      nombreCompleto: usuario.nombreCompleto,
     };
   }
 }

@@ -35,7 +35,7 @@ export class Usuario {
   @Column({ default: 'm' })
   genero: string;
 
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', default: false })
   estado: boolean;
 
   @CreateDateColumn({ nullable: true })

@@ -24,6 +24,7 @@ export class UsuariosService {
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
+    const { rut } = createUsuarioDto;
     const correo = await this.UsuarioRepository.findOneBy({
       correo: createUsuarioDto.correo,
     });
@@ -32,13 +33,16 @@ export class UsuariosService {
       throw new BadRequestException('correo ya existe');
     }
 
-    const dni = await this.UsuarioRepository.findOneBy({
-      rut: createUsuarioDto.rut,
-    });
+    if (rut !== null && rut !== undefined) {
+      const dni = await this.UsuarioRepository.findOne({
+        where: { rut },
+      });
 
-    if (dni) {
-      throw new BadRequestException('el rut ya existe');
+      if (dni) {
+        throw new BadRequestException('el rut ya existe');
+      }
     }
+
     const perfil = await this.PerfilRepository.findOneBy({
       idPerfil: createUsuarioDto.idPerfil,
     });

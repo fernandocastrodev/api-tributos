@@ -10,6 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
 @ApiTags('Login')
@@ -43,6 +44,23 @@ export class AuthController {
         },
         HttpStatus.UNAUTHORIZED,
       );
+    }
+  }
+
+  @HttpCode(HttpStatus.CREATED)
+  @Post('register')
+  async register(@Body() registerDto: RegisterDto) {
+    try {
+      const usuario = await this.authService.register(registerDto);
+      return {
+        message: 'Usuario registrado con éxito',
+        error: null,
+        statusCode: HttpStatus.CREATED,
+        Data: usuario,
+        DataList: null,
+      };
+    } catch (error) {
+      throw error;
     }
   }
 }
