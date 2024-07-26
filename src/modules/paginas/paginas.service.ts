@@ -9,6 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Pagina } from './pagina.entity';
 import { In, Not, Repository } from 'typeorm';
 import { Permiso } from '../permisos/permiso.entity';
+import { plainToInstance } from 'class-transformer';
+import { PaginaPermisoDto } from './dto/pagina-permiso.dto';
 
 @Injectable()
 export class PaginasService {
@@ -70,23 +72,31 @@ export class PaginasService {
     return pagina;
   }
 
-  async obtenerPaginasConPermisos(idPerfil: number): Promise<Pagina[]> {
-    // Obtener todos los permisos relacionados con el idPerfil proporcionado
+  async obtenerPaginasConPermisos(
+    idPerfil: number,
+  ): Promise<PaginaPermisoDto[]> {
     const permisos = await this.PermisoRepository.find({
       where: { perfil: { idPerfil } },
-      relations: ['pagina'], // Cargar la relación de la página para cada permiso
+      relations: ['pagina'],
     });
 
-    // Extraer los IDs de las páginas de los permisos obtenidos
-    const idPaginas = permisos.map((permiso) => permiso.pagina.idPagina);
+    const paginasDto = permisos.map((permiso) =>
+      plainToInstance(PaginaPermisoDto, {
+        idPagina: permiso.pagina.idPagina,
+        nombrePagina: permiso.pagina.nombrePagina,
+        urlPagina: permiso.pagina.urlPagina,
+        iconoPagina: permiso.pagina.iconoPagina,
+        orden: permiso.pagina.orden,
+        permiso: {
+          ver: permiso.ver,
+          crear: permiso.crear,
+          eliminar: permiso.eliminar,
+          actualizar: permiso.actualizar,
+        },
+      }),
+    );
 
-    // Obtener todas las páginas correspondientes a los IDs
-    const paginas = await this.PaginaRepository.find({
-      where: { idPagina: In(idPaginas) },
-      relations: ['permisos'], // Cargar los permisos para cada página
-    });
-
-    return paginas;
+    return paginasDto;
   }
   async update(idPagina: number, updatePaginaDto: UpdatePaginaDto) {
     const pagina = await this.PaginaRepository.findOneBy({ idPagina });

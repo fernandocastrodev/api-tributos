@@ -37,7 +37,7 @@ export class AuthController {
         error: null,
         statusCode: HttpStatus.OK,
         Data: { token, idUsuario, nombreUsuario },
-        DataList: [Pagina],
+        DataList: Pagina,
       };
     } catch (error) {
       throw new HttpException(

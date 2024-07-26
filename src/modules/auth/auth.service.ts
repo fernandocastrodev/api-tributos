@@ -20,9 +20,6 @@ export class AuthService {
 
   async login({ correo, claveAcceso }: LoginDto) {
     const usuario = await this.usuariosService.findOneByEmail(correo);
-    // const permiso = await this.permisosService.findOnePermisoByPerfil(
-    //   usuario.perfil.idPerfil,
-    // );
     const paginas = await this.paginasService.obtenerPaginasConPermisos(
       usuario.perfil.idPerfil,
     );
