@@ -30,10 +30,14 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     try {
-      const { token, email } = await this.authService.login(loginDto);
+      const { token, idUsuario, nombreUsuario, Pagina } =
+        await this.authService.login(loginDto);
       return {
         message: 'Token creado con éxito',
-        Data: { token, email },
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: { token, idUsuario, nombreUsuario },
+        DataList: [Pagina],
       };
     } catch (error) {
       throw new HttpException(

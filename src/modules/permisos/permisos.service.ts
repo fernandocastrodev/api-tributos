@@ -79,6 +79,18 @@ export class PermisosService {
     return permiso;
   }
 
+  async findOnePermisoByPerfil(idPerfil: number) {
+    const permiso = await this.PermisoRepository.find({
+      where: {
+        perfil: { idPerfil: idPerfil },
+      },
+    });
+    if (!permiso) {
+      throw new NotFoundException('permiso no encontrado');
+    }
+    return permiso;
+  }
+
   async findByPaginaAndPerfilCreate(
     perfilId: number,
     paginaId: number,

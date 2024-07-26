@@ -8,17 +8,24 @@ import { LoginDto } from './dto/login.dto';
 import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
+import { PaginasService } from '../paginas/paginas.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usuariosService: UsuariosService,
+    private readonly paginasService: PaginasService,
     private readonly jwtService: JwtService,
   ) {}
 
   async login({ correo, claveAcceso }: LoginDto) {
     const usuario = await this.usuariosService.findOneByEmail(correo);
-
+    // const permiso = await this.permisosService.findOnePermisoByPerfil(
+    //   usuario.perfil.idPerfil,
+    // );
+    const paginas = await this.paginasService.obtenerPaginasConPermisos(
+      usuario.perfil.idPerfil,
+    );
     if (!usuario) {
       throw new UnauthorizedException('UNAUTHORIZED, Invalid email');
     }
@@ -36,9 +43,12 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(payload);
 
+    const nombreCompleto = `${usuario.nombre} ${usuario.apellido}`;
     return {
       token: token,
-      email: usuario.correo,
+      idUsuario: usuario.idUsuario,
+      nombreUsuario: nombreCompleto,
+      Pagina: paginas,
     };
   }
   async register(registerDto: RegisterDto) {

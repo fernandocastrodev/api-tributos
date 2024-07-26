@@ -7,13 +7,16 @@ import { CreatePaginaDto } from './dto/create-pagina.dto';
 import { UpdatePaginaDto } from './dto/update-pagina.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagina } from './pagina.entity';
-import { Not, Repository } from 'typeorm';
+import { In, Not, Repository } from 'typeorm';
+import { Permiso } from '../permisos/permiso.entity';
 
 @Injectable()
 export class PaginasService {
   constructor(
     @InjectRepository(Pagina)
     private readonly PaginaRepository: Repository<Pagina>,
+    @InjectRepository(Permiso)
+    private readonly PermisoRepository: Repository<Permiso>,
   ) {}
 
   async create(createPaginaDto: CreatePaginaDto) {
@@ -67,6 +70,24 @@ export class PaginasService {
     return pagina;
   }
 
+  async obtenerPaginasConPermisos(idPerfil: number): Promise<Pagina[]> {
+    // Obtener todos los permisos relacionados con el idPerfil proporcionado
+    const permisos = await this.PermisoRepository.find({
+      where: { perfil: { idPerfil } },
+      relations: ['pagina'], // Cargar la relación de la página para cada permiso
+    });
+
+    // Extraer los IDs de las páginas de los permisos obtenidos
+    const idPaginas = permisos.map((permiso) => permiso.pagina.idPagina);
+
+    // Obtener todas las páginas correspondientes a los IDs
+    const paginas = await this.PaginaRepository.find({
+      where: { idPagina: In(idPaginas) },
+      relations: ['permisos'], // Cargar los permisos para cada página
+    });
+
+    return paginas;
+  }
   async update(idPagina: number, updatePaginaDto: UpdatePaginaDto) {
     const pagina = await this.PaginaRepository.findOneBy({ idPagina });
     if (!pagina) {

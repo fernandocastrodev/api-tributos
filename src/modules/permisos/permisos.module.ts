@@ -11,5 +11,6 @@ import { LoggerService } from '../../common/services/logger.service';
   imports: [TypeOrmModule.forFeature([Permiso]), PerfilesModule, PaginasModule],
   controllers: [PermisosController],
   providers: [PermisosService, LoggerService],
+  exports: [PermisosService],
 })
 export class PermisosModule {}
