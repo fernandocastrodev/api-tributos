@@ -50,6 +50,17 @@ export class PagosService {
     });
   }
 
+  async findPagoBySuscripcion(idSuscripcion: number) {
+    const pago = await this.PagoRepository.find({
+      where: { suscripcion: { idSuscripcion: idSuscripcion } },
+    });
+
+    if (!pago) {
+      throw new NotFoundException('pagos no encontrados');
+    }
+    return pago;
+  }
+
   async findOne(idPago: number) {
     const pago = await this.PagoRepository.findOneBy({ idPago });
 

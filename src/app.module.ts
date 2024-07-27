@@ -24,6 +24,7 @@ import { PlantillasModule } from './tribute-spaces/plantillas/plantillas.module'
 import { PlanesModule } from './tribute-spaces/planes/planes.module';
 import { SuscripcionesModule } from './tribute-spaces/suscripciones/suscripciones.module';
 import { PagosModule } from './tribute-spaces/pagos/pagos.module';
+import { TributosModule } from './tribute-spaces/tributos/tributos.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { PagosModule } from './tribute-spaces/pagos/pagos.module';
     PlanesModule,
     SuscripcionesModule,
     PagosModule,
+    TributosModule,
   ],
 
   controllers: [],

@@ -60,7 +60,7 @@ export class PagosController {
     }
   }
 
-  @Get(':id')
+  @Get('id/:id')
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findOne', 'Obtener pago por ID')
   async findOne(@Param('id') id: string) {
@@ -68,6 +68,27 @@ export class PagosController {
     try {
       return {
         message: 'Pago encontrado correctamente',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: pago,
+        DataList: null,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Get('pagos/:pagos')
+  @HttpCode(HttpStatus.OK)
+  @SwaggerDocumentation(
+    'findPagoBySuscripcion',
+    'Obtener pago por idSuscripcion',
+  )
+  async findPagoBySuscripcion(@Param('pagos') id: string) {
+    const pago = await this.pagosService.findPagoBySuscripcion(+id);
+    try {
+      return {
+        message: 'Pagos encontrados por suscripcion',
         error: null,
         statusCode: HttpStatus.OK,
         Data: pago,

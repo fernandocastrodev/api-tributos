@@ -65,6 +65,27 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
       );
 
+    case 'findPagoBySuscripcion':
+      return applyDecorators(
+        ApiOperation({ summary: 'Obtener pagos por idSuscripcion' }),
+        ApiParam({
+          name: 'pagos',
+          description: 'Id suscripcion por el pago por buscar',
+        }),
+        ApiResponse({
+          status: HttpStatus.OK,
+          description: 'Pagos encontrados por suscripcion',
+        }),
+        ApiResponse({
+          status: HttpStatus.NOT_FOUND,
+          description: 'pagos no encontrados',
+        }),
+        ApiResponse({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          description: 'Hubo un error interno del servidor',
+        }),
+      );
+
     case 'update':
       return applyDecorators(
         ApiOperation({ summary: 'Actualizar un pago por su ID' }),

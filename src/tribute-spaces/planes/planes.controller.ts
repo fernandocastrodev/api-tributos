@@ -17,13 +17,13 @@ import { AuthGuard } from '../../modules/auth/guard/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SwaggerDocumentation } from '../../common/decorators/swagger-plan.decorator';
 
-@UseGuards(AuthGuard)
 @Controller('planes')
 @ApiTags('Planes')
 @ApiBearerAuth()
 export class PlanesController {
   constructor(private readonly planesService: PlanesService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @SwaggerDocumentation('create', 'Crear un nuevo plan')
@@ -60,6 +60,7 @@ export class PlanesController {
     }
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findOne', 'Obtener plan por ID')
@@ -78,6 +79,7 @@ export class PlanesController {
     }
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('update', 'Actualizar un plan por su ID')
@@ -96,6 +98,7 @@ export class PlanesController {
     }
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('remove', 'Eliminar un plan por su ID')
