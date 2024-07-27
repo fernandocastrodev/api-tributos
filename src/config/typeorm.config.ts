@@ -9,6 +9,7 @@ import { Contacto } from '../tribute-spaces/contactos/contacto.entity';
 import { Plantilla } from '../tribute-spaces/plantillas/plantilla.entity';
 import { Plan } from '../tribute-spaces/planes/plan.entity';
 import { Suscripcion } from '../tribute-spaces/suscripciones/suscripcion.entity';
+import { Pago } from '../tribute-spaces/pagos/pago.entity';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -27,6 +28,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     Plantilla,
     Plan,
     Suscripcion,
+    Pago,
   ],
   synchronize: true,
   logging: true,
