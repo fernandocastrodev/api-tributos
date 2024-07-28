@@ -25,6 +25,7 @@ export const setupSwagger = (app: INestApplication) => {
           'Planes',
           'Suscripciones',
           'Pagos',
+          'Tributos',
         ]; // Orden deseado
         return order.indexOf(a) - order.indexOf(b);
       },
