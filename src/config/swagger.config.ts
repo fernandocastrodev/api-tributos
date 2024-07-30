@@ -26,6 +26,7 @@ export const setupSwagger = (app: INestApplication) => {
           'Suscripciones',
           'Pagos',
           'Tributos',
+          'Tipo-Galerias',
         ]; // Orden deseado
         return order.indexOf(a) - order.indexOf(b);
       },

@@ -10,7 +10,8 @@ import { Plantilla } from '../tribute-spaces/plantillas/plantilla.entity';
 import { Plan } from '../tribute-spaces/planes/plan.entity';
 import { Suscripcion } from '../tribute-spaces/suscripciones/suscripcion.entity';
 import { Pago } from '../tribute-spaces/pagos/pago.entity';
-import { Tributo } from 'src/tribute-spaces/tributos/tributo.entity';
+import { Tributo } from '../tribute-spaces/tributos/tributo.entity';
+import { TipoGaleria } from '../tribute-spaces/tipo-galerias/tipo-galeria.entity';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -31,6 +32,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     Suscripcion,
     Pago,
     Tributo,
+    TipoGaleria,
   ],
   synchronize: true,
   logging: true,
