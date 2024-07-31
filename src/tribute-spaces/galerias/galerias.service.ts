@@ -95,11 +95,11 @@ export class GaleriasService {
       throw new NotFoundException('galeria no encontrada');
     }
 
-    const TipoGaleria = await this.TipoGaleriaRepository.findOneBy({
+    const tipoGaleria = await this.TipoGaleriaRepository.findOneBy({
       idTipoGaleria: updateGaleriaDto.idTipoGaleria,
     });
 
-    if (!TipoGaleria) {
+    if (!tipoGaleria) {
       throw new NotFoundException('tipo de galeria no encontrado');
     }
 
@@ -121,7 +121,7 @@ export class GaleriasService {
     await this.GaleriaRepository.save({
       ...galeria,
       ...updateGaleriaDto,
-      TipoGaleria,
+      tipoGaleria,
       tributo,
     });
 

@@ -13,6 +13,7 @@ import { Pago } from '../tribute-spaces/pagos/pago.entity';
 import { Tributo } from '../tribute-spaces/tributos/tributo.entity';
 import { TipoGaleria } from '../tribute-spaces/tipo-galerias/tipo-galeria.entity';
 import { Galeria } from '../tribute-spaces/galerias/galeria.entity';
+import { Imagen } from '../tribute-spaces/imagenes/imagen.entity';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -35,6 +36,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     Tributo,
     TipoGaleria,
     Galeria,
+    Imagen,
   ],
   synchronize: true,
   logging: true,

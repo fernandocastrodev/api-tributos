@@ -15,5 +15,6 @@ import { LoggerService } from '../../common/services/logger.service';
   ],
   controllers: [GaleriasController],
   providers: [GaleriasService, LoggerService],
+  exports: [TypeOrmModule],
 })
 export class GaleriasModule {}
