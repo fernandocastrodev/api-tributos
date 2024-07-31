@@ -26,6 +26,7 @@ import { SuscripcionesModule } from './tribute-spaces/suscripciones/suscripcione
 import { PagosModule } from './tribute-spaces/pagos/pagos.module';
 import { TributosModule } from './tribute-spaces/tributos/tributos.module';
 import { TipoGaleriasModule } from './tribute-spaces/tipo-galerias/tipo-galerias.module';
+import { GaleriasModule } from './tribute-spaces/galerias/galerias.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { TipoGaleriasModule } from './tribute-spaces/tipo-galerias/tipo-galerias
     PagosModule,
     TributosModule,
     TipoGaleriasModule,
+    GaleriasModule,
   ],
 
   controllers: [],

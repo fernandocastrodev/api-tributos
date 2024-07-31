@@ -10,5 +10,6 @@ import { LoggerService } from '../../common/services/logger.service';
   imports: [TypeOrmModule.forFeature([Tributo]), SuscripcionesModule],
   controllers: [TributosController],
   providers: [TributosService, LoggerService],
+  exports: [TypeOrmModule, TributosService],
 })
 export class TributosModule {}

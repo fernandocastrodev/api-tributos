@@ -1,20 +1,20 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
-import { CreateTributoDto } from '../../tribute-spaces/tributos/dto/create-tributo.dto';
+import { CreateGaleriaDto } from '../../tribute-spaces/galerias/dto/create-galeria.dto';
 
 export function SwaggerDocumentation(method: string, description: string) {
   switch (method) {
     case 'create':
       return applyDecorators(
-        ApiOperation({ summary: 'Crear un nuevo tributo' }),
+        ApiOperation({ summary: 'Crear una nueva galeria' }),
         ApiBody({
-          description: 'Datos necesarios para crear un tributo',
-          type: CreateTributoDto,
+          description: 'Datos necesarios para crear una nueva galeria',
+          type: CreateGaleriaDto,
         }),
         ApiResponse({
           status: HttpStatus.CREATED,
-          description: 'Tributo creado correctamente',
+          description: 'Galeria creada correctamente',
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
@@ -22,7 +22,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'Datos como idsuscripcion no encontrados',
+          description: 'Datos como idTipoGaleria o idTributo no encontrados',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -32,14 +32,14 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'findAll':
       return applyDecorators(
-        ApiOperation({ summary: 'Obtener todos los tributos' }),
+        ApiOperation({ summary: 'Obtener todas las galeria' }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Tributos encontrados correctamente',
+          description: 'Galerias encontradas correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'tributos no encontrados',
+          description: 'galerias no encontradas',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -49,18 +49,18 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'findOne':
       return applyDecorators(
-        ApiOperation({ summary: 'Obtener tributo por ID' }),
+        ApiOperation({ summary: 'Obtener galeria por ID' }),
         ApiParam({
           name: 'id',
-          description: 'ID del tributo por buscar',
+          description: 'ID de la galeria por buscar',
         }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Tributo encontrado correctamente',
+          description: 'Galeria encontrada correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'tributo no encontrado',
+          description: 'galeria no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -70,18 +70,18 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'update':
       return applyDecorators(
-        ApiOperation({ summary: 'Actualizar un tributo por su ID' }),
+        ApiOperation({ summary: 'Actualizar una galeria por su ID' }),
         ApiParam({
           name: 'id',
-          description: 'ID del tributo por actualizar',
+          description: 'ID de la galeria por actualizar',
         }),
         ApiBody({
-          description: 'Datos necesarios para actualizar un tributo',
-          type: CreateTributoDto,
+          description: 'Datos necesarios para actualizar una galeria',
+          type: CreateGaleriaDto,
         }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Tributo actualizado correctamente',
+          description: 'Galeria actualizada correctamente',
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
@@ -89,7 +89,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'tributo o suscripcion no encontrada',
+          description: 'tipo galeria o tributo no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -99,18 +99,18 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'remove':
       return applyDecorators(
-        ApiOperation({ summary: 'Eliminar un tributo por su ID' }),
+        ApiOperation({ summary: 'Eliminar una galeria por su ID' }),
         ApiParam({
           name: 'id',
-          description: 'ID del tributo por eliminar',
+          description: 'ID de la galeria por eliminar',
         }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Tributo eliminado correctamente',
+          description: 'Galeria eliminada correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'tributo no encontrado',
+          description: 'galeria no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
