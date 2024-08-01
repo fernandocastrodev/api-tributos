@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { GaleriasService } from './galerias.service';
 import { CreateGaleriaDto } from './dto/create-galeria.dto';
@@ -29,12 +30,12 @@ export class GaleriasController {
   @SwaggerDocumentation('create', 'Crear una nueva galeria')
   async create(@Body() createGaleriaDto: CreateGaleriaDto) {
     try {
-      const suscripcion = await this.galeriasService.create(createGaleriaDto);
+      const galeria = await this.galeriasService.create(createGaleriaDto);
       return {
         message: 'Galeria creada correctamente',
         error: null,
         statusCode: HttpStatus.CREATED,
-        Data: suscripcion,
+        Data: galeria,
         DataList: null,
       };
     } catch (error) {
@@ -47,13 +48,13 @@ export class GaleriasController {
   @SwaggerDocumentation('findAll', 'Obtener todas las galeria')
   async findAll() {
     try {
-      const suscripcion = await this.galeriasService.findAll();
+      const galeria = await this.galeriasService.findAll();
       return {
         message: 'Galerias encontradas correctamente',
         error: null,
         statusCode: HttpStatus.OK,
         Data: null,
-        DataList: suscripcion,
+        DataList: galeria,
       };
     } catch (error) {
       throw error;
@@ -65,12 +66,12 @@ export class GaleriasController {
   @SwaggerDocumentation('findOne', 'Obtener galeria por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const suscripcion = await this.galeriasService.findOne(+id);
+      const galeria = await this.galeriasService.findOne(this.validarId(+id));
       return {
         message: 'Galeria encontrada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: suscripcion,
+        Data: galeria,
         DataList: null,
       };
     } catch (error) {
@@ -86,15 +87,15 @@ export class GaleriasController {
     @Body() updateGaleriaDto: UpdateGaleriaDto,
   ) {
     try {
-      const suscripcion = await this.galeriasService.update(
-        +id,
+      const galeria = await this.galeriasService.update(
+        this.validarId(+id),
         updateGaleriaDto,
       );
       return {
         message: 'Galeria actualizada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: suscripcion,
+        Data: galeria,
         DataList: null,
       };
     } catch (error) {
@@ -107,16 +108,24 @@ export class GaleriasController {
   @SwaggerDocumentation('remove', 'Eliminar una galeria por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const suscripcion = await this.galeriasService.remove(+id);
+      const galeria = await this.galeriasService.remove(this.validarId(+id));
       return {
         message: 'Galeria eliminada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: suscripcion,
+        Data: galeria,
         DataList: null,
       };
     } catch (error) {
       throw error;
     }
+  }
+
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }

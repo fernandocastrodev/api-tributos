@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { ImagenesService } from './imagenes.service';
 import { CreateImagenDto } from './dto/create-imagen.dto';
@@ -29,12 +30,12 @@ export class ImagenesController {
   @SwaggerDocumentation('create', 'Crear una nueva imagen')
   async create(@Body() createImagenDto: CreateImagenDto) {
     try {
-      const suscripcion = await this.imagenesService.create(createImagenDto);
+      const imagen = await this.imagenesService.create(createImagenDto);
       return {
         message: 'Imagen creada correctamente',
         error: null,
         statusCode: HttpStatus.CREATED,
-        Data: suscripcion,
+        Data: imagen,
         DataList: null,
       };
     } catch (error) {
@@ -47,13 +48,13 @@ export class ImagenesController {
   @SwaggerDocumentation('findAll', 'Obtener todas las imagenes')
   async findAll() {
     try {
-      const suscripcion = await this.imagenesService.findAll();
+      const imagen = await this.imagenesService.findAll();
       return {
         message: 'Imagenes encontradas correctamente',
         error: null,
         statusCode: HttpStatus.OK,
         Data: null,
-        DataList: suscripcion,
+        DataList: imagen,
       };
     } catch (error) {
       throw error;
@@ -65,12 +66,12 @@ export class ImagenesController {
   @SwaggerDocumentation('findOne', 'Obtener imegen por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const suscripcion = await this.imagenesService.findOne(+id);
+      const imagen = await this.imagenesService.findOne(this.validarId(+id));
       return {
         message: 'Imagen encontrada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: suscripcion,
+        Data: imagen,
         DataList: null,
       };
     } catch (error) {
@@ -86,15 +87,15 @@ export class ImagenesController {
     @Body() updateImagenDto: UpdateImagenDto,
   ) {
     try {
-      const suscripcion = await this.imagenesService.update(
-        +id,
+      const imagen = await this.imagenesService.update(
+        this.validarId(+id),
         updateImagenDto,
       );
       return {
         message: 'Imagen actualizada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: suscripcion,
+        Data: imagen,
         DataList: null,
       };
     } catch (error) {
@@ -107,16 +108,24 @@ export class ImagenesController {
   @SwaggerDocumentation('remove', 'Eliminar una imegen por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const suscripcion = await this.imagenesService.remove(+id);
+      const imagen = await this.imagenesService.remove(this.validarId(+id));
       return {
         message: 'Imagen eliminada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: suscripcion,
+        Data: imagen,
         DataList: null,
       };
     } catch (error) {
       throw error;
     }
+  }
+
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }

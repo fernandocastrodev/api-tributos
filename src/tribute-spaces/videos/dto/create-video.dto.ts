@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class CreateImagenDto {
+export class CreateVideoDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    example: 'www.misimagenes.cl/mi-imagen.jpg',
-    description: 'ingrese la url de la imagen',
+    example: 'www.misvideos.cl/mi-video.jpg',
+    description: 'ingrese la url del video',
   })
   url: string;
 
@@ -14,11 +14,11 @@ export class CreateImagenDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    example: 'imagen de tributo',
-    description: 'ingrese una descripcion de la imagen',
+    example: 'video del tributo',
+    description: 'ingrese una descripcion del video',
     required: false,
   })
-  texto: string;
+  descripcion: string;
 
   @IsNotEmpty()
   @IsInt()

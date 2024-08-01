@@ -29,6 +29,7 @@ export const setupSwagger = (app: INestApplication) => {
           'Tipo-Galerias',
           'Galerias',
           'Imagenes',
+          'Videos',
         ]; // Orden deseado
         return order.indexOf(a) - order.indexOf(b);
       },

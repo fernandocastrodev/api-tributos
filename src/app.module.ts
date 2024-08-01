@@ -28,6 +28,7 @@ import { TributosModule } from './tribute-spaces/tributos/tributos.module';
 import { TipoGaleriasModule } from './tribute-spaces/tipo-galerias/tipo-galerias.module';
 import { GaleriasModule } from './tribute-spaces/galerias/galerias.module';
 import { ImagenesModule } from './tribute-spaces/imagenes/imagenes.module';
+import { VideosModule } from './tribute-spaces/videos/videos.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { ImagenesModule } from './tribute-spaces/imagenes/imagenes.module';
     TipoGaleriasModule,
     GaleriasModule,
     ImagenesModule,
+    VideosModule,
   ],
 
   controllers: [],

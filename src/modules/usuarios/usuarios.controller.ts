@@ -9,6 +9,7 @@ import {
   HttpStatus,
   UseGuards,
   HttpCode,
+  BadRequestException,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -65,7 +66,7 @@ export class UsuariosController {
   @SwaggerDocumentation('findOne', 'Obtener un usuario por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const usuario = await this.usuariosService.findOne(+id);
+      const usuario = await this.usuariosService.findOne(this.validarId(+id));
       return {
         message: 'Usuario encontrado correctamente',
         error: null,
@@ -104,7 +105,10 @@ export class UsuariosController {
     @Body() updateUsuarioDto: UpdateUsuarioDto,
   ) {
     try {
-      const usuario = await this.usuariosService.update(+id, updateUsuarioDto);
+      const usuario = await this.usuariosService.update(
+        this.validarId(+id),
+        updateUsuarioDto,
+      );
       return {
         message: 'Usuario actualizado correctamente',
         error: null,
@@ -122,7 +126,7 @@ export class UsuariosController {
   @SwaggerDocumentation('remove', 'Eliminar un usuario')
   async remove(@Param('id') id: string) {
     try {
-      const usuario = await this.usuariosService.remove(+id);
+      const usuario = await this.usuariosService.remove(this.validarId(+id));
       return {
         message: 'Usuario eliminado correctamente',
         error: null,
@@ -133,5 +137,12 @@ export class UsuariosController {
     } catch (error) {
       throw error;
     }
+  }
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }

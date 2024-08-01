@@ -9,6 +9,7 @@ import {
   UseGuards,
   HttpStatus,
   HttpCode,
+  BadRequestException,
 } from '@nestjs/common';
 import { TipoGaleriasService } from './tipo-galerias.service';
 import { CreateTipoGaleriaDto } from './dto/create-tipo-galeria.dto';
@@ -29,13 +30,13 @@ export class TipoGaleriasController {
   @SwaggerDocumentation('create', 'Crear un nuevo tipo de galeria')
   async create(@Body() createTipoGaleriaDto: CreateTipoGaleriaDto) {
     try {
-      const tributo =
+      const tipoGaleria =
         await this.tipoGaleriasService.create(createTipoGaleriaDto);
       return {
         message: 'Tipo Galeria creada correctamente',
         error: null,
         statusCode: HttpStatus.CREATED,
-        Data: tributo,
+        Data: tipoGaleria,
         DataList: null,
       };
     } catch (error) {
@@ -48,13 +49,13 @@ export class TipoGaleriasController {
   @SwaggerDocumentation('findAll', 'Obtener todos los tipos de galerias')
   async findAll() {
     try {
-      const tributo = await this.tipoGaleriasService.findAll();
+      const tipoGaleria = await this.tipoGaleriasService.findAll();
       return {
         message: 'Tipos de Galerias encontradas correctamente',
         error: null,
         statusCode: HttpStatus.OK,
         Data: null,
-        DataList: tributo,
+        DataList: tipoGaleria,
       };
     } catch (error) {
       throw error;
@@ -66,12 +67,14 @@ export class TipoGaleriasController {
   @SwaggerDocumentation('findOne', 'Obtener un tipo galeria por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const tributo = await this.tipoGaleriasService.findOne(+id);
+      const tipoGaleria = await this.tipoGaleriasService.findOne(
+        this.validarId(+id),
+      );
       return {
         message: 'Tipo de Galeria encontrada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: tributo,
+        Data: tipoGaleria,
         DataList: null,
       };
     } catch (error) {
@@ -87,15 +90,15 @@ export class TipoGaleriasController {
     @Body() updateTipoGaleriaDto: UpdateTipoGaleriaDto,
   ) {
     try {
-      const tributo = await this.tipoGaleriasService.update(
-        +id,
+      const tipoGaleria = await this.tipoGaleriasService.update(
+        this.validarId(+id),
         updateTipoGaleriaDto,
       );
       return {
         message: 'Tipo de Galeria actualizada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: tributo,
+        Data: tipoGaleria,
         DataList: null,
       };
     } catch (error) {
@@ -108,16 +111,25 @@ export class TipoGaleriasController {
   @SwaggerDocumentation('remove', 'Eliminar un tipo galeria')
   async remove(@Param('id') id: string) {
     try {
-      const tributo = await this.tipoGaleriasService.remove(+id);
+      const tipoGaleria = await this.tipoGaleriasService.remove(
+        this.validarId(+id),
+      );
       return {
         message: 'Tipo de Galeria eliminada correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: tributo,
+        Data: tipoGaleria,
         DataList: null,
       };
     } catch (error) {
       throw error;
     }
+  }
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }

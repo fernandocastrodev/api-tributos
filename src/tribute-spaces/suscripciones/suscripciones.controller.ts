@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { SuscripcionesService } from './suscripciones.service';
 import { CreateSuscripcionDto } from './dto/create-suscripcion.dto';
@@ -66,7 +67,9 @@ export class SuscripcionesController {
   @SwaggerDocumentation('findOne', 'Obtener suscripcion por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const suscripcion = await this.suscripcionesService.findOne(+id);
+      const suscripcion = await this.suscripcionesService.findOne(
+        this.validarId(+id),
+      );
       return {
         message: 'Suscripcion encontrada correctamente',
         error: null,
@@ -88,7 +91,7 @@ export class SuscripcionesController {
   ) {
     try {
       const suscripcion = await this.suscripcionesService.update(
-        +id,
+        this.validarId(+id),
         updateSuscripcionDto,
       );
       return {
@@ -108,7 +111,9 @@ export class SuscripcionesController {
   @SwaggerDocumentation('remove', 'Eliminar una suscripcion por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const suscripcion = await this.suscripcionesService.remove(+id);
+      const suscripcion = await this.suscripcionesService.remove(
+        this.validarId(+id),
+      );
       return {
         message: 'Suscripcion eliminada correctamente',
         error: null,
@@ -119,5 +124,13 @@ export class SuscripcionesController {
     } catch (error) {
       throw error;
     }
+  }
+
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }

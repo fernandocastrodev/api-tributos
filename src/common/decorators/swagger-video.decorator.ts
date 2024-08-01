@@ -1,20 +1,20 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
-import { CreateImagenDto } from '../../tribute-spaces/imagenes/dto/create-imagen.dto';
+import { CreateVideoDto } from '../../tribute-spaces/videos/dto/create-video.dto';
 
 export function SwaggerDocumentation(method: string, description: string) {
   switch (method) {
     case 'create':
       return applyDecorators(
-        ApiOperation({ summary: 'Crear una nueva imagen' }),
+        ApiOperation({ summary: 'Crear un nuevo video' }),
         ApiBody({
-          description: 'Datos necesarios para crear una imagen',
-          type: CreateImagenDto,
+          description: 'Datos necesarios para crear un video',
+          type: CreateVideoDto,
         }),
         ApiResponse({
           status: HttpStatus.CREATED,
-          description: 'Imagen creada correctamente',
+          description: 'Video creado correctamente',
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
@@ -22,7 +22,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'Datos como idgaleria no encontradas',
+          description: 'Datos como galeria no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -32,14 +32,14 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'findAll':
       return applyDecorators(
-        ApiOperation({ summary: 'Obtener todas las imagenes' }),
+        ApiOperation({ summary: 'Obtener todos los videos' }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Imagenes encontradas correctamente',
+          description: 'Videos encontrados correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'imagenes no encontradas',
+          description: 'videos no encontrados',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -49,18 +49,18 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'findOne':
       return applyDecorators(
-        ApiOperation({ summary: 'Obtener imagen por ID' }),
+        ApiOperation({ summary: 'Obtener video por ID' }),
         ApiParam({
           name: 'id',
-          description: 'ID de la imagen por buscar',
+          description: 'ID del video por buscar',
         }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Imagen encontrada correctamente',
+          description: 'Video encontrado correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'imagen no encontrada',
+          description: 'video no encontrado',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -70,18 +70,18 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'update':
       return applyDecorators(
-        ApiOperation({ summary: 'Actualizar una imagen por su ID' }),
+        ApiOperation({ summary: 'Actualizar un video por su ID' }),
         ApiParam({
           name: 'id',
-          description: 'ID de la imagen por actualizar',
+          description: 'ID del video por actualizar',
         }),
         ApiBody({
-          description: 'Datos necesarios para actualizar una imagen',
-          type: CreateImagenDto,
+          description: 'Datos necesarios para actualizar un video',
+          type: CreateVideoDto,
         }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Imagen actualizada correctamente',
+          description: 'Video actualizado correctamente',
         }),
         ApiResponse({
           status: HttpStatus.BAD_REQUEST,
@@ -89,7 +89,7 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'imagen no encontrada',
+          description: 'video o galeria no encontrada',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -99,18 +99,18 @@ export function SwaggerDocumentation(method: string, description: string) {
 
     case 'remove':
       return applyDecorators(
-        ApiOperation({ summary: 'Eliminar una imagen por su ID' }),
+        ApiOperation({ summary: 'Eliminar un video por su ID' }),
         ApiParam({
           name: 'id',
-          description: 'ID de la imagen por eliminar',
+          description: 'ID del video por eliminar',
         }),
         ApiResponse({
           status: HttpStatus.OK,
-          description: 'Imagen eliminada correctamente',
+          description: 'Video eliminado correctamente',
         }),
         ApiResponse({
           status: HttpStatus.NOT_FOUND,
-          description: 'Imagen o galeria no encontrada',
+          description: 'video no encontrado',
         }),
         ApiResponse({
           status: HttpStatus.INTERNAL_SERVER_ERROR,

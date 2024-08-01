@@ -9,6 +9,7 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  BadRequestException,
 } from '@nestjs/common';
 import { PlantillasService } from './plantillas.service';
 import { CreatePlantillaDto } from './dto/create-plantilla.dto';
@@ -65,7 +66,9 @@ export class PlantillasController {
   @SwaggerDocumentation('findOne', 'Obtener plantilla por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const plantilla = await this.plantillasService.findOne(+id);
+      const plantilla = await this.plantillasService.findOne(
+        this.validarId(+id),
+      );
       return {
         message: 'Plantilla encontrada correctamente',
         error: null,
@@ -87,7 +90,7 @@ export class PlantillasController {
   ) {
     try {
       const plantilla = await this.plantillasService.update(
-        +id,
+        this.validarId(+id),
         updatePlantillaDto,
       );
       return {
@@ -107,7 +110,9 @@ export class PlantillasController {
   @SwaggerDocumentation('remove', 'Eliminar una plantilla por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const plantilla = await this.plantillasService.remove(+id);
+      const plantilla = await this.plantillasService.remove(
+        this.validarId(+id),
+      );
       return {
         message: 'Plantilla eliminada correctamente',
         error: null,
@@ -118,5 +123,13 @@ export class PlantillasController {
     } catch (error) {
       throw error;
     }
+  }
+
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }

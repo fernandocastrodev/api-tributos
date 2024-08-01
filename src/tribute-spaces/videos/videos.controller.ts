@@ -6,36 +6,37 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   HttpCode,
   HttpStatus,
+  UseGuards,
+  ParseIntPipe,
   BadRequestException,
 } from '@nestjs/common';
-import { TributosService } from './tributos.service';
-import { CreateTributoDto } from './dto/create-tributo.dto';
-import { UpdateTributoDto } from './dto/update-tributo.dto';
+import { VideosService } from './videos.service';
+import { CreateVideoDto } from './dto/create-video.dto';
+import { UpdateVideoDto } from './dto/update-video.dto';
 import { AuthGuard } from '../../modules/auth/guard/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SwaggerDocumentation } from 'src/common/decorators/swagger-tributo.decorator';
+import { SwaggerDocumentation } from '../../common/decorators/swagger-video.decorator';
 
 @UseGuards(AuthGuard)
-@Controller('tributos')
-@ApiTags('Tributos')
+@Controller('videos')
+@ApiTags('Videos')
 @ApiBearerAuth()
-export class TributosController {
-  constructor(private readonly tributosService: TributosService) {}
+export class VideosController {
+  constructor(private readonly videosService: VideosService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @SwaggerDocumentation('create', 'Crear un nuevo tributo')
-  async create(@Body() createTributoDto: CreateTributoDto) {
+  @SwaggerDocumentation('create', 'Crear un nuevo video')
+  async create(@Body() createVideoDto: CreateVideoDto) {
     try {
-      const tributo = await this.tributosService.create(createTributoDto);
+      const video = await this.videosService.create(createVideoDto);
       return {
-        message: 'Tributo creado correctamente',
+        message: 'Video creado correctamente',
         error: null,
         statusCode: HttpStatus.CREATED,
-        Data: tributo,
+        Data: video,
         DataList: null,
       };
     } catch (error) {
@@ -45,16 +46,16 @@ export class TributosController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('findAll', 'Obtener todos los tributos')
+  @SwaggerDocumentation('findAll', 'Obtener todos los videos')
   async findAll() {
     try {
-      const tributo = await this.tributosService.findAll();
+      const video = await this.videosService.findAll();
       return {
-        message: 'Tributos encontrados correctamente',
+        message: 'Videos encontrados correctamente',
         error: null,
         statusCode: HttpStatus.OK,
         Data: null,
-        DataList: tributo,
+        DataList: video,
       };
     } catch (error) {
       throw error;
@@ -63,15 +64,15 @@ export class TributosController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('findOne', 'Obtener tributo por ID')
+  @SwaggerDocumentation('findOne', 'Obtener video por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const tributo = await this.tributosService.findOne(this.validarId(+id));
+      const video = await this.videosService.findOne(this.validarId(+id));
       return {
-        message: 'Tributo encontrado correctamente',
+        message: 'Video encontrado correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: tributo,
+        Data: video,
         DataList: null,
       };
     } catch (error) {
@@ -81,21 +82,21 @@ export class TributosController {
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('update', 'Actualizar un tributo por su ID')
+  @SwaggerDocumentation('update', 'Actualizar un video por su ID')
   async update(
     @Param('id') id: string,
-    @Body() updateTributoDto: UpdateTributoDto,
+    @Body() updateVideoDto: UpdateVideoDto,
   ) {
     try {
-      const tributo = await this.tributosService.update(
+      const video = await this.videosService.update(
         this.validarId(+id),
-        updateTributoDto,
+        updateVideoDto,
       );
       return {
-        message: 'Tributo actualizado correctamente',
+        message: 'Video actualizado correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: tributo,
+        Data: video,
         DataList: null,
       };
     } catch (error) {
@@ -105,22 +106,21 @@ export class TributosController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('remove', 'Eliminar un tributo por su ID')
+  @SwaggerDocumentation('remove', 'Eliminar un video por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const tributo = await this.tributosService.remove(this.validarId(+id));
+      const video = await this.videosService.remove(this.validarId(+id));
       return {
-        message: 'Tributo eliminado correctamente',
+        message: 'Video eliminado correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: tributo,
+        Data: video,
         DataList: null,
       };
     } catch (error) {
       throw error;
     }
   }
-
   validarId(id: any) {
     const parsedId = parseInt(id, 10);
     if (isNaN(parsedId)) {

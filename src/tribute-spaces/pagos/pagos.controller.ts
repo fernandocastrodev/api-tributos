@@ -9,6 +9,7 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  BadRequestException,
 } from '@nestjs/common';
 import { PagosService } from './pagos.service';
 import { CreatePagoDto } from './dto/create-pago.dto';
@@ -64,7 +65,7 @@ export class PagosController {
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('findOne', 'Obtener pago por ID')
   async findOne(@Param('id') id: string) {
-    const pago = await this.pagosService.findOne(+id);
+    const pago = await this.pagosService.findOne(this.validarId(+id));
     try {
       return {
         message: 'Pago encontrado correctamente',
@@ -85,7 +86,9 @@ export class PagosController {
     'Obtener pago por idSuscripcion',
   )
   async findPagoBySuscripcion(@Param('pagos') id: string) {
-    const pago = await this.pagosService.findPagoBySuscripcion(+id);
+    const pago = await this.pagosService.findPagoBySuscripcion(
+      this.validarId(+id),
+    );
     try {
       return {
         message: 'Pagos encontrados por suscripcion',
@@ -103,7 +106,7 @@ export class PagosController {
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('update', 'Actualizar un pago por su ID')
   async update(@Param('id') id: string, @Body() updatePagoDto: UpdatePagoDto) {
-    const pago = this.pagosService.update(+id, updatePagoDto);
+    const pago = this.pagosService.update(this.validarId(+id), updatePagoDto);
     try {
       return {
         message: 'Pago actualizado correctamente',
@@ -121,7 +124,7 @@ export class PagosController {
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('remove', 'Eliminar un pago por su ID')
   async remove(@Param('id') id: string) {
-    const pago = this.pagosService.remove(+id);
+    const pago = this.pagosService.remove(this.validarId(+id));
     try {
       return {
         message: 'Pago eliminado correctamente',
@@ -133,5 +136,13 @@ export class PagosController {
     } catch (error) {
       throw error;
     }
+  }
+
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }

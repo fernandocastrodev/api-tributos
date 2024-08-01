@@ -9,6 +9,7 @@ import {
   HttpStatus,
   UseGuards,
   HttpCode,
+  BadRequestException,
 } from '@nestjs/common';
 import { PerfilesService } from './perfiles.service';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
@@ -64,7 +65,7 @@ export class PerfilesController {
   @SwaggerDocumentation('findOne', 'Obtener un perfil por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const perfil = await this.perfilesService.findOne(+id);
+      const perfil = await this.perfilesService.findOne(this.validarId(+id));
       return {
         message: 'Perfil encontrado correctamente',
         error: null,
@@ -103,7 +104,10 @@ export class PerfilesController {
     @Body() updatePerfilDto: UpdatePerfilDto,
   ) {
     try {
-      const perfil = await this.perfilesService.update(+id, updatePerfilDto);
+      const perfil = await this.perfilesService.update(
+        this.validarId(+id),
+        updatePerfilDto,
+      );
       return {
         message: 'Perfil actualizado correctamente',
         error: null,
@@ -121,7 +125,7 @@ export class PerfilesController {
   @SwaggerDocumentation('remove', 'Eliminar un perfil')
   async remove(@Param('id') id: string) {
     try {
-      const perfil = await this.perfilesService.remove(+id);
+      const perfil = await this.perfilesService.remove(this.validarId(+id));
       return {
         message: 'Perfil eliminado correctamente',
         error: null,
@@ -132,5 +136,12 @@ export class PerfilesController {
     } catch (error) {
       throw error;
     }
+  }
+  validarId(id: any) {
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new BadRequestException('id must be an integer number');
+    }
+    return id;
   }
 }
