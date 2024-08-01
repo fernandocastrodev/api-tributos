@@ -30,6 +30,7 @@ export const setupSwagger = (app: INestApplication) => {
           'Galerias',
           'Imagenes',
           'Videos',
+          'Textos',
         ]; // Orden deseado
         return order.indexOf(a) - order.indexOf(b);
       },

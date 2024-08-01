@@ -15,6 +15,7 @@ import { TipoGaleria } from '../tribute-spaces/tipo-galerias/tipo-galeria.entity
 import { Galeria } from '../tribute-spaces/galerias/galeria.entity';
 import { Imagen } from '../tribute-spaces/imagenes/imagen.entity';
 import { Video } from '../tribute-spaces/videos/video.entity';
+import { Texto } from '../tribute-spaces/textos/texto.entity';
 dotenv.config();
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -39,6 +40,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     Galeria,
     Imagen,
     Video,
+    Texto,
   ],
   synchronize: true,
   logging: true,

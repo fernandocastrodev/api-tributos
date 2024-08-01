@@ -8,34 +8,34 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
-  UseGuards,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
-import { VideosService } from './videos.service';
-import { CreateVideoDto } from './dto/create-video.dto';
-import { UpdateVideoDto } from './dto/update-video.dto';
+import { TextosService } from './textos.service';
+import { CreateTextoDto } from './dto/create-texto.dto';
+import { UpdateTextoDto } from './dto/update-texto.dto';
 import { AuthGuard } from '../../modules/auth/guard/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SwaggerDocumentation } from '../../common/decorators/swagger-video.decorator';
+import { SwaggerDocumentation } from '../../common/decorators/swagger-texto.decorator';
 
 @UseGuards(AuthGuard)
-@Controller('videos')
-@ApiTags('Videos')
+@Controller('textos')
+@ApiTags('Textos')
 @ApiBearerAuth()
-export class VideosController {
-  constructor(private readonly videosService: VideosService) {}
+export class TextosController {
+  constructor(private readonly textosService: TextosService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @SwaggerDocumentation('create', 'Crear un nuevo video')
-  async create(@Body() createVideoDto: CreateVideoDto) {
+  @SwaggerDocumentation('create', 'Crear un nuevo texto')
+  async create(@Body() createTextoDto: CreateTextoDto) {
     try {
-      const video = await this.videosService.create(createVideoDto);
+      const texto = await this.textosService.create(createTextoDto);
       return {
-        message: 'Video creado correctamente',
+        message: 'Texto creado correctamente',
         error: null,
         statusCode: HttpStatus.CREATED,
-        Data: video,
+        Data: texto,
         DataList: null,
       };
     } catch (error) {
@@ -45,16 +45,16 @@ export class VideosController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('findAll', 'Obtener todos los videos')
+  @SwaggerDocumentation('findAll', 'Obtener todos los textos')
   async findAll() {
     try {
-      const video = await this.videosService.findAll();
+      const texto = await this.textosService.findAll();
       return {
-        message: 'Videos encontrados correctamente',
+        message: 'Textos encontrados correctamente',
         error: null,
         statusCode: HttpStatus.OK,
         Data: null,
-        DataList: video,
+        DataList: texto,
       };
     } catch (error) {
       throw error;
@@ -63,15 +63,15 @@ export class VideosController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('findOne', 'Obtener video por ID')
+  @SwaggerDocumentation('findOne', 'Obtener texto por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const video = await this.videosService.findOne(this.validarId(+id));
+      const texto = await this.textosService.findOne(this.validarId(+id));
       return {
-        message: 'Video encontrado correctamente',
+        message: 'Texto encontrado correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: video,
+        Data: texto,
         DataList: null,
       };
     } catch (error) {
@@ -81,21 +81,21 @@ export class VideosController {
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('update', 'Actualizar un video por su ID')
+  @SwaggerDocumentation('update', 'Actualizar un texto por su ID')
   async update(
     @Param('id') id: string,
-    @Body() updateVideoDto: UpdateVideoDto,
+    @Body() updateTextoDto: UpdateTextoDto,
   ) {
     try {
-      const video = await this.videosService.update(
+      const texto = await this.textosService.update(
         this.validarId(+id),
-        updateVideoDto,
+        updateTextoDto,
       );
       return {
-        message: 'Video actualizado correctamente',
+        message: 'Texto actualizado correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: video,
+        Data: texto,
         DataList: null,
       };
     } catch (error) {
@@ -105,21 +105,22 @@ export class VideosController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  @SwaggerDocumentation('remove', 'Eliminar un video por su ID')
+  @SwaggerDocumentation('remove', 'Eliminar un texto por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const video = await this.videosService.remove(this.validarId(+id));
+      const texto = await this.textosService.remove(this.validarId(+id));
       return {
-        message: 'Video eliminado correctamente',
+        message: 'Texto eliminado correctamente',
         error: null,
         statusCode: HttpStatus.OK,
-        Data: video,
+        Data: texto,
         DataList: null,
       };
     } catch (error) {
       throw error;
     }
   }
+
   validarId(id: any) {
     const parsedId = parseInt(id, 10);
     if (isNaN(parsedId)) {
