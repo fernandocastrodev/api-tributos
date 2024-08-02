@@ -16,6 +16,7 @@ export const setupSwagger = (app: INestApplication) => {
       tagsSorter: (a, b) => {
         const order = [
           'Login',
+          'Correos',
           'Perfiles',
           'Usuarios',
           'Paginas',

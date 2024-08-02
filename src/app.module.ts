@@ -30,6 +30,7 @@ import { GaleriasModule } from './tribute-spaces/galerias/galerias.module';
 import { ImagenesModule } from './tribute-spaces/imagenes/imagenes.module';
 import { VideosModule } from './tribute-spaces/videos/videos.module';
 import { TextosModule } from './tribute-spaces/textos/textos.module';
+import { MailModule } from './providers/mail/mail.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { TextosModule } from './tribute-spaces/textos/textos.module';
     ImagenesModule,
     VideosModule,
     TextosModule,
+    MailModule,
   ],
 
   controllers: [],
