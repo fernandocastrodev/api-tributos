@@ -66,6 +66,7 @@ export class UsuariosService {
     return {
       id: usuarioCreado.idUsuario,
       nombreCompleto: `${usuarioCreado.nombre} ${usuarioCreado.apellido}`,
+      correo: usuarioCreado.correo,
     };
   }
 

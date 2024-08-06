@@ -9,5 +9,6 @@ import { LoggerService } from '../../common/services/logger.service';
   imports: [TypeOrmModule.forFeature([Plantilla])],
   controllers: [PlantillasController],
   providers: [PlantillasService, LoggerService],
+  exports: [PlantillasService, TypeOrmModule],
 })
 export class PlantillasModule {}

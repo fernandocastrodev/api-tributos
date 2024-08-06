@@ -5,11 +5,16 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../../config/jwt.config';
 import { PaginasModule } from '../paginas/paginas.module';
+import { MailModule } from '../../providers/mail/mail.module';
+import { MailService } from '../../providers/mail/mail.service';
+import { PlantillasModule } from '../../tribute-spaces/plantillas/plantillas.module';
 
 @Module({
   imports: [
     UsuariosModule,
     PaginasModule,
+    MailModule,
+    PlantillasModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
@@ -17,6 +22,6 @@ import { PaginasModule } from '../paginas/paginas.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, MailService],
 })
 export class AuthModule {}

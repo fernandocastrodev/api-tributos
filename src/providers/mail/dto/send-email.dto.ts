@@ -6,7 +6,15 @@ export class SendEmailDto {
   @IsNotEmpty()
   @ApiProperty({
     example: 'persona@example.com',
-    description: 'ingreso un correo',
+    description: 'ingreso un correo de envio',
+  })
+  sender: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'persona@example.com',
+    description: 'ingreso un correo de destino',
   })
   recipient: string;
 

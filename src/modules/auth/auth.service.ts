@@ -9,12 +9,14 @@ import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 import { PaginasService } from '../paginas/paginas.service';
+import { MailService } from '../../providers/mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usuariosService: UsuariosService,
     private readonly paginasService: PaginasService,
+    private readonly mailService: MailService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -53,9 +55,20 @@ export class AuthService {
     if (!usuario) {
       throw new NotFoundException('Error al registrar');
     }
-    return {
-      id: usuario.id,
-      nombreCompleto: usuario.nombreCompleto,
-    };
+
+    try {
+      await this.mailService.correoRegistro(
+        usuario.correo,
+        usuario.nombreCompleto,
+      );
+
+      return {
+        id: usuario.id,
+        nombreCompleto: usuario.nombreCompleto,
+        correo: usuario.correo,
+      };
+    } catch (error) {
+      throw new Error('Error al enviar correo: ' + error.message);
+    }
   }
 }
