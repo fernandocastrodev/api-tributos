@@ -17,6 +17,7 @@ export const setupSwagger = (app: INestApplication) => {
         const order = [
           'Login',
           'Correos',
+          'QR',
           'Perfiles',
           'Usuarios',
           'Paginas',

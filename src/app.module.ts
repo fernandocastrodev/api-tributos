@@ -31,6 +31,7 @@ import { ImagenesModule } from './tribute-spaces/imagenes/imagenes.module';
 import { VideosModule } from './tribute-spaces/videos/videos.module';
 import { TextosModule } from './tribute-spaces/textos/textos.module';
 import { MailModule } from './providers/mail/mail.module';
+import { QrModule } from './modules/qr/qr.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { MailModule } from './providers/mail/mail.module';
     VideosModule,
     TextosModule,
     MailModule,
+    QrModule,
   ],
 
   controllers: [],

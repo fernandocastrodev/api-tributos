@@ -2,11 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggerService } from './common/services/logger.service';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { setupSwagger } from './config/swagger.config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const logger = app.get(LoggerService);
 
@@ -15,6 +17,11 @@ async function bootstrap() {
     origin: '*', // Permitir todas las solicitudes de origen
     methods: 'GET,PATCH,POST,DELETE', // Métodos HTTP permitidos
     credentials: true, // Permitir el envío de cookies con las solicitudes
+  });
+
+
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
+    prefix: '/static/', // Opcional: agrega un prefijo a las URLs
   });
 
   app.setGlobalPrefix('api/v1');
