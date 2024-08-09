@@ -11,7 +11,6 @@ import { ConfigModule } from '@nestjs/config';
 import { PerfilesModule } from './modules/perfiles/perfiles.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
-import { LoggerService } from './common/services/logger.service';
 import { HelmetMiddleware } from './common/middlewares/helmet.middleware';
 import { RateLimitMiddleware } from './common/middlewares/rate-limit.middleware';
 import { CompressionMiddleware } from './common/middlewares/compression.middleware';
@@ -32,11 +31,13 @@ import { VideosModule } from './tribute-spaces/videos/videos.module';
 import { TextosModule } from './tribute-spaces/textos/textos.module';
 import { MailModule } from './providers/mail/mail.module';
 import { QrModule } from './modules/qr/qr.module';
+import { LoggerModule } from './common/services/loggers/logger.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmConfig),
+    LoggerModule,
     PerfilesModule,
     UsuariosModule,
     AuthModule,
@@ -59,13 +60,11 @@ import { QrModule } from './modules/qr/qr.module';
 
   controllers: [],
   providers: [
-    LoggerService,
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
     },
   ],
-  exports: [LoggerService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

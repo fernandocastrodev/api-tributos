@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { QrService } from './qr.service';
 import { QrController } from './qr.controller';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 
 @Module({
+  imports:[LoggerModule],
   controllers: [QrController],
-  providers: [QrService, LoggerService],
+  providers: [QrService],
 })
 export class QrModule {}

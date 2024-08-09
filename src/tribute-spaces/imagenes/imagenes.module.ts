@@ -4,11 +4,11 @@ import { ImagenesController } from './imagenes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Imagen } from './imagen.entity';
 import { GaleriasModule } from '../galerias/galerias.module';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Imagen]), GaleriasModule],
+  imports: [TypeOrmModule.forFeature([Imagen]), GaleriasModule,LoggerModule],
   controllers: [ImagenesController],
-  providers: [ImagenesService, LoggerService],
+  providers: [ImagenesService],
 })
 export class ImagenesModule {}

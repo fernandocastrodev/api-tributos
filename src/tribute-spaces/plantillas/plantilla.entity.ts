@@ -17,7 +17,7 @@ export class Plantilla {
   @Column({ nullable: false })
   correo: string;
 
-  @Column({ nullable: false, length: 500 })
+  @Column({ nullable: false, length: 1000 })
   descripcion: string;
 
   @Column({ type: 'boolean', default: true })

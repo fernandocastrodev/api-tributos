@@ -3,12 +3,12 @@ import { PlanesService } from './planes.service';
 import { PlanesController } from './planes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Plan } from './plan.entity';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Plan])],
+  imports: [TypeOrmModule.forFeature([Plan]), LoggerModule],
   controllers: [PlanesController],
-  providers: [PlanesService, LoggerService],
+  providers: [PlanesService],
   exports: [PlanesService, TypeOrmModule],
 })
 export class PlanesModule {}

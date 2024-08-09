@@ -4,11 +4,11 @@ import { TextosController } from './textos.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Texto } from './texto.entity';
 import { GaleriasModule } from '../galerias/galerias.module';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Texto]), GaleriasModule],
+  imports: [TypeOrmModule.forFeature([Texto]), GaleriasModule, LoggerModule],
   controllers: [TextosController],
-  providers: [TextosService, LoggerService],
+  providers: [TextosService],
 })
 export class TextosModule {}

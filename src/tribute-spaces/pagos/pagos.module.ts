@@ -4,11 +4,11 @@ import { PagosController } from './pagos.controller';
 import { SuscripcionesModule } from '../suscripciones/suscripciones.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Pago } from './pago.entity';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pago]), SuscripcionesModule],
+  imports: [TypeOrmModule.forFeature([Pago]), SuscripcionesModule, LoggerModule],
   controllers: [PagosController],
-  providers: [PagosService, LoggerService],
+  providers: [PagosService],
 })
 export class PagosModule {}

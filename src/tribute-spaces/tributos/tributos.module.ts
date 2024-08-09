@@ -4,12 +4,12 @@ import { TributosController } from './tributos.controller';
 import { Tributo } from './tributo.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SuscripcionesModule } from '../suscripciones/suscripciones.module';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tributo]), SuscripcionesModule],
+  imports: [TypeOrmModule.forFeature([Tributo]), SuscripcionesModule, LoggerModule],
   controllers: [TributosController],
-  providers: [TributosService, LoggerService],
+  providers: [TributosService],
   exports: [TypeOrmModule, TributosService],
 })
 export class TributosModule {}

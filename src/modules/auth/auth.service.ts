@@ -71,4 +71,8 @@ export class AuthService {
       throw new Error('Error al enviar correo: ' + error.message);
     }
   }
+
+  async verify(verifyToken:string){
+    
+  }
 }

@@ -2,6 +2,11 @@ import { Injectable, Inject } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { SendEmailDto } from './dto/send-email.dto';
 import { PlantillasService } from '../../tribute-spaces/plantillas/plantillas.service';
+import * as dotenv from 'dotenv';
+import * as bcryptjs from 'bcryptjs';
+
+dotenv.config();
+
 
 @Injectable()
 export class MailService {
@@ -29,11 +34,17 @@ export class MailService {
   }
 
   async correoRegistro(correoUsuario: string, nombreUsuario: string) {
+    const web = process.env.WEBQR + 'verify/'
+    const token = await bcryptjs.hash(
+      correoUsuario,
+      10,
+    )
     const datosCorreo = {
       nombreUsuario: nombreUsuario,
       emailUsuario: correoUsuario,
       sistema: 'Tributos QR',
       fechaRegistro: new Date().toLocaleDateString(),
+      verificacion: web + token
     };
 
     const plantillaRegistro = await this.plantillaService.findOne(1);

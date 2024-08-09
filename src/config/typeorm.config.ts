@@ -4,7 +4,7 @@ import { Perfil } from '../modules/perfiles/perfil.entity';
 import { Usuario } from '../modules/usuarios/usuario.entity';
 import { Pagina } from '../modules/paginas/pagina.entity';
 import { Permiso } from '../modules/permisos/permiso.entity';
-import { LoggerService } from '../common/services/logger.service';
+import { LoggerService } from '../common/services/loggers/logger.service';
 import { Contacto } from '../tribute-spaces/contactos/contacto.entity';
 import { Plantilla } from '../tribute-spaces/plantillas/plantilla.entity';
 import { Plan } from '../tribute-spaces/planes/plan.entity';

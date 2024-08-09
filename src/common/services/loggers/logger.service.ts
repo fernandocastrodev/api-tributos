@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Logger } from 'winston';
 import 'winston-daily-rotate-file';
 import { Logger as TypeOrmLogger } from 'typeorm';
-import { LoggerInstance } from '../../config/logger.config';
+import { LoggerInstance } from '../../../config/logger.config';
 
 @Injectable()
 export class LoggerService implements TypeOrmLogger {

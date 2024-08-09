@@ -3,7 +3,7 @@ import { SuscripcionesService } from './suscripciones.service';
 import { SuscripcionesController } from './suscripciones.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Suscripcion } from './suscripcion.entity';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 import { PlanesModule } from '../planes/planes.module';
 import { UsuariosModule } from '../../modules/usuarios/usuarios.module';
 
@@ -12,9 +12,10 @@ import { UsuariosModule } from '../../modules/usuarios/usuarios.module';
     TypeOrmModule.forFeature([Suscripcion]),
     PlanesModule,
     UsuariosModule,
+    LoggerModule,
   ],
   controllers: [SuscripcionesController],
-  providers: [SuscripcionesService, LoggerService],
+  providers: [SuscripcionesService],
   exports: [SuscripcionesService, TypeOrmModule],
 })
 export class SuscripcionesModule {}

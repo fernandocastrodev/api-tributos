@@ -4,11 +4,11 @@ import { VideosController } from './videos.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Video } from './video.entity';
 import { GaleriasModule } from '../galerias/galerias.module';
-import { LoggerService } from '../../common/services/logger.service';
+import { LoggerModule } from '../../common/services/loggers/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Video]), GaleriasModule],
+  imports: [TypeOrmModule.forFeature([Video]), GaleriasModule, LoggerModule],
   controllers: [VideosController],
-  providers: [VideosService, LoggerService],
+  providers: [VideosService],
 })
 export class VideosModule {}
