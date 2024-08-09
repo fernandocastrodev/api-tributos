@@ -5,17 +5,20 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RegisterDto } from './dto/register.dto';
+import { EncryptionService } from '../../common/services/encryptions/encryption.service';
 
 @Controller('auth')
 @ApiTags('Login')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly encryptionService: EncryptionService,
+  ) {}
 
   @ApiOperation({ summary: 'Iniciar sesión y obtener token JWT' })
   @ApiResponse({
@@ -66,5 +69,28 @@ export class AuthController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @Post('encrypt')
+  encryptData(@Body('text') text: string): string {
+    return this.encryptionService.encrypt(text);
+  }
+
+  @Post('decrypt')
+  decryptData(@Body('text') encryptedText: string): string {
+    return this.encryptionService.decrypt(encryptedText);
+  }
+
+  @Post('hash-password')
+  async hashPassword(@Body('password') password: string): Promise<string> {
+    return await this.encryptionService.hashPassword(password);
+  }
+
+  @Post('compare-passwords')
+  async comparePasswords(
+    @Body('password') password: string,
+    @Body('hash') hash: string,
+  ): Promise<boolean> {
+    return await this.encryptionService.comparePasswords(password, hash);
   }
 }

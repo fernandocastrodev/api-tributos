@@ -3,7 +3,7 @@ import * as nodemailer from 'nodemailer';
 import { SendEmailDto } from './dto/send-email.dto';
 import { PlantillasService } from '../../tribute-spaces/plantillas/plantillas.service';
 import * as dotenv from 'dotenv';
-import * as bcryptjs from 'bcryptjs';
+import { EncryptionService} from '../../common/services/encryptions/encryption.service'
 
 dotenv.config();
 
@@ -14,6 +14,7 @@ export class MailService {
     @Inject('MAIL_TRANSPORT')
     private readonly transporter: nodemailer.Transporter,
     private readonly plantillaService: PlantillasService,
+    private readonly encryptionService: EncryptionService,
   ) {}
 
   async sendMail(sendEmailDto: SendEmailDto): Promise<string> {
@@ -35,10 +36,9 @@ export class MailService {
 
   async correoRegistro(correoUsuario: string, nombreUsuario: string) {
     const web = process.env.WEBQR + 'verify/'
-    const token = await bcryptjs.hash(
-      correoUsuario,
-      10,
-    )
+
+    const token = this.encryptionService.encrypt(correoUsuario)
+
     const datosCorreo = {
       nombreUsuario: nombreUsuario,
       emailUsuario: correoUsuario,

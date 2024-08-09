@@ -6,9 +6,10 @@ import { MailProvider } from './mail.provider';
 import { LoggerModule } from '../../common/services/loggers/logger.module';
 import { PlantillasModule } from '../../tribute-spaces/plantillas/plantillas.module';
 import { PlantillasService } from '../../tribute-spaces/plantillas/plantillas.service';
+import { EncryptionModule } from '../../common/services/encryptions/encryption.module';
 
 @Module({
-  imports: [ConfigModule, PlantillasModule, LoggerModule],
+  imports: [ConfigModule, PlantillasModule, LoggerModule, EncryptionModule],
   controllers: [MailController],
   providers: [MailService, MailProvider, PlantillasService],
   exports: [MailService, MailProvider],

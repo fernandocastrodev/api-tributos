@@ -8,6 +8,7 @@ import { PaginasModule } from '../paginas/paginas.module';
 import { MailModule } from '../../providers/mail/mail.module';
 import { MailService } from '../../providers/mail/mail.service';
 import { PlantillasModule } from '../../tribute-spaces/plantillas/plantillas.module';
+import { EncryptionModule } from 'src/common/services/encryptions/encryption.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PlantillasModule } from '../../tribute-spaces/plantillas/plantillas.mod
     PaginasModule,
     MailModule,
     PlantillasModule,
+    EncryptionModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
