@@ -7,7 +7,6 @@ import {
   MinLength,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { OptimisticLockVersionMismatchError } from 'typeorm';
 
 export class RegisterDto {
   @IsNotEmpty()

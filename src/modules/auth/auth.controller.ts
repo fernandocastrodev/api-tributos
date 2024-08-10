@@ -8,29 +8,27 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { RegisterDto } from './dto/register.dto';
 import { EncryptionService } from '../../common/services/encryptions/encryption.service';
+import { EncryptDecryptDto } from './dto/encrypt-decrypt.dto';
+import { HashPasswordDto } from './dto/hash-password.dto';
+import { VerifyTokenDto} from './dto/verify-token.dto'
+import { ComparePasswordsDto } from './dto/compare-passwords.dto';
+import { SwaggerDocumentation } from '../../common/decorators/swagger-auth.decorator';
 
 @Controller('auth')
-@ApiTags('Login')
+@ApiTags('Auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly encryptionService: EncryptionService,
   ) {}
 
-  @ApiOperation({ summary: 'Iniciar sesión y obtener token JWT' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Token JWT generado correctamente',
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: 'Credenciales inválidas',
-  })
-  @HttpCode(HttpStatus.OK)
   @Post('login')
+  @HttpCode(HttpStatus.OK)
+  @SwaggerDocumentation('login', 'Iniciar sesion')
+
   async login(@Body() loginDto: LoginDto) {
     try {
       const { token, idUsuario, nombreUsuario, Pagina } =
@@ -53,9 +51,9 @@ export class AuthController {
       );
     }
   }
-
-  @HttpCode(HttpStatus.CREATED)
   @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  @SwaggerDocumentation('register', 'Registro de usuarios')
   async register(@Body() registerDto: RegisterDto) {
     try {
       const usuario = await this.authService.register(registerDto);
@@ -71,26 +69,98 @@ export class AuthController {
     }
   }
 
+
+  @Post('verify-token')
+  @HttpCode(HttpStatus.OK)
+  @SwaggerDocumentation('verify', 'Verificar token')
+  async verify(@Body() verifyTokenDto: VerifyTokenDto) {
+    try {
+      const token = await this.authService.verify(verifyTokenDto.token)
+      return {
+        message: 'Token verificado con éxito',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: { token },
+        DataList: null,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @Post('encrypt')
-  encryptData(@Body('text') text: string): string {
-    return this.encryptionService.encrypt(text);
+  @HttpCode(HttpStatus.OK)
+  @SwaggerDocumentation('encryptData', 'Cifrar texto')
+  encryptData(@Body() encryptDecryptDto: EncryptDecryptDto) {
+    try {
+      const encryptedData = this.encryptionService.encrypt(encryptDecryptDto.text);
+      return {
+        message: 'Texto cifrado con éxito',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: { encryptedData },
+        DataList: null,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('decrypt')
-  decryptData(@Body('text') encryptedText: string): string {
-    return this.encryptionService.decrypt(encryptedText);
+  @HttpCode(HttpStatus.OK)
+  @SwaggerDocumentation('decryptData', 'Decifrar texto')
+  decryptData(@Body() encryptDecryptDto: EncryptDecryptDto) {
+    try {
+      const decryptedData = this.encryptionService.decrypt(encryptDecryptDto.text);
+      return {
+        message: 'Texto descifrado con éxito',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: { decryptedData },
+        DataList: null,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('hash-password')
-  async hashPassword(@Body('password') password: string): Promise<string> {
-    return await this.encryptionService.hashPassword(password);
+  @HttpCode(HttpStatus.CREATED)
+  @SwaggerDocumentation('hashPassword', 'Hashear password')
+  async hashPassword(@Body() hashPasswordDto: HashPasswordDto) {
+    try {
+      const hashedPassword = await this.encryptionService.hashPassword(hashPasswordDto.password);
+      return {
+        message: 'Contraseña hasheada con éxito',
+        error: null,
+        statusCode: HttpStatus.CREATED,
+        Data: { hashedPassword },
+        DataList: null,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('compare-passwords')
-  async comparePasswords(
-    @Body('password') password: string,
-    @Body('hash') hash: string,
-  ): Promise<boolean> {
-    return await this.encryptionService.comparePasswords(password, hash);
+  @HttpCode(HttpStatus.OK)
+  @SwaggerDocumentation('comparePasswords', 'Comparar password')
+  async comparePasswords(@Body() comparePasswordsDto: ComparePasswordsDto) {
+    try {
+      const isMatch = await this.encryptionService.comparePasswords(
+        comparePasswordsDto.password,
+        comparePasswordsDto.hash,
+      );
+      return {
+        message: isMatch ? 'Las contraseñas coinciden' : 'Las contraseñas no coinciden',
+        error: null,
+        statusCode: HttpStatus.OK,
+        Data: { isMatch },
+        DataList: null,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
+
 }

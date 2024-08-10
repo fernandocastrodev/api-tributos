@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 import { PaginasService } from '../paginas/paginas.service';
 import { MailService } from '../../providers/mail/mail.service';
+import { EncryptionService } from '../../common/services/encryptions/encryption.service';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
     private readonly paginasService: PaginasService,
     private readonly mailService: MailService,
     private readonly jwtService: JwtService,
+    private readonly encryptionService: EncryptionService,
   ) {}
 
   async login({ correo, claveAcceso }: LoginDto) {
@@ -73,6 +75,19 @@ export class AuthService {
   }
 
   async verify(verifyToken:string){
+    try {
+      const decifrarToken = this.encryptionService.decrypt(verifyToken);
+      const usuario = await this.usuariosService.findOneByEmail(decifrarToken);
+      const actualizarEstado = await this.usuariosService.updateEstado(usuario.idUsuario,true)
+    return {
+      id: usuario.idUsuario,
+      nombreCompleto: `${usuario.nombre} ${usuario.apellido}`,
+      correo: usuario.correo,
+      estado: actualizarEstado
+    };
+    } catch (error) {
+      throw new Error('Error al verificar token: ' + error.message);
+    }
     
   }
 }
