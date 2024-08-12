@@ -9,6 +9,7 @@ import { Not, Repository } from 'typeorm';
 import { Plan } from '../planes/plan.entity';
 import { Suscripcion } from './suscripcion.entity';
 import { plainToInstance } from 'class-transformer';
+import { UsuariosService } from '../../modules/usuarios/usuarios.service';
 
 @Injectable()
 export class SuscripcionesService {
@@ -23,6 +24,7 @@ export class SuscripcionesService {
   async create(createSuscripcionDto: CreateSuscripcionDto) {
     const usuario = await this.UsuarioRepository.findOneBy({
       idUsuario: createSuscripcionDto.idUsuario,
+      estado: true,
     });
 
     if (!usuario) {
@@ -60,6 +62,7 @@ export class SuscripcionesService {
 
   async findAll() {
     const suscripcion = await this.SuscripcionRepository.find({
+      where: { estadoSuscripcion: true },
       relations: ['usuario', 'plan'],
     });
 
@@ -74,6 +77,7 @@ export class SuscripcionesService {
   async findOne(idSuscripcion: number) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion,
+      estadoSuscripcion: true,
     });
     if (!suscripcion) {
       throw new NotFoundException('suscripcion no encontrada');
@@ -117,6 +121,7 @@ export class SuscripcionesService {
   ) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion,
+      estadoSuscripcion: true,
     });
     if (!suscripcion) {
       throw new NotFoundException('suscripcion no encontrada');
@@ -124,6 +129,7 @@ export class SuscripcionesService {
 
     const usuario = await this.UsuarioRepository.findOneBy({
       idUsuario: updateSuscripcionDto.idUsuario,
+      estado: true,
     });
 
     if (!usuario) {

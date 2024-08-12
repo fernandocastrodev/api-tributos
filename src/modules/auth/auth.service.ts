@@ -23,7 +23,7 @@ export class AuthService {
   ) {}
 
   async login({ correo, claveAcceso }: LoginDto) {
-    const usuario = await this.usuariosService.findOneByEmail(correo);
+    const usuario = await this.usuariosService.LoginByEmail(correo);
     const paginas = await this.paginasService.obtenerPaginasConPermisos(
       usuario.perfil.idPerfil,
     );
@@ -77,7 +77,7 @@ export class AuthService {
   async verify(verifyToken:string){
     try {
       const decifrarToken = this.encryptionService.decrypt(verifyToken);
-      const usuario = await this.usuariosService.findOneByEmail(decifrarToken);
+      const usuario = await this.usuariosService.VirifyByEmail(decifrarToken);
       const actualizarEstado = await this.usuariosService.updateEstado(usuario.idUsuario,true)
     return {
       id: usuario.idUsuario,

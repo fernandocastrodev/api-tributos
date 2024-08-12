@@ -70,8 +70,16 @@ export class UsuariosService {
     };
   }
 
-  async findOneByEmail(correo: string) {
-    const usuario = await this.UsuarioRepository.findOneBy({ correo })
+  async LoginByEmail(correo: string) {
+    const usuario = await this.UsuarioRepository.findOneBy({ correo, estado: true, })
+    if (!usuario) {
+      throw new NotFoundException('usuario no encontrado');
+    }
+    return usuario
+  }
+
+  async VirifyByEmail(correo: string) {
+    const usuario = await this.UsuarioRepository.findOneBy({ correo, estado: false, })
     if (!usuario) {
       throw new NotFoundException('usuario no encontrado');
     }
@@ -94,6 +102,7 @@ export class UsuariosService {
 
   async findAll() {
     const usuarios = await this.UsuarioRepository.find({
+      where: { estado: true },
       relations: ['perfil'],
     });
     if (usuarios.length === 0) {
@@ -108,7 +117,7 @@ export class UsuariosService {
   }
 
   async findOne(idUsuario: number) {
-    const usuario = await this.UsuarioRepository.findOneBy({ idUsuario });
+    const usuario = await this.UsuarioRepository.findOneBy({ idUsuario, estado: true, });
     if (!usuario) {
       throw new NotFoundException('usuario no encontrado');
     }
@@ -119,7 +128,7 @@ export class UsuariosService {
   }
 
   async findOneByRut(rut: string) {
-    const usuario = await this.UsuarioRepository.findOneBy({ rut });
+    const usuario = await this.UsuarioRepository.findOneBy({ rut, estado: true, });
     if (!usuario) {
       throw new NotFoundException('rut de usuario no encontrado');
     }
@@ -130,7 +139,7 @@ export class UsuariosService {
   }
 
   async update(idUsuario: number, updateUsuarioDto: UpdateUsuarioDto) {
-    const usuario = await this.UsuarioRepository.findOneBy({ idUsuario });
+    const usuario = await this.UsuarioRepository.findOneBy({ idUsuario, estado: true, });
 
     if (!usuario) {
       throw new BadRequestException('usuario no encontrado');

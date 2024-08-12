@@ -23,7 +23,7 @@ export class PlantillasService {
   }
 
   async findAll() {
-    const plantilla = await this.PlantillaRepository.find();
+    const plantilla = await this.PlantillaRepository.find({where: { estado: true },});
     if (plantilla.length === 0) {
       throw new NotFoundException('plantillas no encontradas');
     }
@@ -33,6 +33,7 @@ export class PlantillasService {
   async findOne(idPlantilla: number) {
     const plantilla = await this.PlantillaRepository.findOneBy({
       idPlantilla,
+      estado: true, 
     });
     if (!plantilla) {
       throw new NotFoundException('plantilla no encontrada');
@@ -46,6 +47,7 @@ export class PlantillasService {
   async update(idPlantilla: number, updatePlantillaDto: UpdatePlantillaDto) {
     const plantilla = await this.PlantillaRepository.findOneBy({
       idPlantilla,
+      estado: true, 
     });
 
     if (!plantilla) {

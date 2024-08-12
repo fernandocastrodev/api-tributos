@@ -97,6 +97,7 @@ export class PerfilesService {
 
     const usuarioAsociado = await this.UsuarioRepository.find({
       where: {
+        estado: true,
         perfil: { idPerfil: idPerfil },
       },
     });
