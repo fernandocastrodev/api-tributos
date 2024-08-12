@@ -33,6 +33,7 @@ export class SuscripcionesService {
 
     const plan = await this.PlanRepository.findOneBy({
       idPlan: createSuscripcionDto.idPlan,
+      estado: true,
     });
 
     if (!plan) {
@@ -138,6 +139,7 @@ export class SuscripcionesService {
 
     const plan = await this.PlanRepository.findOneBy({
       idPlan: updateSuscripcionDto.idPlan,
+      estado: true,
     });
 
     if (!plan) {

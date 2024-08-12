@@ -19,6 +19,7 @@ export class TributosService {
   async create(createTributoDto: CreateTributoDto) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion: createTributoDto.idSubscripcion,
+      estadoSuscripcion:true,
     });
     if (!suscripcion) {
       throw new NotFoundException('suscripcion no encontrada');
@@ -70,6 +71,7 @@ export class TributosService {
 
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion: updateTributoDto.idSubscripcion,
+      estadoSuscripcion:true,
     });
 
     if (!suscripcion) {

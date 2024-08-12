@@ -19,6 +19,7 @@ export class PagosService {
   async create(createPagoDto: CreatePagoDto) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion: createPagoDto.idSuscripcion,
+      estadoSuscripcion: true,
     });
 
     if (!suscripcion) {
@@ -81,6 +82,7 @@ export class PagosService {
 
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion: updatePagoDto.idSuscripcion,
+      estadoSuscripcion:true,
     });
 
     if (!suscripcion) {
