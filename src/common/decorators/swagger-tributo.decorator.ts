@@ -68,6 +68,27 @@ export function SwaggerDocumentation(method: string, description: string) {
         }),
       );
 
+      case 'findTributosGalerias':
+        return applyDecorators(
+          ApiOperation({ summary: 'Obtener galerias por idTributo' }),
+          ApiParam({
+            name: 'idTributo',
+            description: 'ID del tributo por buscar',
+          }),
+          ApiResponse({
+            status: HttpStatus.OK,
+            description: 'Tributos con galerias encontradas',
+          }),
+          ApiResponse({
+            status: HttpStatus.NOT_FOUND,
+            description: 'galeria no encontrada',
+          }),
+          ApiResponse({
+            status: HttpStatus.INTERNAL_SERVER_ERROR,
+            description: 'Hubo un error interno del servidor',
+          }),
+        );
+
     case 'update':
       return applyDecorators(
         ApiOperation({ summary: 'Actualizar un tributo por su ID' }),

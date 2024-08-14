@@ -86,7 +86,7 @@ export class UsuariosService {
     return usuario
   }
 
-  async updateEstado(idUsuario: number, estado: boolean) {
+  async updateEstado(idUsuario: string, estado: boolean) {
     const usuario = await this.UsuarioRepository.update(idUsuario, { estado })
     if (usuario.affected === 0) {
       throw new NotFoundException('usuario no encontrado');
@@ -116,7 +116,7 @@ export class UsuariosService {
     });
   }
 
-  async findOne(idUsuario: number) {
+  async findOne(idUsuario: string) {
     const usuario = await this.UsuarioRepository.findOneBy({ idUsuario, estado: true, });
     if (!usuario) {
       throw new NotFoundException('usuario no encontrado');
@@ -138,7 +138,7 @@ export class UsuariosService {
     });
   }
 
-  async update(idUsuario: number, updateUsuarioDto: UpdateUsuarioDto) {
+  async update(idUsuario: string, updateUsuarioDto: UpdateUsuarioDto) {
     const usuario = await this.UsuarioRepository.findOneBy({ idUsuario, estado: true, });
 
     if (!usuario) {
@@ -179,7 +179,7 @@ export class UsuariosService {
     };
   }
 
-  async remove(idUsuario: number) {
+  async remove(idUsuario: string) {
     const usuario = await this.UsuarioRepository.findOneBy({ idUsuario });
     if (!usuario) {
       throw new NotFoundException('usuario no encontrado');

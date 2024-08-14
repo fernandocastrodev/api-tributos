@@ -2,7 +2,7 @@ import { Exclude, Expose, Transform } from 'class-transformer';
 import { Perfil } from '../../../modules/perfiles/perfil.entity';
 export class FindOneUsuarioDto {
   @Expose()
-  idUsuario: number;
+  idUsuario: string;
 
   @Expose()
   nombre: string;

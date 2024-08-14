@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateGaleriaDto {
   @IsInt()
@@ -8,6 +8,14 @@ export class CreateGaleriaDto {
     description: 'orden en la que se muestran los botones',
   })
   orden: number;
+
+  @IsString()
+  @ApiProperty({
+    example: 'Titulos',
+    description: 'ingrese un nombre galeria',
+  })
+  nombre: string;
+
 
   @IsNotEmpty()
   @IsInt()

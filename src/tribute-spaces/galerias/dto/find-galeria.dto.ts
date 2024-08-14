@@ -6,6 +6,9 @@ export class FindGaleriaDto {
 
   @Expose()
   orden: number;
+  
+  @Expose()
+  nombre: string;
 
   @Expose()
   idTipoGaleria: number;

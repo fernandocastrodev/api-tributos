@@ -4,6 +4,7 @@ import {
   IsInt,
   IsNotEmpty,
   IsOptional,
+  IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
@@ -29,12 +30,12 @@ export class CreateSuscripcionDto {
   estadoSuscripcion: boolean;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '14',
     description: 'ingrese una idUsuario',
   })
-  idUsuario: number;
+  idUsuario: string;
 
   @ApiProperty({
     example: '1',

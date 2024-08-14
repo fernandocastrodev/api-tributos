@@ -7,12 +7,13 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
 export class Usuario {
-  @Column({ primary: true, generated: true })
-  idUsuario: number;
+  @PrimaryGeneratedColumn('uuid')
+  idUsuario: string;
 
   @Column()
   nombre: string;

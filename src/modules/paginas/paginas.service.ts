@@ -7,7 +7,7 @@ import { CreatePaginaDto } from './dto/create-pagina.dto';
 import { UpdatePaginaDto } from './dto/update-pagina.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagina } from './pagina.entity';
-import { In, Not, Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { Permiso } from '../permisos/permiso.entity';
 import { plainToInstance } from 'class-transformer';
 import { PaginaPermisoDto } from './dto/pagina-permiso.dto';

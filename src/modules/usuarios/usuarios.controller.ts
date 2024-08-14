@@ -66,7 +66,7 @@ export class UsuariosController {
   @SwaggerDocumentation('findOne', 'Obtener un usuario por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const usuario = await this.usuariosService.findOne(this.validarId(+id));
+      const usuario = await this.usuariosService.findOne(id);
       return {
         message: 'Usuario encontrado correctamente',
         error: null,
@@ -105,8 +105,7 @@ export class UsuariosController {
     @Body() updateUsuarioDto: UpdateUsuarioDto,
   ) {
     try {
-      const usuario = await this.usuariosService.update(
-        this.validarId(+id),
+      const usuario = await this.usuariosService.update(id,
         updateUsuarioDto,
       );
       return {
@@ -126,7 +125,7 @@ export class UsuariosController {
   @SwaggerDocumentation('remove', 'Eliminar un usuario')
   async remove(@Param('id') id: string) {
     try {
-      const usuario = await this.usuariosService.remove(this.validarId(+id));
+      const usuario = await this.usuariosService.remove(id);
       return {
         message: 'Usuario eliminado correctamente',
         error: null,
@@ -137,12 +136,5 @@ export class UsuariosController {
     } catch (error) {
       throw error;
     }
-  }
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
   }
 }

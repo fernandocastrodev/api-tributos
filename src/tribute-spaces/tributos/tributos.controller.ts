@@ -79,6 +79,25 @@ export class TributosController {
     }
   }
 
+  @Get('galerias/:idTributo')
+  @HttpCode(HttpStatus.OK)
+  @SwaggerDocumentation('findTributosGalerias', 'Obtener galerias por idTributo')
+  async findTributosGalerias(@Param('idTributo') idTributo: string) {
+    try {
+     const tributoGaleria = await this.tributosService.obtenerTributoConGalerias(this.validarId(+idTributo))
+     return {
+      message: 'Tributos con galerias encontradas',
+      error: null,
+      statusCode: HttpStatus.OK,
+      Data: null,
+      DataList: tributoGaleria,
+    };
+    }catch (error){
+      throw error;
+    }
+  }
+  
+
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   @SwaggerDocumentation('update', 'Actualizar un tributo por su ID')

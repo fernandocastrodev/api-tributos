@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { GaleriasService } from './galerias.service';
 import { GaleriasController } from './galerias.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -11,7 +11,7 @@ import { LoggerModule } from '../../common/services/loggers/logger.module';
   imports: [
     TypeOrmModule.forFeature([Galeria]),
     TipoGaleriasModule,
-    TributosModule,
+    forwardRef(() => TributosModule),
     LoggerModule,
   ],
   controllers: [GaleriasController],

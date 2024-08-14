@@ -7,6 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Suscripcion } from '../suscripciones/suscripcion.entity';
 import { plainToInstance } from 'class-transformer';
 import { FindTributoDto } from './dto/find-tributo.dto';
+import { TributoGaleriaDto } from './dto/tributo-galeria.dto';
+import { Galeria } from '../galerias/galeria.entity';
+import { url } from 'inspector';
 
 @Injectable()
 export class TributosService {
@@ -15,6 +18,8 @@ export class TributosService {
     private readonly TributoRepository: Repository<Tributo>,
     @InjectRepository(Suscripcion)
     private readonly SuscripcionRepository: Repository<Suscripcion>,
+    @InjectRepository(Galeria)
+    private readonly GaleriaRepository: Repository<Galeria>,
   ) {}
   async create(createTributoDto: CreateTributoDto) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
@@ -61,6 +66,53 @@ export class TributosService {
     return plainToInstance(FindTributoDto, tributo, {
       excludeExtraneousValues: true,
     });
+  }
+
+  async obtenerTributoConGalerias(idTributo: number): Promise<TributoGaleriaDto> {
+    const galerias = await this.GaleriaRepository.find({
+      where: { tributo: { idTributo } },
+      relations: ['tributo', 'tipoGaleria', 'imagenes', 'textos', 'videos'],
+    });
+  
+    if (!galerias || galerias.length === 0) {
+      throw new NotFoundException('Galerías no encontradas');
+    }
+  
+    const tributoBase = galerias[0].tributo;
+  
+    const tributoDto = plainToInstance(TributoGaleriaDto, {
+      idTributo: tributoBase.idTributo,
+      nombre: tributoBase.nombre,
+      apellido: tributoBase.apellido,
+      rut: tributoBase.rut,
+      fechaNacimiento: tributoBase.fechaNacimiento,
+      fechaDefuncion: tributoBase.fechaDefuncion,
+      qr: tributoBase.qr,
+      urlPersonalizada: tributoBase.urlPersonalizada,
+      galeria: galerias.map(galeria => ({
+        idGaleria: galeria.idGaleria,
+        orden: galeria.orden,
+        nombre: galeria.nombre,
+        idTipoGaleria: galeria.tipoGaleria.idTipoGaleria,
+        imagenes: galeria.imagenes.map(imagen => ({
+          idImagen: imagen.idImagen,
+          url: imagen.url,
+          texto: imagen.texto,
+        })),
+        textos: galeria.textos.map(texto => ({
+          idTexto: texto.idTexto,
+          texto: texto.texto,
+          tipoTexto: texto.tipoTexto,
+        })),
+        videos: galeria.videos.map(video => ({
+          idVideo: video.idVideo,
+          url: video.url,
+          descripcion: video.descripcion,
+        })),
+      })),
+    });
+  
+    return tributoDto;
   }
 
   async update(idTributo: number, updateTributoDto: UpdateTributoDto) {

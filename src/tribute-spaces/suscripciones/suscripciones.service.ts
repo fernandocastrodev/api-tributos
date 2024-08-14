@@ -9,7 +9,6 @@ import { Not, Repository } from 'typeorm';
 import { Plan } from '../planes/plan.entity';
 import { Suscripcion } from './suscripcion.entity';
 import { plainToInstance } from 'class-transformer';
-import { UsuariosService } from '../../modules/usuarios/usuarios.service';
 
 @Injectable()
 export class SuscripcionesService {
@@ -89,7 +88,7 @@ export class SuscripcionesService {
   }
 
   async findByUsuarioAndPlanCreate(
-    usuarioId: number,
+    usuarioId: string,
     planId: number,
   ): Promise<Suscripcion[]> {
     const suscripciones = await this.SuscripcionRepository.find({
@@ -103,7 +102,7 @@ export class SuscripcionesService {
 
   async findByUsuarioAndPlanUpdate(
     suscripcionId: number,
-    usuarioId: number,
+    usuarioId: string,
     planId: number,
   ): Promise<Suscripcion[]> {
     const suscripciones = await this.SuscripcionRepository.find({
