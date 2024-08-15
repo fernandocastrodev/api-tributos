@@ -2,7 +2,7 @@ import { Exclude, Expose, Transform } from 'class-transformer';
 
 export class FindGaleriaDto {
   @Expose()
-  idGaleria: number;
+  idGaleria: string;
 
   @Expose()
   orden: number;

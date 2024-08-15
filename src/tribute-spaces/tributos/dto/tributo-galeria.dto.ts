@@ -2,7 +2,7 @@ import { Expose, Type } from 'class-transformer';
 
 export class ImagenDto {
   @Expose()
-  idImagen: number;
+  idImagen: string;
 
   @Expose()
   url: string;
@@ -13,7 +13,7 @@ export class ImagenDto {
 
 export class TextoDto {
   @Expose()
-  idTexto: number;
+  idTexto: string;
 
   @Expose()
   texto: string;
@@ -24,7 +24,7 @@ export class TextoDto {
 
 export class VideoDto {
   @Expose()
-  idVideo: number;
+  idVideo: string;
 
   @Expose()
   url: string;
@@ -35,13 +35,13 @@ export class VideoDto {
 
 export class GaleriaDto {
   @Expose()
-  idGaleria: number;
+  idGaleria: string;
 
   @Expose()
   orden: number;
 
   @Expose()
-  idTipoGaleria: number;
+  idTipoGaleria: string;
 
   @Expose()
   @Type(() => ImagenDto)
@@ -58,7 +58,7 @@ export class GaleriaDto {
 
 export class TributoGaleriaDto {
   @Expose()
-  idTributo: number;
+  idTributo: string;
 
   @Expose()
   nombre: string;
@@ -76,7 +76,7 @@ export class TributoGaleriaDto {
   fechaDefuncion: Date;
 
   @Expose()
-  idSubscripcion: number;
+  idSubscripcion: string;
 
   @Expose()
   qr: string;

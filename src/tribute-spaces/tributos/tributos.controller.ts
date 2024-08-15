@@ -9,7 +9,6 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
-  BadRequestException,
 } from '@nestjs/common';
 import { TributosService } from './tributos.service';
 import { CreateTributoDto } from './dto/create-tributo.dto';
@@ -66,7 +65,7 @@ export class TributosController {
   @SwaggerDocumentation('findOne', 'Obtener tributo por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const tributo = await this.tributosService.findOne(this.validarId(+id));
+      const tributo = await this.tributosService.findOne(id);
       return {
         message: 'Tributo encontrado correctamente',
         error: null,
@@ -84,7 +83,7 @@ export class TributosController {
   @SwaggerDocumentation('findTributosGalerias', 'Obtener galerias por idTributo')
   async findTributosGalerias(@Param('idTributo') idTributo: string) {
     try {
-     const tributoGaleria = await this.tributosService.obtenerTributoConGalerias(this.validarId(+idTributo))
+     const tributoGaleria = await this.tributosService.obtenerTributoConGalerias(idTributo)
      return {
       message: 'Tributos con galerias encontradas',
       error: null,
@@ -107,7 +106,7 @@ export class TributosController {
   ) {
     try {
       const tributo = await this.tributosService.update(
-        this.validarId(+id),
+        id,
         updateTributoDto,
       );
       return {
@@ -127,7 +126,7 @@ export class TributosController {
   @SwaggerDocumentation('remove', 'Eliminar un tributo por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const tributo = await this.tributosService.remove(this.validarId(+id));
+      const tributo = await this.tributosService.remove(id);
       return {
         message: 'Tributo eliminado correctamente',
         error: null,
@@ -140,11 +139,4 @@ export class TributosController {
     }
   }
 
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
 }

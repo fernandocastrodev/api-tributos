@@ -5,6 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Usuario } from '../../modules/usuarios/usuario.entity';
@@ -12,8 +13,8 @@ import { Plan } from '../planes/plan.entity';
 
 @Entity()
 export class Suscripcion {
-  @Column({ primary: true, generated: true })
-  idSuscripcion: number;
+  @PrimaryGeneratedColumn('uuid')
+  idSuscripcion: string;
 
   @Column({ nullable: false })
   @CreateDateColumn()

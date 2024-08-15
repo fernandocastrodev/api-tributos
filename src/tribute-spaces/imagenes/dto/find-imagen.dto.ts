@@ -2,7 +2,7 @@ import { Exclude, Expose } from 'class-transformer';
 
 export class FindImagenDto {
   @Expose()
-  idImagen: number;
+  idImagen: string;
 
   @Expose()
   url: string;
@@ -20,5 +20,5 @@ export class FindImagenDto {
   fechaEliminacion: Date;
 
   @Expose()
-  idGaleria: number;
+  idGaleria: string;
 }

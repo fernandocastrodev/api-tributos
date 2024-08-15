@@ -30,7 +30,7 @@ export class PlantillasService {
     return plantilla;
   }
 
-  async findOne(idPlantilla: number) {
+  async findOne(idPlantilla: string) {
     const plantilla = await this.PlantillaRepository.findOneBy({
       idPlantilla,
       estado: true, 
@@ -44,7 +44,7 @@ export class PlantillasService {
     });
   }
 
-  async update(idPlantilla: number, updatePlantillaDto: UpdatePlantillaDto) {
+  async update(idPlantilla: string, updatePlantillaDto: UpdatePlantillaDto) {
     const plantilla = await this.PlantillaRepository.findOneBy({
       idPlantilla,
       estado: true, 
@@ -65,7 +65,7 @@ export class PlantillasService {
     };
   }
 
-  async remove(idPlantilla: number) {
+  async remove(idPlantilla: string) {
     const plantilla = await this.PlantillaRepository.findOneBy({
       idPlantilla,
     });

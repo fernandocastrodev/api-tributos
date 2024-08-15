@@ -9,7 +9,6 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
-  BadRequestException,
 } from '@nestjs/common';
 import { PlanesService } from './planes.service';
 import { CreatePlanDto } from './dto/create-plan.dto';
@@ -67,7 +66,7 @@ export class PlanesController {
   @SwaggerDocumentation('findOne', 'Obtener plan por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const plan = await this.planesService.findOne(this.validarId(+id));
+      const plan = await this.planesService.findOne(id);
       return {
         message: 'Plan encontrado correctamente',
         error: null,
@@ -87,7 +86,7 @@ export class PlanesController {
   async update(@Param('id') id: string, @Body() updatePlanDto: UpdatePlanDto) {
     try {
       const plan = await this.planesService.update(
-        this.validarId(+id),
+        id,
         updatePlanDto,
       );
       return {
@@ -108,7 +107,7 @@ export class PlanesController {
   @SwaggerDocumentation('remove', 'Eliminar un plan por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const plan = await this.planesService.remove(this.validarId(+id));
+      const plan = await this.planesService.remove(id);
       return {
         message: 'Plan eliminado correctamente',
         error: null,
@@ -121,11 +120,4 @@ export class PlanesController {
     }
   }
 
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
 }

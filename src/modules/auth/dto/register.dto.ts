@@ -45,7 +45,7 @@ export class RegisterDto {
 
   @Exclude()
   @IsOptional()
-  idPerfil: number = 2;
+  idPerfil: string = '6a4c2b8e-d21e-4d55-a2c3-5f6d9b3e2a6f';
 
   @IsString()
   @IsEmail()

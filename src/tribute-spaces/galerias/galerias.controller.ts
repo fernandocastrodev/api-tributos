@@ -9,7 +9,6 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  BadRequestException,
 } from '@nestjs/common';
 import { GaleriasService } from './galerias.service';
 import { CreateGaleriaDto } from './dto/create-galeria.dto';
@@ -66,7 +65,7 @@ export class GaleriasController {
   @SwaggerDocumentation('findOne', 'Obtener galeria por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const galeria = await this.galeriasService.findOne(this.validarId(+id));
+      const galeria = await this.galeriasService.findOne(id);
       return {
         message: 'Galeria encontrada correctamente',
         error: null,
@@ -88,7 +87,7 @@ export class GaleriasController {
   ) {
     try {
       const galeria = await this.galeriasService.update(
-        this.validarId(+id),
+        id,
         updateGaleriaDto,
       );
       return {
@@ -108,7 +107,7 @@ export class GaleriasController {
   @SwaggerDocumentation('remove', 'Eliminar una galeria por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const galeria = await this.galeriasService.remove(this.validarId(+id));
+      const galeria = await this.galeriasService.remove(id);
       return {
         message: 'Galeria eliminada correctamente',
         error: null,
@@ -121,11 +120,4 @@ export class GaleriasController {
     }
   }
 
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
 }

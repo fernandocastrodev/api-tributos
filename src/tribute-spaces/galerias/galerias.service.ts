@@ -75,7 +75,7 @@ export class GaleriasService {
     });
   }
 
-  async findOne(idGaleria: number) {
+  async findOne(idGaleria: string) {
     const galeria = await this.GaleriaRepository.findOneBy({
       idGaleria,
     });
@@ -87,7 +87,7 @@ export class GaleriasService {
     });
   }
 
-  async update(idGaleria: number, updateGaleriaDto: UpdateGaleriaDto) {
+  async update(idGaleria: string, updateGaleriaDto: UpdateGaleriaDto) {
     const galeria = await this.GaleriaRepository.findOneBy({
       idGaleria,
     });
@@ -135,7 +135,7 @@ export class GaleriasService {
     };
   }
 
-  async remove(idGaleria: number) {
+  async remove(idGaleria: string) {
     const galeria = await this.GaleriaRepository.findOneBy({
       idGaleria,
     });

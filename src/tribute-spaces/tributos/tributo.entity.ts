@@ -5,14 +5,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Suscripcion } from '../suscripciones/suscripcion.entity';
 
 @Entity()
 export class Tributo {
-  @Column({ primary: true, generated: true })
-  idTributo: number;
+  @PrimaryGeneratedColumn('uuid')
+  idTributo: string;
 
   @Column({ nullable: false })
   nombre: string;

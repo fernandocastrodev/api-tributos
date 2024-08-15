@@ -42,6 +42,6 @@ export class CreateSuscripcionDto {
     description: 'ingrese una idPlan',
   })
   @IsNotEmpty()
-  @IsInt()
-  idPlan: number;
+  @IsString()
+  idPlan: string;
 }

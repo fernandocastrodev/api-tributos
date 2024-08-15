@@ -2,7 +2,7 @@ import { Exclude, Expose } from 'class-transformer';
 
 export class FindTextoDto {
   @Expose()
-  idTexto: number;
+  idTexto: string;
 
   @Expose()
   texto: string;
@@ -20,5 +20,5 @@ export class FindTextoDto {
   fechaEliminacion: Date;
 
   @Expose()
-  idGaleria: number;
+  idGaleria: string;
 }

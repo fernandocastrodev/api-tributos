@@ -2,6 +2,9 @@ import { Exclude, Expose, Transform } from 'class-transformer';
 
 export class FindAllPagoDto {
   @Expose()
+  idPago: string;
+  
+  @Expose()
   fecha: Date;
 
   @Exclude()

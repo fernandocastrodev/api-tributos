@@ -46,7 +46,7 @@ export class TipoGaleriasService {
     });
   }
 
-  async findOne(idTipoGaleria: number) {
+  async findOne(idTipoGaleria: string) {
     const tipoGaleria = await this.TipoGaleriaRepsitory.findOneBy({
       idTipoGaleria,
     });
@@ -60,7 +60,7 @@ export class TipoGaleriasService {
   }
 
   async update(
-    idTipoGaleria: number,
+    idTipoGaleria: string,
     updateTipoGaleriaDto: UpdateTipoGaleriaDto,
   ) {
     const tipoGaleria = await this.TipoGaleriaRepsitory.findOneBy({
@@ -93,7 +93,7 @@ export class TipoGaleriasService {
     };
   }
 
-  async remove(idTipoGaleria: number) {
+  async remove(idTipoGaleria: string) {
     const tipoGaleria = await this.TipoGaleriaRepsitory.findOneBy({
       idTipoGaleria,
     });

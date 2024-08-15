@@ -18,18 +18,18 @@ export class CreateGaleriaDto {
 
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese idTipoGaleria',
   })
-  idTipoGaleria: number;
+  idTipoGaleria: string;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese idTributo',
   })
-  idTributo: number;
+  idTributo: string;
 }

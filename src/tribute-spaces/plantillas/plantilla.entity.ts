@@ -3,13 +3,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Plantilla {
-  @Column({ primary: true, generated: true })
-  idPlantilla: number;
+  @PrimaryGeneratedColumn('uuid')
+  idPlantilla: string;
 
   @Column({ nullable: false })
   nombre: string;

@@ -19,10 +19,10 @@ export class CreateTextoDto {
   tipoTexto: string;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese una idGaleria',
   })
-  idGaleria: number;
+  idGaleria: string;
 }

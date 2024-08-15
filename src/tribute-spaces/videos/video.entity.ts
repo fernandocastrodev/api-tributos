@@ -5,14 +5,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Galeria } from '../galerias/galeria.entity';
 
 @Entity()
 export class Video {
-  @Column({ primary: true, generated: true })
-  idVideo: number;
+  @PrimaryGeneratedColumn('uuid')
+  idVideo: string;
 
   @Column({ nullable: false })
   url: string;

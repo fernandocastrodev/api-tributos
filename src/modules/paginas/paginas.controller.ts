@@ -9,7 +9,6 @@ import {
   HttpStatus,
   UseGuards,
   HttpCode,
-  BadRequestException,
 } from '@nestjs/common';
 import { PaginasService } from './paginas.service';
 import { CreatePaginaDto } from './dto/create-pagina.dto';
@@ -66,7 +65,7 @@ export class PaginasController {
   @SwaggerDocumentation('findOne', 'Obtener un pagina por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const pagina = await this.paginasService.findOne(this.validarId(+id));
+      const pagina = await this.paginasService.findOne(id);
       return {
         message: 'Pagina encontrada correctamente',
         error: null,
@@ -106,7 +105,7 @@ export class PaginasController {
   ) {
     try {
       const pagina = await this.paginasService.update(
-        this.validarId(+id),
+        id,
         updatePaginaDto,
       );
       return {
@@ -126,7 +125,7 @@ export class PaginasController {
   @SwaggerDocumentation('remove', 'Eliminar una pagina')
   async remove(@Param('id') id: string) {
     try {
-      const pagina = await this.paginasService.remove(this.validarId(+id));
+      const pagina = await this.paginasService.remove(id);
       return {
         message: 'Pagina eliminada correctamente',
         error: null,
@@ -139,11 +138,4 @@ export class PaginasController {
     }
   }
 
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
 }

@@ -1,7 +1,5 @@
 import {
   BadRequestException,
-  forwardRef,
-  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -11,7 +9,6 @@ import { Perfil } from './perfil.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { Usuario } from '../usuarios/usuario.entity';
-import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Injectable()
 export class PerfilesService {
@@ -20,8 +17,6 @@ export class PerfilesService {
     private readonly PerfilRepository: Repository<Perfil>,
     @InjectRepository(Usuario)
     private readonly UsuarioRepository: Repository<Usuario>,
-    @Inject(forwardRef(() => UsuariosService))
-    private readonly usuariosService: UsuariosService,
   ) {}
 
   async create(createPerfilDto: CreatePerfilDto) {
@@ -47,7 +42,7 @@ export class PerfilesService {
     return perfil;
   }
 
-  async findOne(idPerfil: number) {
+  async findOne(idPerfil: string) {
     const perfil = await this.PerfilRepository.findOneBy({ idPerfil });
     if (!perfil) {
       throw new NotFoundException('perfil no encontrado');
@@ -65,7 +60,7 @@ export class PerfilesService {
     return perfil;
   }
 
-  async update(idPerfil: number, updatePerfilDto: UpdatePerfilDto) {
+  async update(idPerfil: string, updatePerfilDto: UpdatePerfilDto) {
     const perfil = await this.PerfilRepository.findOneBy({ idPerfil });
     if (!perfil) {
       throw new NotFoundException('perfil no encontrado');
@@ -89,7 +84,7 @@ export class PerfilesService {
     };
   }
 
-  async remove(idPerfil: number) {
+  async remove(idPerfil: string) {
     const perfil = await this.PerfilRepository.findOneBy({ idPerfil });
     if (!perfil) {
       throw new NotFoundException('perfil no encontrado');

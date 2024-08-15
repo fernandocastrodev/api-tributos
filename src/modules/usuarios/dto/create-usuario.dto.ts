@@ -88,6 +88,6 @@ export class CreateUsuarioDto {
     description: 'ingrese una idPerfil',
   })
   @IsNotEmpty()
-  @IsInt()
-  idPerfil: number;
+  @IsString()
+  idPerfil: string;
 }

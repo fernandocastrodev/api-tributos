@@ -5,6 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Perfil } from '../perfiles/perfil.entity';
@@ -12,8 +13,8 @@ import { Pagina } from '../paginas/pagina.entity';
 
 @Entity()
 export class Permiso {
-  @Column({ primary: true, generated: true })
-  idPermiso: number;
+  @PrimaryGeneratedColumn('uuid')
+  idPermiso: string;
 
   @Column({ type: 'boolean', default: true })
   ver: boolean;

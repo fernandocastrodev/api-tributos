@@ -51,7 +51,7 @@ export class PagosService {
     });
   }
 
-  async findPagoBySuscripcion(idSuscripcion: number) {
+  async findPagoBySuscripcion(idSuscripcion: string) {
     const pago = await this.PagoRepository.find({
       where: { suscripcion: { idSuscripcion: idSuscripcion } },
     });
@@ -62,7 +62,7 @@ export class PagosService {
     return pago;
   }
 
-  async findOne(idPago: number) {
+  async findOne(idPago: string) {
     const pago = await this.PagoRepository.findOneBy({ idPago });
 
     if (!pago) {
@@ -73,7 +73,7 @@ export class PagosService {
     });
   }
 
-  async update(idPago: number, updatePagoDto: UpdatePagoDto) {
+  async update(idPago: string, updatePagoDto: UpdatePagoDto) {
     const pago = await this.PagoRepository.findOneBy({ idPago });
 
     if (!pago) {
@@ -104,7 +104,7 @@ export class PagosService {
     };
   }
 
-  async remove(idPago: number) {
+  async remove(idPago: string) {
     const pago = await this.PagoRepository.findOneBy({ idPago });
 
     if (!pago) {

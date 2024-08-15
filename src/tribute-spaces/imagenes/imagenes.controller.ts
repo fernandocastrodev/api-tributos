@@ -66,7 +66,7 @@ export class ImagenesController {
   @SwaggerDocumentation('findOne', 'Obtener imegen por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const imagen = await this.imagenesService.findOne(this.validarId(+id));
+      const imagen = await this.imagenesService.findOne(id);
       return {
         message: 'Imagen encontrada correctamente',
         error: null,
@@ -88,7 +88,7 @@ export class ImagenesController {
   ) {
     try {
       const imagen = await this.imagenesService.update(
-        this.validarId(+id),
+        id,
         updateImagenDto,
       );
       return {
@@ -108,7 +108,7 @@ export class ImagenesController {
   @SwaggerDocumentation('remove', 'Eliminar una imegen por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const imagen = await this.imagenesService.remove(this.validarId(+id));
+      const imagen = await this.imagenesService.remove(id);
       return {
         message: 'Imagen eliminada correctamente',
         error: null,
@@ -121,11 +121,4 @@ export class ImagenesController {
     }
   }
 
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
 }

@@ -47,7 +47,7 @@ export class MailService {
       verificacion: web + token
     };
 
-    const plantillaRegistro = await this.plantillaService.findOne(1);
+    const plantillaRegistro = await this.plantillaService.findOne('e58d3b9e-7e31-43b2-bf21-2f0943c0c8e8');
 
     const contenido = await this.renderTemplate(
       plantillaRegistro.descripcion,

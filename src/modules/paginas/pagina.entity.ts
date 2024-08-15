@@ -4,14 +4,15 @@ import {
   DeleteDateColumn,
   Entity,
   OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Permiso } from '../permisos/permiso.entity';
 
 @Entity()
 export class Pagina {
-  @Column({ primary: true, generated: true })
-  idPagina: number;
+  @PrimaryGeneratedColumn('uuid')
+  idPagina: string;
 
   @Column()
   nombrePagina: string;

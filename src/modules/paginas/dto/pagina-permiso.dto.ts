@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 
 export class PaginaPermisoDto {
   @Expose()
-  idPagina: number;
+  idPagina: string;
 
   @Expose()
   nombrePagina: string;

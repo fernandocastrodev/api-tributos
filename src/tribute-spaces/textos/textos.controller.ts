@@ -8,7 +8,6 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
-  BadRequestException,
   UseGuards,
 } from '@nestjs/common';
 import { TextosService } from './textos.service';
@@ -66,7 +65,7 @@ export class TextosController {
   @SwaggerDocumentation('findOne', 'Obtener texto por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const texto = await this.textosService.findOne(this.validarId(+id));
+      const texto = await this.textosService.findOne(id);
       return {
         message: 'Texto encontrado correctamente',
         error: null,
@@ -88,7 +87,7 @@ export class TextosController {
   ) {
     try {
       const texto = await this.textosService.update(
-        this.validarId(+id),
+        id,
         updateTextoDto,
       );
       return {
@@ -108,7 +107,7 @@ export class TextosController {
   @SwaggerDocumentation('remove', 'Eliminar un texto por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const texto = await this.textosService.remove(this.validarId(+id));
+      const texto = await this.textosService.remove(id);
       return {
         message: 'Texto eliminado correctamente',
         error: null,
@@ -121,11 +120,4 @@ export class TextosController {
     }
   }
 
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
 }

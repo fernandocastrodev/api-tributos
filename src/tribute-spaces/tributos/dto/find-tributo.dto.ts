@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 
 export class FindTributoDto {
   @Expose()
-  idTributo: number;
+  idTributo: string;
 
   @Expose()
   nombre: string;

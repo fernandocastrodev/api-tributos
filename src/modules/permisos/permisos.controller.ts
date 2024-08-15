@@ -9,7 +9,6 @@ import {
   HttpStatus,
   UseGuards,
   HttpCode,
-  BadRequestException,
 } from '@nestjs/common';
 import { PermisosService } from './permisos.service';
 import { CreatePermisoDto } from './dto/create-permiso.dto';
@@ -66,7 +65,7 @@ export class PermisosController {
   @SwaggerDocumentation('findOne', 'Obtener permiso por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const permiso = await this.permisosService.findOne(this.validarId(+id));
+      const permiso = await this.permisosService.findOne(id);
       return {
         message: 'Permiso encontrado correctamente',
         error: null,
@@ -88,7 +87,7 @@ export class PermisosController {
   ) {
     try {
       const permiso = await this.permisosService.update(
-        this.validarId(+id),
+        id,
         updatePermisoDto,
       );
       return {
@@ -108,7 +107,7 @@ export class PermisosController {
   @SwaggerDocumentation('remove', 'Eliminar un permiso por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const permiso = await this.permisosService.remove(this.validarId(+id));
+      const permiso = await this.permisosService.remove(id);
       return {
         message: 'Permiso eliminado correctamente',
         error: null,
@@ -119,12 +118,5 @@ export class PermisosController {
     } catch (error) {
       throw error;
     }
-  }
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
   }
 }

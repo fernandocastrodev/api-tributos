@@ -9,7 +9,6 @@ import {
   UseGuards,
   HttpStatus,
   HttpCode,
-  BadRequestException,
 } from '@nestjs/common';
 import { TipoGaleriasService } from './tipo-galerias.service';
 import { CreateTipoGaleriaDto } from './dto/create-tipo-galeria.dto';
@@ -68,7 +67,7 @@ export class TipoGaleriasController {
   async findOne(@Param('id') id: string) {
     try {
       const tipoGaleria = await this.tipoGaleriasService.findOne(
-        this.validarId(+id),
+        id,
       );
       return {
         message: 'Tipo de Galeria encontrada correctamente',
@@ -91,7 +90,7 @@ export class TipoGaleriasController {
   ) {
     try {
       const tipoGaleria = await this.tipoGaleriasService.update(
-        this.validarId(+id),
+        id,
         updateTipoGaleriaDto,
       );
       return {
@@ -112,7 +111,7 @@ export class TipoGaleriasController {
   async remove(@Param('id') id: string) {
     try {
       const tipoGaleria = await this.tipoGaleriasService.remove(
-        this.validarId(+id),
+        id,
       );
       return {
         message: 'Tipo de Galeria eliminada correctamente',
@@ -124,12 +123,5 @@ export class TipoGaleriasController {
     } catch (error) {
       throw error;
     }
-  }
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
   }
 }

@@ -42,10 +42,10 @@ export class CreatePagoDto {
   estado: boolean;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese una idSuscripcion',
   })
-  idSuscripcion: number;
+  idSuscripcion: string;
 }

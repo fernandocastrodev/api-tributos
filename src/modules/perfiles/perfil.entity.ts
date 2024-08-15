@@ -6,13 +6,14 @@ import {
   DeleteDateColumn,
   Entity,
   OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Perfil {
-  @Column({ primary: true, generated: true })
-  idPerfil: number;
+  @PrimaryGeneratedColumn('uuid')
+  idPerfil: string;
 
   @Column({ nullable: false })
   nombre: string;

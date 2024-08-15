@@ -9,7 +9,6 @@ import { plainToInstance } from 'class-transformer';
 import { FindTributoDto } from './dto/find-tributo.dto';
 import { TributoGaleriaDto } from './dto/tributo-galeria.dto';
 import { Galeria } from '../galerias/galeria.entity';
-import { url } from 'inspector';
 
 @Injectable()
 export class TributosService {
@@ -54,7 +53,7 @@ export class TributosService {
     });
   }
 
-  async findOne(idTributo: number) {
+  async findOne(idTributo: string) {
     const tributo = await this.TributoRepository.findOneBy({
       idTributo,
     });
@@ -68,7 +67,7 @@ export class TributosService {
     });
   }
 
-  async obtenerTributoConGalerias(idTributo: number): Promise<TributoGaleriaDto> {
+  async obtenerTributoConGalerias(idTributo: string): Promise<TributoGaleriaDto> {
     const galerias = await this.GaleriaRepository.find({
       where: { tributo: { idTributo } },
       relations: ['tributo', 'tipoGaleria', 'imagenes', 'textos', 'videos'],
@@ -115,7 +114,7 @@ export class TributosService {
     return tributoDto;
   }
 
-  async update(idTributo: number, updateTributoDto: UpdateTributoDto) {
+  async update(idTributo: string, updateTributoDto: UpdateTributoDto) {
     const tributo = await this.TributoRepository.findOneBy({ idTributo });
     if (!tributo) {
       throw new NotFoundException('tributo no encontrado');
@@ -146,7 +145,7 @@ export class TributosService {
     };
   }
 
-  async remove(idTributo: number) {
+  async remove(idTributo: string) {
     const tributo = await this.TributoRepository.findOneBy({
       idTributo,
     });

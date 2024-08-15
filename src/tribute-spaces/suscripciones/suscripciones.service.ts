@@ -74,7 +74,7 @@ export class SuscripcionesService {
     });
   }
 
-  async findOne(idSuscripcion: number) {
+  async findOne(idSuscripcion: string) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion,
       estadoSuscripcion: true,
@@ -89,7 +89,7 @@ export class SuscripcionesService {
 
   async findByUsuarioAndPlanCreate(
     usuarioId: string,
-    planId: number,
+    planId: string,
   ): Promise<Suscripcion[]> {
     const suscripciones = await this.SuscripcionRepository.find({
       where: {
@@ -101,9 +101,9 @@ export class SuscripcionesService {
   }
 
   async findByUsuarioAndPlanUpdate(
-    suscripcionId: number,
+    suscripcionId: string,
     usuarioId: string,
-    planId: number,
+    planId: string,
   ): Promise<Suscripcion[]> {
     const suscripciones = await this.SuscripcionRepository.find({
       where: {
@@ -116,7 +116,7 @@ export class SuscripcionesService {
   }
 
   async update(
-    idSuscripcion: number,
+    idSuscripcion: string,
     updateSuscripcionDto: UpdateSuscripcionDto,
   ) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
@@ -171,7 +171,7 @@ export class SuscripcionesService {
     };
   }
 
-  async remove(idSuscripcion: number) {
+  async remove(idSuscripcion: string) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
       idSuscripcion,
     });

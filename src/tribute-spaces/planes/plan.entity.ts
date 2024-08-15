@@ -3,13 +3,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Plan {
-  @Column({ primary: true, generated: true })
-  idPlan: number;
+  @PrimaryGeneratedColumn('uuid')
+  idPlan: string;
 
   @Column({ nullable: false })
   nombre: string;

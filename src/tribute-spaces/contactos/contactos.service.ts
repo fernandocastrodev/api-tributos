@@ -33,7 +33,7 @@ export class ContactosService {
     return contacto;
   }
 
-  async findOne(idContacto: number) {
+  async findOne(idContacto: string) {
     const contacto = await this.ContactoRepository.findOneBy({ idContacto });
 
     if (!contacto) {
@@ -45,7 +45,7 @@ export class ContactosService {
     });
   }
 
-  async update(idContacto: number, updateContactoDto: UpdateContactoDto) {
+  async update(idContacto: string, updateContactoDto: UpdateContactoDto) {
     const contacto = await this.ContactoRepository.findOneBy({
       idContacto,
     });
@@ -65,7 +65,7 @@ export class ContactosService {
     };
   }
 
-  async remove(idContacto: number) {
+  async remove(idContacto: string) {
     const contacto = await this.ContactoRepository.findOneBy({ idContacto });
 
     if (!contacto) {

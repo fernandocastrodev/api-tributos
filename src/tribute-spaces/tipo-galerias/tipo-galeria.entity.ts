@@ -3,13 +3,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class TipoGaleria {
-  @Column({ primary: true, generated: true })
-  idTipoGaleria: number;
+  @PrimaryGeneratedColumn('uuid')
+  idTipoGaleria: string;
 
   @Column({ nullable: false })
   nombre: string;

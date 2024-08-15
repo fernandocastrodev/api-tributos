@@ -48,7 +48,7 @@ export class VideosService {
     });
   }
 
-  async findOne(idVideo: number) {
+  async findOne(idVideo: string) {
     const video = await this.VideoRepository.findOneBy({
       idVideo,
     });
@@ -60,7 +60,7 @@ export class VideosService {
     });
   }
 
-  async update(idVideo: number, updateVideoDto: UpdateVideoDto) {
+  async update(idVideo: string, updateVideoDto: UpdateVideoDto) {
     const video = await this.VideoRepository.findOneBy({
       idVideo,
     });
@@ -91,7 +91,7 @@ export class VideosService {
     };
   }
 
-  async remove(idVideo: number) {
+  async remove(idVideo: string) {
     const video = await this.VideoRepository.findOneBy({
       idVideo,
     });

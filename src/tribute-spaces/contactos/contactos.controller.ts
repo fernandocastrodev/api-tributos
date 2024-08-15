@@ -63,7 +63,7 @@ export class ContactosController {
   @SwaggerDocumentation('findOne', 'Obtener contacto por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const contacto = await this.contactosService.findOne(this.validarId(+id));
+      const contacto = await this.contactosService.findOne(id);
       return {
         message: 'Contacto encontrado correctamente',
         error: null,
@@ -85,7 +85,7 @@ export class ContactosController {
   ) {
     try {
       const contacto = await this.contactosService.update(
-        this.validarId(+id),
+        id,
         updateContactoDto,
       );
       return {
@@ -105,7 +105,7 @@ export class ContactosController {
   @SwaggerDocumentation('remove', 'Eliminar un contacto por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const contacto = await this.contactosService.remove(this.validarId(+id));
+      const contacto = await this.contactosService.remove(id);
       return {
         message: 'Contacto eliminado correctamente',
         error: null,
@@ -118,11 +118,4 @@ export class ContactosController {
     }
   }
 
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
 }

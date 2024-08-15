@@ -69,7 +69,7 @@ export class PermisosService {
     return permiso;
   }
 
-  async findOne(idPermiso: number) {
+  async findOne(idPermiso: string) {
     const permiso = await this.PermisoRepository.findOneBy({
       idPermiso,
     });
@@ -80,8 +80,8 @@ export class PermisosService {
   }
 
   async findByPaginaAndPerfilCreate(
-    perfilId: number,
-    paginaId: number,
+    perfilId: string,
+    paginaId: string,
   ): Promise<Permiso[]> {
     const permisos = await this.PermisoRepository.find({
       where: {
@@ -93,9 +93,9 @@ export class PermisosService {
   }
 
   async findByPaginaAndPerfilUpdate(
-    permisoId: number,
-    perfilId: number,
-    paginaId: number,
+    permisoId: string,
+    perfilId: string,
+    paginaId: string,
   ): Promise<Permiso[]> {
     const permisos = await this.PermisoRepository.find({
       where: {
@@ -107,7 +107,7 @@ export class PermisosService {
     return permisos;
   }
 
-  async update(idPermiso: number, updatePermisoDto: UpdatePermisoDto) {
+  async update(idPermiso: string, updatePermisoDto: UpdatePermisoDto) {
     const permiso = await this.PermisoRepository.findOneBy({
       idPermiso,
     });
@@ -159,7 +159,7 @@ export class PermisosService {
     };
   }
 
-  async remove(idPermiso: number) {
+  async remove(idPermiso: string) {
     const permiso = await this.PermisoRepository.findOneBy({
       idPermiso,
     });

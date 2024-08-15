@@ -2,7 +2,7 @@ import { Exclude, Expose } from 'class-transformer';
 
 export class findOneContactoDto {
   @Expose()
-  idContacto: number;
+  idContacto: string;
 
   @Expose()
   nombre: string;

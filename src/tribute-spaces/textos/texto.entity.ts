@@ -5,14 +5,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Galeria } from '../galerias/galeria.entity';
 
 @Entity()
 export class Texto {
-  @Column({ primary: true, generated: true })
-  idTexto: number;
+  @PrimaryGeneratedColumn('uuid')
+  idTexto: string;
 
   @Column({ nullable: false, length: 500 })
   texto: string;

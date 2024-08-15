@@ -6,6 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { TipoGaleria } from '../tipo-galerias/tipo-galeria.entity';
@@ -16,8 +17,8 @@ import { Video } from '../videos/video.entity';
 
 @Entity()
 export class Galeria {
-  @Column({ primary: true, generated: true })
-  idGaleria: number;
+  @PrimaryGeneratedColumn('uuid')
+  idGaleria: string;
 
   @Column({ nullable: false })
   nombre: string;

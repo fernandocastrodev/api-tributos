@@ -21,10 +21,10 @@ export class CreateVideoDto {
   descripcion: string;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese una idGaleria',
   })
-  idGaleria: number;
+  idGaleria: string;
 }

@@ -46,7 +46,7 @@ export class ImagenesService {
     });
   }
 
-  async findOne(idImagen: number) {
+  async findOne(idImagen: string) {
     const imagen = await this.ImagenRepository.findOneBy({
       idImagen,
     });
@@ -58,7 +58,7 @@ export class ImagenesService {
     });
   }
 
-  async update(idImagen: number, updateImagenDto: UpdateImagenDto) {
+  async update(idImagen: string, updateImagenDto: UpdateImagenDto) {
     const imagen = await this.ImagenRepository.findOneBy({
       idImagen,
     });
@@ -89,7 +89,7 @@ export class ImagenesService {
     };
   }
 
-  async remove(idImagen: number) {
+  async remove(idImagen: string) {
     const imagen = await this.ImagenRepository.findOneBy({
       idImagen,
     });

@@ -56,12 +56,12 @@ export class CreateTributoDto {
   fechaDefuncion: Date;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese una idSuscripcion',
   })
-  idSubscripcion: number;
+  idSubscripcion: string;
 
   @IsString()
   @IsNotEmpty()

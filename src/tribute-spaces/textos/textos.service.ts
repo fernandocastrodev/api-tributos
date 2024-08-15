@@ -47,7 +47,7 @@ export class TextosService {
     });
   }
 
-  async findOne(idTexto: number) {
+  async findOne(idTexto: string) {
     const texto = await this.TextoRepository.findOneBy({
       idTexto,
     });
@@ -59,7 +59,7 @@ export class TextosService {
     });
   }
 
-  async update(idTexto: number, updateTextoDto: UpdateTextoDto) {
+  async update(idTexto: string, updateTextoDto: UpdateTextoDto) {
     const texto = await this.TextoRepository.findOneBy({
       idTexto,
     });
@@ -90,7 +90,7 @@ export class TextosService {
     };
   }
 
-  async remove(idTexto: number) {
+  async remove(idTexto: string) {
     const texto = await this.TextoRepository.findOneBy({
       idTexto,
     });

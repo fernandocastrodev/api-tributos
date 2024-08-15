@@ -2,7 +2,7 @@ import { Exclude, Expose, Transform } from 'class-transformer';
 
 export class findOneSuscripcionDto {
   @Expose()
-  idSuscripcion: number;
+  idSuscripcion: string;
 
   @Expose()
   fechaSuscripcion: Date;

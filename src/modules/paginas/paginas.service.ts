@@ -52,7 +52,7 @@ export class PaginasService {
     return pagina;
   }
 
-  async findOne(idPagina: number) {
+  async findOne(idPagina: string) {
     const pagina = await this.PaginaRepository.findOneBy({
       idPagina,
     });
@@ -73,7 +73,7 @@ export class PaginasService {
   }
 
   async obtenerPaginasConPermisos(
-    idPerfil: number,
+    idPerfil: string,
   ): Promise<PaginaPermisoDto[]> {
     const permisos = await this.PermisoRepository.find({
       where: { perfil: { idPerfil } },
@@ -98,7 +98,7 @@ export class PaginasService {
 
     return paginasDto;
   }
-  async update(idPagina: number, updatePaginaDto: UpdatePaginaDto) {
+  async update(idPagina: string, updatePaginaDto: UpdatePaginaDto) {
     const pagina = await this.PaginaRepository.findOneBy({ idPagina });
     if (!pagina) {
       throw new NotFoundException('pagina no encontrada');
@@ -132,7 +132,7 @@ export class PaginasService {
     };
   }
 
-  async remove(idPagina: number) {
+  async remove(idPagina: string) {
     const pagina = await this.PaginaRepository.findOneBy({ idPagina });
     if (!pagina) {
       throw new NotFoundException('pagina no encontrada');

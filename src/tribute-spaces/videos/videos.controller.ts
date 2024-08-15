@@ -9,7 +9,6 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  BadRequestException,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
@@ -66,7 +65,7 @@ export class VideosController {
   @SwaggerDocumentation('findOne', 'Obtener video por ID')
   async findOne(@Param('id') id: string) {
     try {
-      const video = await this.videosService.findOne(this.validarId(+id));
+      const video = await this.videosService.findOne(id);
       return {
         message: 'Video encontrado correctamente',
         error: null,
@@ -88,7 +87,7 @@ export class VideosController {
   ) {
     try {
       const video = await this.videosService.update(
-        this.validarId(+id),
+        id,
         updateVideoDto,
       );
       return {
@@ -108,7 +107,7 @@ export class VideosController {
   @SwaggerDocumentation('remove', 'Eliminar un video por su ID')
   async remove(@Param('id') id: string) {
     try {
-      const video = await this.videosService.remove(this.validarId(+id));
+      const video = await this.videosService.remove(id);
       return {
         message: 'Video eliminado correctamente',
         error: null,
@@ -120,11 +119,5 @@ export class VideosController {
       throw error;
     }
   }
-  validarId(id: any) {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
-      throw new BadRequestException('id must be an integer number');
-    }
-    return id;
-  }
+
 }

@@ -1,5 +1,5 @@
 import { Entity } from 'typeorm';
-import { IsBoolean, IsInt, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
@@ -40,18 +40,18 @@ export class CreatePermisoDto {
   actualizar: boolean;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese idPerfil',
   })
-  idPerfil: number;
+  idPerfil: string;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   @ApiProperty({
     example: '1',
     description: 'ingrese idPagina',
   })
-  idPagina: number;
+  idPagina: string;
 }

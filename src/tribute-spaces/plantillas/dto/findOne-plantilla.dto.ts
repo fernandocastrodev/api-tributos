@@ -2,7 +2,7 @@ import { Exclude, Expose } from 'class-transformer';
 
 export class findOnePlantillaDto {
   @Expose()
-  idPlantilla: number;
+  idPlantilla: string;
 
   @Expose()
   nombre: string;

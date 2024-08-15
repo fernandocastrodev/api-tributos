@@ -5,14 +5,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Suscripcion } from '../suscripciones/suscripcion.entity';
 
 @Entity()
 export class Pago {
-  @Column({ primary: true, generated: true })
-  idPago: number;
+  @PrimaryGeneratedColumn('uuid')
+  idPago: string;
 
   @Column({ nullable: false })
   fecha: Date;

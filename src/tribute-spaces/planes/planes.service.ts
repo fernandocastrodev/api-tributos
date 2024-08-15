@@ -42,7 +42,7 @@ export class PlanesService {
     return plan;
   }
 
-  async findOne(idPlan: number) {
+  async findOne(idPlan: string) {
     const plan = await this.PlanRepository.findOneBy({
       idPlan,
       estado: true,
@@ -55,7 +55,7 @@ export class PlanesService {
     });
   }
 
-  async update(idPlan: number, updatePlanDto: UpdatePlanDto) {
+  async update(idPlan: string, updatePlanDto: UpdatePlanDto) {
     const plan = await this.PlanRepository.findOneBy({
       idPlan,
       estado: true,
@@ -83,7 +83,7 @@ export class PlanesService {
     };
   }
 
-  async remove(idPlan: number) {
+  async remove(idPlan: string) {
     const plan = await this.PlanRepository.findOneBy({
       idPlan,
     });
