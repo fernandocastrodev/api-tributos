@@ -1,5 +1,5 @@
-import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { applyDecorators, UseInterceptors } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiBody, ApiParam, ApiConsumes } from '@nestjs/swagger';
 import { HttpStatus } from '@nestjs/common';
 import { CreateImagenDto } from '../../tribute-spaces/imagenes/dto/create-imagen.dto';
 
@@ -8,6 +8,7 @@ export function SwaggerDocumentation(method: string, description: string) {
     case 'create':
       return applyDecorators(
         ApiOperation({ summary: 'Crear una nueva imagen' }),
+        ApiConsumes('multipart/form-data'),
         ApiBody({
           description: 'Datos necesarios para crear una imagen',
           type: CreateImagenDto,

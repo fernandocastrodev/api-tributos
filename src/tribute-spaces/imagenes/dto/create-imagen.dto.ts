@@ -1,14 +1,30 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, isString, IsString } from 'class-validator';
 
 export class CreateImagenDto {
+
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    example: 'www.misimagenes.cl/mi-imagen.jpg',
-    description: 'ingrese la url de la imagen',
+    example: '1111-1111-1111',
+    description: 'ingrese id Usuario',
   })
-  url: string;
+  idUsuario: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    example: '1111-1111-1111',
+    description: 'ingrese id tributo',
+  })
+  idTributo: string;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: 'Ingrese la imagen que desea cargar',
+  })
+  image: any;
 
   @IsOptional()
   @IsNotEmpty()
@@ -27,4 +43,6 @@ export class CreateImagenDto {
     description: 'ingrese una idGaleria',
   })
   idGaleria: string;
+
+
 }

@@ -9,14 +9,19 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  BadRequestException,
+  UseInterceptors,
+  UploadedFile,
+  InternalServerErrorException,
 } from '@nestjs/common';
+import { Express } from 'express';
 import { ImagenesService } from './imagenes.service';
 import { CreateImagenDto } from './dto/create-imagen.dto';
 import { UpdateImagenDto } from './dto/update-imagen.dto';
 import { SwaggerDocumentation } from '../../common/decorators/swagger-imagen.decorator';
 import { AuthGuard } from '../../modules/auth/guard/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from '../../config/multer.config';
 
 @UseGuards(AuthGuard)
 @Controller('imagenes')
@@ -28,9 +33,13 @@ export class ImagenesController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @SwaggerDocumentation('create', 'Crear una nueva imagen')
-  async create(@Body() createImagenDto: CreateImagenDto) {
+  @UseInterceptors(FileInterceptor('image', multerOptions))
+  async create(@UploadedFile() file: Express.Multer.File, @Body() createImagenDto: CreateImagenDto) {
+    if (!file || !file.buffer || file.buffer.length === 0) {
+      throw new InternalServerErrorException('File buffer is empty');
+    }
     try {
-      const imagen = await this.imagenesService.create(createImagenDto);
+      const imagen = await this.imagenesService.create(file, createImagenDto);
       return {
         message: 'Imagen creada correctamente',
         error: null,

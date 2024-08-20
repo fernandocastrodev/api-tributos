@@ -43,10 +43,13 @@ export class TributosService {
 
     const crearCarpetaTributo = await this.fileService.createFolder(`${suscripcion.usuario.idUsuario}/${tributoCreado.idTributo}`)
 
+    const crearCarpetaImagen = await this.fileService.createFolder(`${suscripcion.usuario.idUsuario}/${tributoCreado.idTributo}/images`)
+
     return {
       id: tributoCreado.idTributo,
       nombreTributo: `${tributoCreado.nombre} ${tributoCreado.apellido}`,
       carpetaUsuario:`${verificarCarpetaUsuario.message}`,
+      crearCarpetaImagen: `${crearCarpetaImagen.message}`,
       carpetaTributo: `${crearCarpetaTributo.message}`,
     };
   }
