@@ -9,6 +9,7 @@ import { Not, Repository } from 'typeorm';
 import { Plan } from '../planes/plan.entity';
 import { Suscripcion } from './suscripcion.entity';
 import { plainToInstance } from 'class-transformer';
+import { FileService} from '../../common/services/files/file.service'
 
 @Injectable()
 export class SuscripcionesService {
@@ -19,6 +20,8 @@ export class SuscripcionesService {
     private readonly UsuarioRepository: Repository<Usuario>,
     @InjectRepository(Plan)
     private PlanRepository: Repository<Plan>,
+
+    private readonly fileService: FileService,
   ) {}
   async create(createSuscripcionDto: CreateSuscripcionDto) {
     const usuario = await this.UsuarioRepository.findOneBy({
@@ -54,9 +57,13 @@ export class SuscripcionesService {
     };
     const suscripcionCreada =
       await this.SuscripcionRepository.save(suscripcion);
+    
+    const crearCarpetaUsuario = await this.fileService.createFolder(suscripcionCreada.idUsuario)
+
     return {
       id: suscripcionCreada.idSuscripcion,
       nombreUsuario: `${suscripcionCreada.usuario.nombre} ${suscripcionCreada.usuario.apellido}`,
+      carpeta: `${crearCarpetaUsuario.message}`
     };
   }
 

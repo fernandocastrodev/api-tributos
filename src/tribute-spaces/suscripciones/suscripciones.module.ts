@@ -6,6 +6,7 @@ import { Suscripcion } from './suscripcion.entity';
 import { LoggerModule } from '../../common/services/loggers/logger.module';
 import { PlanesModule } from '../planes/planes.module';
 import { UsuariosModule } from '../../modules/usuarios/usuarios.module';
+import { FileModule } from '../../common/services/files/file.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UsuariosModule } from '../../modules/usuarios/usuarios.module';
     PlanesModule,
     UsuariosModule,
     LoggerModule,
+    FileModule,
   ],
   controllers: [SuscripcionesController],
   providers: [SuscripcionesService],

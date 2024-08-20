@@ -4,6 +4,8 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
@@ -32,6 +34,7 @@ import { TextosModule } from './tribute-spaces/textos/textos.module';
 import { MailModule } from './providers/mail/mail.module';
 import { QrModule } from './modules/qr/qr.module';
 import { LoggerModule } from './common/services/loggers/logger.module';
+import { FileModule } from './common/services/files/file.module';
 
 @Module({
   imports: [
@@ -56,6 +59,11 @@ import { LoggerModule } from './common/services/loggers/logger.module';
     TextosModule,
     MailModule,
     QrModule,
+    FileModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'), // Ruta a la carpeta pública
+      serveRoot: '/public/', // Ruta base desde la cual se sirven los archivos estáticos
+    }),
   ],
 
   controllers: [],

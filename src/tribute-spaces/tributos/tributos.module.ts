@@ -13,9 +13,16 @@ import { TextosModule } from '../textos/textos.module';
 import { VideosModule } from '../videos/videos.module';
 import { Texto } from '../textos/texto.entity';
 import { Video } from '../videos/video.entity';
+import { FileModule } from '../../common/services/files/file.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tributo, Galeria, Imagen, Texto, Video]), SuscripcionesModule, forwardRef(() => GaleriasModule), ImagenesModule, TextosModule, VideosModule, LoggerModule],
+  imports: [TypeOrmModule.forFeature([Tributo, Galeria, Imagen, Texto, Video]), 
+            SuscripcionesModule, forwardRef(() => GaleriasModule), 
+            ImagenesModule, 
+            TextosModule, 
+            VideosModule, 
+            LoggerModule, 
+            FileModule,],
   controllers: [TributosController],
   providers: [TributosService],
   exports: [TypeOrmModule, TributosService],

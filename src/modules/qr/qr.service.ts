@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import * as path from 'path';
+import { join } from 'path';
 import * as fs from 'fs';
 import * as QRCode from 'qrcode';
 import * as sharp from 'sharp';
 
 @Injectable()
 export class QrService {
-  private readonly logoPath = path.join(process.cwd(), 'public', 'images', 'logo.svg');
+  private readonly logoPath = join(process.cwd(), 'public', 'images', 'logo.svg');
 
   async generateCustomQrCode(url: string, qrSize: number = 300, logoScale: number = 0.2): Promise<Buffer> {
     try {

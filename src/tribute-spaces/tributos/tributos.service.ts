@@ -9,6 +9,7 @@ import { plainToInstance } from 'class-transformer';
 import { FindTributoDto } from './dto/find-tributo.dto';
 import { TributoGaleriaDto } from './dto/tributo-galeria.dto';
 import { Galeria } from '../galerias/galeria.entity';
+import { FileService} from '../../common/services/files/file.service'
 
 @Injectable()
 export class TributosService {
@@ -19,6 +20,8 @@ export class TributosService {
     private readonly SuscripcionRepository: Repository<Suscripcion>,
     @InjectRepository(Galeria)
     private readonly GaleriaRepository: Repository<Galeria>,
+
+    private readonly fileService: FileService,
   ) {}
   async create(createTributoDto: CreateTributoDto) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
@@ -36,9 +39,15 @@ export class TributosService {
 
     const tributoCreado = await this.TributoRepository.save(tributo);
 
+    const verificarCarpetaUsuario = await this.fileService.verifyFolder(suscripcion.usuario.idUsuario)
+
+    const crearCarpetaTributo = await this.fileService.createFolder(`${suscripcion.usuario.idUsuario}/${tributoCreado.idTributo}`)
+
     return {
       id: tributoCreado.idTributo,
       nombreTributo: `${tributoCreado.nombre} ${tributoCreado.apellido}`,
+      carpetaUsuario:`${verificarCarpetaUsuario.message}`,
+      carpetaTributo: `${crearCarpetaTributo.message}`,
     };
   }
 
