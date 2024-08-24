@@ -1,18 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsOptional, isString, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreateImagenDto {
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1111-1111-1111',
     description: 'ingrese id Usuario',
   })
   idUsuario: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1111-1111-1111',
     description: 'ingrese id tributo',
@@ -27,8 +28,8 @@ export class CreateImagenDto {
   image: any;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'imagen de tributo',
     description: 'ingrese una descripcion de la imagen',
@@ -36,8 +37,8 @@ export class CreateImagenDto {
   })
   texto: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese una idGaleria',

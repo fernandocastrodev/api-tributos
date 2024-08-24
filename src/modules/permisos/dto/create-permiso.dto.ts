@@ -1,11 +1,12 @@
-import { Entity } from 'typeorm';
-import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Entity } from 'typeorm';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { validationMessages} from '../../../common/validators/validation-messages'
 
 @Entity()
 export class CreatePermisoDto {
-  @IsNotEmpty()
-  @IsBoolean()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsBoolean({ message: validationMessages.isBoolean })
   @ApiProperty({
     example: 'true',
     description: 'permiso para ver modulo',
@@ -13,7 +14,7 @@ export class CreatePermisoDto {
   ver: boolean;
 
   @IsOptional()
-  @IsBoolean()
+  @IsBoolean({ message: validationMessages.isBoolean })
   @ApiProperty({
     example: 'true',
     description: 'permiso para crear modulo',
@@ -22,7 +23,7 @@ export class CreatePermisoDto {
   crear: boolean;
 
   @IsOptional()
-  @IsBoolean()
+  @IsBoolean({ message: validationMessages.isBoolean })
   @ApiProperty({
     example: 'true',
     description: 'permiso para eliminar modulo',
@@ -31,7 +32,7 @@ export class CreatePermisoDto {
   eliminar: boolean;
 
   @IsOptional()
-  @IsBoolean()
+  @IsBoolean({ message: validationMessages.isBoolean })
   @ApiProperty({
     example: 'true',
     description: 'permiso para acualizar modulo',
@@ -39,16 +40,16 @@ export class CreatePermisoDto {
   })
   actualizar: boolean;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese idPerfil',
   })
   idPerfil: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese idPagina',

@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { validationMessages} from '../../../common/validators/validation-messages'
 
 export class CreatePerfilDto {
-  @IsString()
-  @IsNotEmpty()
+  
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'Supervisor',
     description: 'ingrese un nombre de perfil',
@@ -11,7 +13,7 @@ export class CreatePerfilDto {
   nombre: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'El supervisor se encarga de...',
     description: 'ingrese una descripcion del perfil',

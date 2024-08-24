@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreateTipoGaleriaDto {
-  @IsString()
-  @IsNotEmpty()
+
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'imagen',
     description: 'ingrese un tipo de galeria',
@@ -11,8 +13,8 @@ export class CreateTipoGaleriaDto {
   })
   nombre: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'imagen para galeria',
     description: 'ingrese una descripcion',

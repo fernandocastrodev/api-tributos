@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreateVideoDto {
-  @IsNotEmpty()
-  @IsString()
+
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'www.misvideos.cl/mi-video.jpg',
     description: 'ingrese la url del video',
@@ -11,8 +13,8 @@ export class CreateVideoDto {
   url: string;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'video del tributo',
     description: 'ingrese una descripcion del video',
@@ -20,8 +22,8 @@ export class CreateVideoDto {
   })
   descripcion: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese una idGaleria',

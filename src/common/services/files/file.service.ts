@@ -15,12 +15,12 @@ export class FileService {
       
       // Verifica si realmente existe
       if (fs.existsSync(fullPath)) {
-        return { message: `Folder '${folderName}' created successfully`, fullPath };
+        return { message: `Carpeta '${folderName}' Carpeta creada correctamente`, fullPath };
       } else {
-        throw new InternalServerErrorException('Folder creation failed');
+        throw new InternalServerErrorException('Error al crear la carpeta');
       }
     } catch (error) {
-      throw new InternalServerErrorException('Could not create folder');
+      throw new InternalServerErrorException('No se pudo crear la carpeta');
     }
   }
 
@@ -35,7 +35,7 @@ export class FileService {
       const filePath = path.join(folderPath, fileName);
 
       if (!file.buffer || file.buffer.length === 0) {
-        throw new InternalServerErrorException('File buffer is empty');
+        throw new InternalServerErrorException('El búfer del archivo está vacío');
       }
 
       // Escribir el archivo en el sistema de archivos
@@ -43,8 +43,7 @@ export class FileService {
 
       return filePath;
     } catch (error) {
-      console.error('Error al guardar el archivo:', error);
-      throw new InternalServerErrorException('Could not save file');
+      throw new InternalServerErrorException('No se pudo guardar el archivo');
     }
   }
 
@@ -53,13 +52,12 @@ export class FileService {
       const fullPath = path.join(this.baseFolderPath, folderName);
       // Verifica si realmente existe
       if (fs.existsSync(fullPath)) {
-        return { message: `Folder '${folderName}' Folder verify`, fullPath };
+        return { message: `Carpeta '${folderName}' Carpeta existe`, fullPath };
       } else {
-        throw new InternalServerErrorException('Folder verify failed');
+        throw new InternalServerErrorException('Carpeta no encontrada');
       }
     } catch (error) {
-      console.error('Error details:', error);
-      throw new InternalServerErrorException('Folder does not exist');
+      throw new InternalServerErrorException('La carpeta no existe');
     }
   }
   

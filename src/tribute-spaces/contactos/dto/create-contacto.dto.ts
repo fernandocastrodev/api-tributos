@@ -1,9 +1,10 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreateContactoDto {
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'Juan Perez',
     description: 'Escribe tu nombre completo',
@@ -14,8 +15,8 @@ export class CreateContactoDto {
     example: 'persona@example.com',
     description: 'Proporciona una dirección de correo electrónico',
   })
-  @IsString()
-  @IsEmail()
+  @IsString({ message: validationMessages.isString })
+  @IsEmail({}, { message: validationMessages.isEmail })
   correo: string;
 
   @ApiProperty({
@@ -23,8 +24,8 @@ export class CreateContactoDto {
     description: 'Incluye tu número de teléfono (opcional)',
   })
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   fono: string;
 
   @ApiProperty({
@@ -32,7 +33,7 @@ export class CreateContactoDto {
     description:
       'Añade cualquier detalle adicional que consideres relevante para tu consulta.',
   })
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   descripcion: string;
 }

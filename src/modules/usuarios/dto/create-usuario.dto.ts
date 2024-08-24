@@ -2,7 +2,6 @@ import { Exclude, Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
-  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -10,10 +9,11 @@ import {
 } from 'class-validator';
 import { IsRut } from '../../../common/decorators/is-rut.decorator';
 import { ApiProperty } from '@nestjs/swagger';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreateUsuarioDto {
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'Juan',
     description: 'ingrese un nombre',
@@ -21,8 +21,8 @@ export class CreateUsuarioDto {
   })
   nombre: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'Perez',
     description: 'ingrese un apellido',
@@ -31,7 +31,7 @@ export class CreateUsuarioDto {
   apellido: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: validationMessages.isString })
   @IsRut()
   @ApiProperty({
     example: '111111111-1',
@@ -42,14 +42,14 @@ export class CreateUsuarioDto {
 
   @Exclude()
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   usuarioAcceso: string;
 
   @Transform(({ value }) => value.trim())
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(6)
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
+  @MinLength(6, { message: validationMessages.minLength(6) })
   @ApiProperty({
     example: '123456',
     description: 'ingrese una clave',
@@ -57,8 +57,8 @@ export class CreateUsuarioDto {
   })
   claveAcceso: string;
 
-  @IsString()
-  @IsEmail()
+  @IsString({ message: validationMessages.isString })
+  @IsEmail({}, { message: validationMessages.isEmail })
   @ApiProperty({
     example: 'persona@example.com',
     description: 'ingrese un correo',
@@ -66,7 +66,7 @@ export class CreateUsuarioDto {
   correo: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'm',
     description: 'ingrese su genero',
@@ -75,7 +75,7 @@ export class CreateUsuarioDto {
   genero: string;
 
   @IsOptional()
-  @IsBoolean()
+  @IsBoolean({ message: validationMessages.isBoolean })
   @ApiProperty({
     example: 'true',
     description: 'ingrese el estado del usuario',
@@ -83,11 +83,11 @@ export class CreateUsuarioDto {
   })
   estado: boolean;
 
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese una idPerfil',
   })
-  @IsNotEmpty()
-  @IsString()
   idPerfil: string;
 }

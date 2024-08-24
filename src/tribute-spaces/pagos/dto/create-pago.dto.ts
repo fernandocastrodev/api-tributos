@@ -3,14 +3,14 @@ import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
-  IsInt,
   IsNotEmpty,
   IsString,
 } from 'class-validator';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreatePagoDto {
-  @IsNotEmpty()
-  @IsDate()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsDate({ message: validationMessages.isDate })
   @Type(() => Date)
   @ApiProperty({
     example: '2024-07-24T19:00:00',
@@ -18,22 +18,22 @@ export class CreatePagoDto {
   })
   fecha: Date;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'snjsnjsnsnslnslsnlsnlsnlnslnslns',
     description: 'ingrese un token de pago',
   })
   token: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
   @ApiProperty({
     example: '7900',
     description: 'ingrese un pago de plan',
   })
   monto: number;
 
-  @IsBoolean()
+  @IsBoolean({ message: validationMessages.isBoolean })
   @ApiProperty({
     example: 'true',
     description: 'ingrese el estado del pago',
@@ -41,8 +41,8 @@ export class CreatePagoDto {
   })
   estado: boolean;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese una idSuscripcion',

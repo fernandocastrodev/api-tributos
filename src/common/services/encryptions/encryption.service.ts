@@ -59,7 +59,7 @@ export class EncryptionService {
       const saltRounds = 10; // Número de rondas de sal
     return await bcrypt.hash(password, saltRounds);
     } catch (error) {
-      throw new Error('Error al hashear pasword: ' + error.message);
+      throw new Error('Error al hashear password: ' + error.message);
     }
     
   }

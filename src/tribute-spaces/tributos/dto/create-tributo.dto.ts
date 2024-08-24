@@ -1,17 +1,18 @@
 import { Type } from 'class-transformer';
 import {
   IsDate,
-  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
 import { IsRut } from '../../../common/decorators/is-rut.decorator';
 import { ApiProperty } from '@nestjs/swagger';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreateTributoDto {
-  @IsString()
-  @IsNotEmpty()
+
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'Juan',
     description: 'ingrese un nombre',
@@ -19,8 +20,8 @@ export class CreateTributoDto {
   })
   nombre: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'Perez',
     description: 'ingrese un apellido',
@@ -29,7 +30,7 @@ export class CreateTributoDto {
   apellido: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: validationMessages.isString })
   @IsRut()
   @ApiProperty({
     example: '111111111-1',
@@ -37,8 +38,8 @@ export class CreateTributoDto {
   })
   rut: string;
 
-  @IsNotEmpty()
-  @IsDate()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsDate({ message: validationMessages.isDate })
   @Type(() => Date)
   @ApiProperty({
     example: '2024-07-24T19:00:00',
@@ -46,8 +47,8 @@ export class CreateTributoDto {
   })
   fechaNacimiento: Date;
 
-  @IsNotEmpty()
-  @IsDate()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsDate({ message: validationMessages.isDate })
   @Type(() => Date)
   @ApiProperty({
     example: '2024-07-24T19:00:00',
@@ -55,24 +56,24 @@ export class CreateTributoDto {
   })
   fechaDefuncion: Date;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese una idSuscripcion',
   })
   idSubscripcion: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'cakabckbkabckjbakcbkabjcsbjbsjbscjabjkbc',
     description: 'ingrese QR',
   })
   qr: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'https://qrtributos.cl/vstvtsvtvsuuvsvuvusv',
     description: 'ingrese url',

@@ -1,15 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { validationMessages } from '../../../common/validators/validation-messages';
 
 export class CreateGaleriaDto {
-  @IsInt()
+  @IsInt({ message: validationMessages.isInt })
   @ApiProperty({
     example: '10',
     description: 'orden en la que se muestran los botones',
   })
   orden: number;
 
-  @IsString()
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: 'Titulos',
     description: 'ingrese un nombre galeria',
@@ -17,16 +18,16 @@ export class CreateGaleriaDto {
   nombre: string;
 
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese idTipoGaleria',
   })
   idTipoGaleria: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: validationMessages.isNotEmpty })
+  @IsString({ message: validationMessages.isString })
   @ApiProperty({
     example: '1',
     description: 'ingrese idTributo',
