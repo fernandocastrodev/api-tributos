@@ -75,6 +75,15 @@ export class CreateUsuarioDto {
   genero: string;
 
   @IsOptional()
+  @IsString({ message: validationMessages.isString })
+  @ApiProperty({
+    example: 'mi casa 1234',
+    description: 'ingrese su direccion',
+    required: false,
+  })
+  direccion: string;
+
+  @IsOptional()
   @IsBoolean({ message: validationMessages.isBoolean })
   @ApiProperty({
     example: 'true',

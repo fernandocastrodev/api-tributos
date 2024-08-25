@@ -47,6 +47,26 @@ export class FileService {
     }
   }
 
+  async saveQrImage(qrBuffer: Buffer, userId: string, tributoId: string): Promise<string> {
+    try {
+      const folderPath = path.join(this.baseFolderPath, userId, tributoId, 'qr');
+      await fs.ensureDir(folderPath);
+
+      const fileName = `${Date.now()}-qr.png`;
+      const filePath = path.join(folderPath, fileName);
+
+      if (!qrBuffer || qrBuffer.length === 0) {
+        throw new InternalServerErrorException('El búfer del código QR está vacío');
+      }
+
+      await fs.writeFile(filePath, qrBuffer);
+
+      return filePath;
+    } catch (error) {
+      throw new InternalServerErrorException('No se pudo guardar el código QR como imagen');
+    }
+  }
+
   async verifyFolder(folderName: string) {
     try {
       const fullPath = path.join(this.baseFolderPath, folderName);

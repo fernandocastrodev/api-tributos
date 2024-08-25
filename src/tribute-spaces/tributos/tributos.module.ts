@@ -14,6 +14,7 @@ import { VideosModule } from '../videos/videos.module';
 import { Texto } from '../textos/texto.entity';
 import { Video } from '../videos/video.entity';
 import { FileModule } from '../../common/services/files/file.module';
+import { QrModule } from '../../modules/qr/qr.module'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tributo, Galeria, Imagen, Texto, Video]), 
@@ -22,7 +23,8 @@ import { FileModule } from '../../common/services/files/file.module';
             TextosModule, 
             VideosModule, 
             LoggerModule, 
-            FileModule,],
+            FileModule,
+            QrModule],
   controllers: [TributosController],
   providers: [TributosService],
   exports: [TypeOrmModule, TributosService],

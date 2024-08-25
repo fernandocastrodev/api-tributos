@@ -3,13 +3,17 @@ import { join } from 'path';
 import * as fs from 'fs';
 import * as QRCode from 'qrcode';
 import * as sharp from 'sharp';
+import { FileService} from '../../common/services/files/file.service'
+
 
 @Injectable()
 export class QrService {
   private readonly logoPath = join(process.cwd(), 'public', 'images', 'logo.svg');
+  constructor(private readonly fileService: FileService) {}
 
   async generateCustomQrCode(url: string, qrSize: number = 300, logoScale: number = 0.2): Promise<Buffer> {
     try {
+
       // Verificar si el archivo del logo SVG existe
       if (!fs.existsSync(this.logoPath)) {
         throw new Error(`Logo file not found at path: ${this.logoPath}`);
@@ -48,4 +52,17 @@ export class QrService {
       throw new Error(`Failed to generate custom QR code: ${error.message}`);
     }
   }
+
+  async saveQrCodeToFile(url: string, userId: string, tributoId: string, qrSize: number = 300, logoScale: number = 0.2): Promise<string> {
+    try {
+      const qrBuffer = await this.generateCustomQrCode(url, qrSize, logoScale);
+
+      const filePath = await this.fileService.saveQrImage(qrBuffer, userId, tributoId);
+
+      return filePath;
+    } catch (error) {
+      throw new Error(`Failed to save QR code to file: ${error.message}`);
+    }
+  }
+
 }

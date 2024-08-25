@@ -36,6 +36,9 @@ export class Usuario {
   @Column({ default: 'm' })
   genero: string;
 
+  @Column({ nullable: true })
+  direccion: string;
+
   @Column({ type: 'boolean', default: false })
   estado: boolean;
 

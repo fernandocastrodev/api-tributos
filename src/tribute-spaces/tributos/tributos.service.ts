@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import * as dotenv from 'dotenv';
 import { CreateTributoDto } from './dto/create-tributo.dto';
 import { UpdateTributoDto } from './dto/update-tributo.dto';
 import { Tributo } from './tributo.entity';
@@ -10,6 +11,10 @@ import { FindTributoDto } from './dto/find-tributo.dto';
 import { TributoGaleriaDto } from './dto/tributo-galeria.dto';
 import { Galeria } from '../galerias/galeria.entity';
 import { FileService} from '../../common/services/files/file.service'
+import { QrService} from '../../modules/qr/qr.service'
+import * as path from 'path';
+
+dotenv.config();
 
 @Injectable()
 export class TributosService {
@@ -22,6 +27,9 @@ export class TributosService {
     private readonly GaleriaRepository: Repository<Galeria>,
 
     private readonly fileService: FileService,
+
+    private readonly qrService: QrService,
+
   ) {}
   async create(createTributoDto: CreateTributoDto) {
     const suscripcion = await this.SuscripcionRepository.findOneBy({
@@ -30,7 +38,7 @@ export class TributosService {
     });
     if (!suscripcion) {
       throw new NotFoundException('suscripcion no encontrada');
-    }
+    }   
 
     const tributo = {
       ...createTributoDto,
@@ -39,18 +47,35 @@ export class TributosService {
 
     const tributoCreado = await this.TributoRepository.save(tributo);
 
+    const urlTributo = `${process.env.WEBQR}${tributoCreado.idTributo}`
+
     const verificarCarpetaUsuario = await this.fileService.verifyFolder(suscripcion.usuario.idUsuario)
 
     const crearCarpetaTributo = await this.fileService.createFolder(`${suscripcion.usuario.idUsuario}/${tributoCreado.idTributo}`)
 
     const crearCarpetaImagen = await this.fileService.createFolder(`${suscripcion.usuario.idUsuario}/${tributoCreado.idTributo}/images`)
 
+    const crearCarpetaQR = await this.fileService.createFolder(`${suscripcion.usuario.idUsuario}/${tributoCreado.idTributo}/qr`)
+
+    const crearQrImagen = await this.qrService.saveQrCodeToFile(urlTributo, suscripcion.usuario.idUsuario, tributoCreado.idTributo)
+
+    const relativePath = path.relative(path.join(process.cwd(), 'public'), crearQrImagen);
+    const qrUrl = `/static/${relativePath.replace(/\\/g, '/')}`;
+
+    await this.TributoRepository.update(tributoCreado.idTributo, {
+      urlPersonalizada: urlTributo,
+      qr: qrUrl,
+    });
+
     return {
       id: tributoCreado.idTributo,
       nombreTributo: `${tributoCreado.nombre} ${tributoCreado.apellido}`,
+      urlTrubuto: urlTributo,
       carpetaUsuario:`${verificarCarpetaUsuario.message}`,
       crearCarpetaImagen: `${crearCarpetaImagen.message}`,
       carpetaTributo: `${crearCarpetaTributo.message}`,
+      crearCarpetaQR: `${crearCarpetaQR.message}`,
+      qrUrl: qrUrl
     };
   }
 

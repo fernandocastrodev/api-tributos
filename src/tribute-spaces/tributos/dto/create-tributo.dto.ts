@@ -64,19 +64,4 @@ export class CreateTributoDto {
   })
   idSubscripcion: string;
 
-  @IsNotEmpty({ message: validationMessages.isNotEmpty })
-  @IsString({ message: validationMessages.isString })
-  @ApiProperty({
-    example: 'cakabckbkabckjbakcbkabjcsbjbsjbscjabjkbc',
-    description: 'ingrese QR',
-  })
-  qr: string;
-
-  @IsNotEmpty({ message: validationMessages.isNotEmpty })
-  @IsString({ message: validationMessages.isString })
-  @ApiProperty({
-    example: 'https://qrtributos.cl/vstvtsvtvsuuvsvuvusv',
-    description: 'ingrese url',
-  })
-  urlPersonalizada: string;
 }
