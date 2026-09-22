@@ -1,39 +1,67 @@
 # API Tributos
 
-API backend para administrar tributos y espacios conmemorativos digitales. Está desarrollada con NestJS y TypeScript y organiza las funciones de usuarios, contenido, suscripciones y recursos multimedia en módulos de dominio.
+API Tributos es una API backend modular desarrollada con NestJS 10 y TypeScript para la gestión de tributos digitales. Implementa autenticación y autorización, gestión de usuarios, contenido multimedia, generación de códigos QR, planes, suscripciones y registros de pagos, con persistencia en MySQL.
 
-## Funcionalidades
+## Características principales
 
-- Registro, inicio de sesión y verificación de usuarios.
-- Administración de usuarios, perfiles, permisos y páginas.
-- Creación y consulta de tributos, con generación de URL y código QR.
-- Gestión de contactos, plantillas, planes, suscripciones y pagos.
-- Gestión de galerías, imágenes, videos y textos asociados a tributos.
-- Carga y almacenamiento de archivos e imágenes.
-- Envío de correos mediante un proveedor SMTP configurado por entorno.
+- **Acceso y usuarios:** registro, inicio de sesión, verificación, perfiles y permisos.
+- **Tributos:** creación y consulta de espacios digitales con URL propia y código QR.
+- **Contenido:** páginas, galerías, imágenes, videos, textos y almacenamiento local de archivos.
+- **Gestión:** contactos, plantillas, planes, suscripciones y registros de pagos.
+- **Correo:** envío por SMTP, incluido el correo de registro.
 
 ## Tecnologías
 
-- Node.js, NestJS 10 y TypeScript
-- TypeORM y MySQL
-- JWT, bcryptjs y class-validator
-- Swagger / OpenAPI
-- Jest y Supertest
-- Nodemailer y qrcode
+### Backend
 
-## Organización del proyecto
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 
-`src/modules/` agrupa autenticación, usuarios, perfiles, permisos, páginas y QR. `src/tribute-spaces/` contiene los módulos de tributos, contactos, plantillas, planes, suscripciones, pagos y contenido multimedia. `src/common/` reúne guards, decoradores, filtros, interceptores, middlewares y servicios compartidos. `src/providers/` contiene el proveedor de correo.
+### Datos
+
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![TypeORM](https://img.shields.io/badge/TypeORM-FE0803?style=flat-square&logo=typeorm&logoColor=white)
+
+### Seguridad y API
+
+![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![Swagger / OpenAPI](https://img.shields.io/badge/Swagger%20%2F%20OpenAPI-85EA2D?style=flat-square&logo=swagger&logoColor=black)
+![Helmet](https://img.shields.io/badge/Helmet-222222?style=flat-square)
+
+### Integraciones
+
+![Nodemailer](https://img.shields.io/badge/Nodemailer-0069AC?style=flat-square)
+![QR Code](https://img.shields.io/badge/QR_Code-333333?style=flat-square)
+
+### Calidad
+
+![Jest](https://img.shields.io/badge/Jest-C21325?style=flat-square&logo=jest&logoColor=white)
+![Supertest](https://img.shields.io/badge/Supertest-555555?style=flat-square)
+![Winston](https://img.shields.io/badge/Winston-333333?style=flat-square)
+
+## Arquitectura y organización
+
+El proyecto sigue la estructura modular de NestJS. Cada dominio reúne controladores, servicios, entidades y DTOs según sus necesidades. `src/common/` contiene guards, decoradores, validadores, interceptores, filtros, middlewares y servicios compartidos; `src/config/` concentra la configuración de la aplicación.
+
+```text
+src/
+├── common/           # componentes y servicios compartidos
+├── config/           # base de datos, JWT, correo, Swagger y archivos
+├── modules/          # autenticación, usuarios, perfiles, permisos, páginas y QR
+├── providers/mail/   # envío de correos
+└── tribute-spaces/   # tributos, contenido, contactos, planes, suscripciones y pagos
+```
 
 ## Seguridad
 
-La aplicación utiliza JWT, guards de autorización, validación de DTOs, Helmet, un middleware de limitación de solicitudes y un filtro global de excepciones. Las credenciales se obtienen de variables de entorno. El archivo `.env` se ignora en Git y `.env.example` contiene solamente valores de muestra.
+La autenticación usa JWT y un guard para proteger rutas. La aplicación valida DTOs con `class-validator`, aplica Helmet y limitación de solicitudes mediante middlewares, y centraliza el tratamiento de excepciones en un filtro global. También incluye servicios para hash y comparación de contraseñas y para cifrado de datos. Las claves y credenciales se obtienen de variables de entorno.
 
-## Documentación de API
+## Documentación de la API
 
-Swagger se configura en `/api`. Las rutas de la aplicación utilizan el prefijo `/api/v1`.
+Swagger/OpenAPI se configura en `src/config/swagger.config.ts` y se expone en `/api`. Los endpoints de la aplicación usan el prefijo `/api/v1`.
 
-## Instalación y configuración
+## Configuración
 
 ```bash
 git clone https://github.com/fernandocastrodev/api-tributos.git
@@ -42,54 +70,30 @@ npm ci
 cp .env.example .env
 ```
 
-Completa `.env` con la configuración de tu entorno. Para las funciones que usan persistencia se necesita una instancia de MySQL. `WEBQR` configura la URL base utilizada al crear enlaces para tributos; `ENCRYPTION_KEY` se usa en el servicio de cifrado. No incluyas credenciales en Git.
+Completa el nuevo `.env` con valores de tu entorno; el archivo local está excluido de Git. `.env.example` documenta las variables para MySQL (`MYSQL_*`), correo (`MAIL_*`), `JWT_SECRET`, `ENCRYPTION_KEY`, `WEBQR`, `PORT` y las credenciales de pruebas `TEST_USER_EMAIL` y `TEST_USER_PASSWORD`. Se necesita una instancia de MySQL para las operaciones con datos. `WEBQR` define la URL base usada para los enlaces de tributos y verificación.
 
 ## Ejecución
 
 ```bash
 npm run start:dev
+npm run build
+npm run start
 ```
 
-Otros scripts disponibles: `npm run build`, `npm run start` y `npm run start:prod`.
+También existe `npm run start:prod` para ejecutar el código compilado.
 
 ## Pruebas
 
 ```bash
-npm test
 npm run test:e2e
 ```
 
-Las pruebas de extremo a extremo que inician sesión requieren `TEST_USER_EMAIL` y `TEST_USER_PASSWORD` en el entorno, además de los servicios y datos de prueba necesarios. No hay credenciales de acceso incluidas en el repositorio.
-
-## Estructura resumida
-
-```text
-src/
-├── common/
-├── config/
-├── modules/
-│   ├── auth/
-│   ├── qr/
-│   ├── usuarios/
-│   ├── perfiles/
-│   ├── permisos/
-│   └── paginas/
-├── providers/mail/
-└── tribute-spaces/
-    ├── tributos/
-    ├── contactos/
-    ├── plantillas/
-    ├── planes/
-    ├── suscripciones/
-    ├── pagos/
-    ├── galerias/
-    ├── imagenes/
-    ├── videos/
-    └── textos/
-```
+El repositorio incluye ocho archivos de pruebas e2e en `test/`. Su ejecución requiere MySQL, SMTP para los flujos de correo y un usuario de prueba configurado mediante `TEST_USER_EMAIL` y `TEST_USER_PASSWORD`. La suite necesita preparar esos servicios y datos locales antes de ejecutarse.
 
 ## Autor
 
-Fernando Castro · Senior Software Developer · Backend & Full Stack
+**Fernando Castro**\
+Senior Software Developer | Backend & Full Stack\
+Node.js · NestJS · TypeScript · .NET · AWS
 
-[GitHub](https://github.com/fernandocastrodev)
+GitHub: [fernandocastrodev](https://github.com/fernandocastrodev)
