@@ -64,7 +64,7 @@ export class RegisterDto {
   @IsString()
   @MinLength(6)
   @ApiProperty({
-    example: '123456',
+    example: 'replace_with_test_password',
     description: 'ingrese una clave',
     required: true,
   })

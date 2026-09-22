@@ -6,7 +6,7 @@ export class CreateContactoDto {
   @IsNotEmpty({ message: validationMessages.isNotEmpty })
   @IsString({ message: validationMessages.isString })
   @ApiProperty({
-    example: 'Juan Perez',
+    example: 'Persona Ejemplo',
     description: 'Escribe tu nombre completo',
   })
   nombre: string;
@@ -20,7 +20,7 @@ export class CreateContactoDto {
   correo: string;
 
   @ApiProperty({
-    example: '912341234',
+    example: '900000000',
     description: 'Incluye tu número de teléfono (opcional)',
   })
   @IsOptional()

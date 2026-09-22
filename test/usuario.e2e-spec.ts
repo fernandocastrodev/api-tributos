@@ -1,3 +1,4 @@
+import { getTestUserCredentials } from './test-credentials';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
@@ -14,7 +15,7 @@ describe('Crud Usuario', () => {
     nombre: 'Juan',
     apellido: 'Perez',
     claveAcceso: 'clave_ficticia_123',
-    correo: 'persona@example.com',
+    correo: 'test.user@example.com',
     genero: 'm',
     idPerfil: 1,
     estado: 1,
@@ -29,7 +30,7 @@ describe('Crud Usuario', () => {
     await app.init();
     const loginResponse = await request(app.getHttpServer())
       .post('/auth/login')
-      .send({ correo: process.env.TEST_USER_EMAIL, claveAcceso: process.env.TEST_USER_PASSWORD })
+      .send(getTestUserCredentials())
       .expect(200);
     token = loginResponse.body.Data.token;
 

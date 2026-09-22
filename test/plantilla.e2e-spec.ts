@@ -1,3 +1,4 @@
+import { getTestUserCredentials } from './test-credentials';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
@@ -12,7 +13,7 @@ describe('Crud Plantilla', () => {
 
   const plantillaDto = {
     nombre: 'Correo Bienvenida Test',
-    correo: 'persona@example.com',
+    correo: 'test.user@example.com',
     descripcion: 'Binvenido a nuestro sistema Test...',
     estado: true,
   };
@@ -26,7 +27,7 @@ describe('Crud Plantilla', () => {
     await app.init();
     const loginResponse = await request(app.getHttpServer())
       .post('/auth/login')
-      .send({ correo: process.env.TEST_USER_EMAIL, claveAcceso: process.env.TEST_USER_PASSWORD })
+      .send(getTestUserCredentials())
       .expect(200);
     token = loginResponse.body.Data.token;
   });

@@ -15,7 +15,7 @@ export class CreateUsuarioDto {
   @IsNotEmpty({ message: validationMessages.isNotEmpty })
   @IsString({ message: validationMessages.isString })
   @ApiProperty({
-    example: 'Juan',
+    example: 'Persona',
     description: 'ingrese un nombre',
     required: true,
   })
@@ -24,7 +24,7 @@ export class CreateUsuarioDto {
   @IsNotEmpty({ message: validationMessages.isNotEmpty })
   @IsString({ message: validationMessages.isString })
   @ApiProperty({
-    example: 'Perez',
+    example: 'Ejemplo',
     description: 'ingrese un apellido',
     required: true,
   })
@@ -51,7 +51,7 @@ export class CreateUsuarioDto {
   @IsString({ message: validationMessages.isString })
   @MinLength(6, { message: validationMessages.minLength(6) })
   @ApiProperty({
-    example: '123456',
+    example: 'replace_with_test_password',
     description: 'ingrese una clave',
     required: true,
   })
@@ -77,7 +77,7 @@ export class CreateUsuarioDto {
   @IsOptional()
   @IsString({ message: validationMessages.isString })
   @ApiProperty({
-    example: 'mi casa 1234',
+    example: 'Calle Ejemplo 123',
     description: 'ingrese su direccion',
     required: false,
   })

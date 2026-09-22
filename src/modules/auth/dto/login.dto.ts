@@ -14,7 +14,7 @@ export class LoginDto {
   @MinLength(6)
   @Transform(({ value }) => value.trim())
   @ApiProperty({
-    example: '123456',
+    example: 'replace_with_test_password',
     description: 'ingresar password',
   })
   claveAcceso: string;

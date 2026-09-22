@@ -11,7 +11,7 @@ describe('Crud Contacto', () => {
 
   const contactoDto = {
     nombre: 'Testing',
-    correo: 'persona@example.com',
+    correo: 'test.user@example.com',
     fono: '912341234',
     descripcion: 'necesito contactarme para...',
   };
